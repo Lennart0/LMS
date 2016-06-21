@@ -6,15 +6,18 @@ User Story 2:
 Inloggad Lärare navigerar till Kurslistning och kan se alla kurser.
 
 User Story 5: 
-Inloggad läarere i kursdetaljvy kan även see Listning av samtliga inlämnings uppgifter.
+Inloggad lärare i kursdetaljvy kan även se Listning av samtliga inlämnings uppgifter.
+
+User Story 5b: 
+Lärare i kursdetaljvy kan klicka på inlämnings-uppgift för att se samtiga elevinlämningar tillhörande uppgiften.
 
 User Story 3: 
-Från kurslistning sidan kan inloggad lärare navigera till dealjvy för att se samtliga egenskaper och relaterade moduler.
+Från kurslistning sidan kan inloggad lärare navigera till dealjvy för att se kursens samtliga egenskaper och relaterade moduler.
 
 User Story 4:
-Från KursdeteljVyn kan inloggad lärare navigera vidare till en moduldetaljvyn där Aktiviteter listas.
+Från Kursdeteljvyn kan inloggad lärare navigera vidare till en moduldetaljvyn där Aktiviteter listas.
 
-User Story 5:
+User Story 6:
 Lärare kan klicka på länk i kurslistnings vyn för att registera ny lärare.
 
 User Story 7: 
@@ -48,7 +51,7 @@ User Story 11:
 Inloggad lärare kan i modulschemat editera aktiviteter.
 
 User Story 14: 
-Inloggad lärare kan i aktivitetsdetaljvy ladda up övningar med begränsad inlämnings tid.
+Inloggad lärare kan i moduleschemaEditor(wireframe#3) ladda up övningar med begränsad inlämnings tid.
 
 User Story 15: 
 Inloggade Elevar kan i aktivitetsdetaljvy ladda up uppgifts inlämningar
