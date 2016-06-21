@@ -1,0 +1,99 @@
+﻿User Story 1:
+Ej Inloggad registererad lärare loggar in i LMS(et)
+med namn och lösenord.
+
+User Story 2: 
+Inloggad Lärare navigerar till Kurslistning och kan se alla kurser.
+
+User Story 5: 
+Inloggad läarere i kursdetaljvy kan även see Listning av samtliga inlämnings uppgifter.
+
+User Story 3: 
+Från kurslistning sidan kan inloggad lärare navigera till dealjvy för att se samtliga egenskaper och relaterade moduler.
+
+User Story 4:
+Från KursdeteljVyn kan inloggad lärare navigera vidare till en moduldetaljvyn där Aktiviteter listas.
+
+User Story 5:
+Lärare kan klicka på länk i kurslistnings vyn för att registera ny lärare.
+
+User Story 7: 
+Lärare kan klicka på länk i kursdetaljvyn för att registera ny elev.
+
+
+User Story 8:
+Inloggad lärare kan i kurslistning gå till en skapa ny kursvy där han kan skapa en ny kurs.
+
+User Story 9:
+I Kurslistning eller kurs detaljer ska lärare kunna gå till kurs editeringläge där kursen kan modifieras.
+
+User Story 12: 
+Inloggad lärare kan i kursediterings läge ladda up dokument assosierade med kursen.
+
+
+User Story 10: 
+Inloggad lärare kan i modullistning gå till en skapa ny modulvy där han kan skapa en ny modul.
+
+User Story 11: 
+I modullistning eller moduldetaljer ska lärare kunna gå till modulediteringläge där modulen kan modifieras.
+
+User Story 13: 
+Inloggad lärare kan i modulediteringsläge ladda up document assosierade med modulen.
+
+
+User Story 10: 
+Inloggad lärare kan i modulschemat skapa ny aktiviteter att lägga till i schema listan
+
+User Story 11: 
+Inloggad lärare kan i modulschemat editera aktiviteter.
+
+User Story 14: 
+Inloggad lärare kan i aktivitetsdetaljvy ladda up övningar med begränsad inlämnings tid.
+
+User Story 15: 
+Inloggade Elevar kan i aktivitetsdetaljvy ladda up uppgifts inlämningar
+
+User Story 16:
+Ej Inloggad registererad elev loggar in i LMS(et) med namn och lösenord.
+
+
+
+User Story 17: 
+Inloggad elev navigerar till elevkursöversiktsida där klasskamrater, kursinfo och dokument sysns för kursen.
+(Wireframe#1)
+
+User Story 18:
+Inloggad elev navigerar till det enkel navigerade modulschema där moduler och aktiviterer listas med datum och icon om filer är assosierade.
+
+
+User story 19:
+Inloggad elev navigerar till vy som listar samtliga inlämnings upgifer och dess status 
+
+user story 20:
+Från inlämnings vyn kan inloggad elev navigera vidare till en vy där han kan ladda up en upgift för inlämning.
+
+
+
+
+----Nice to have----
+
+"User story 21" Fusk vy för att begärra nytt lösenord sedan det vi absolut inte har tid att dicka runt med en email server.
+(så vit jag vet finns mer eller mindre vyn redan som standard... men som sagt fucking mail server Om inte.........
+
+Användare ska kunna gå till en vy och behära nytt lösenord baserad med email och sedan trycka på verfifications mail länken som skickas ut
+)
+
+
+user Story 22:
+Inloggad lärare som går in på en filvy för en inlämning och skriver 
+
+
+
+
+ 
+
+
+
+
+
+

@@ -38,6 +38,8 @@
   <ItemGroup>
     <Content Include="lms.svg" />
     <Content Include="lms.xml" />
+    <Content Include="userStories.txt" />
+    <Content Include="wireframe.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
