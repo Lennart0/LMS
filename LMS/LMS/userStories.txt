@@ -1,93 +1,158 @@
 ﻿User Story 1:
-Ej Inloggad registererad lärare loggar in i LMS(et)
-med namn och lösenord.
+Som Ej Inloggad registererad lärare
+kan läraren loggar in i LMS, med användarnamn och lösenord
+för att uppnå inloggning i systemet.
 
 User Story 2: 
-Inloggad Lärare navigerar till Kurslistning och kan se alla kurser.
-
-User Story 5: 
-Inloggad lärare i kursdetaljvy kan även se Listning av samtliga inlämnings uppgifter.
-
-User Story 5b: 
-Lärare i kursdetaljvy kan klicka på inlämnings-uppgift för att se samtiga elevinlämningar tillhörande uppgiften.
+Som Inloggad Lärare
+kan jag navigera till (via navigerinsbar) Kurslistning-vyn
+för att kunna se alla kurser. 
+(Kurslistning-vyn är även default-vy efter lyckad inloggning för lärare)
 
 User Story 3: 
-Från kurslistning sidan kan inloggad lärare navigera till dealjvy för att se kursens samtliga egenskaper och relaterade moduler.
+Som lärare
+kan jag klicka på specifik kurs i kurslistning-vyn
+för att komma till kursdealj-vyn för kursen för att se kursens samtliga egenskaper, relaterade moduler och inlämningsuppgifter.
+
+(User Story 5a:
+Som lärare
+kan jag klicka på specifik kurs i kurslistning-vyn
+för att komma till kursdetalj-vyn för denna kurs.)
 
 User Story 4:
-Från Kursdeteljvyn kan inloggad lärare navigera vidare till en moduldetaljvyn där Aktiviteter listas.
+Som lärare
+kan jag klicka på specifik modul i Kursdetelj-vyn
+för att komma till moduldetalj-vyn där Aktiviteter listas.
+
+(User Story 5: (kursdetalj-vyn innehåller listning av alla kursens inlämningsuppgifter)
+Som Inloggad lärare i kursdetalj-vyn kan jag även se Listning av samtliga inlämnings uppgifter.)
+
+User Story 5b: 
+Som Lärare i kursdetaljvy
+kan jag klicka på inlämnings-uppgift
+för att se samtiga elevinlämningar tillhörande uppgiften.
 
 User Story 6:
-Lärare kan klicka på länk i kurslistnings vyn för att registera ny lärare.
+Som Lärare
+kan jag klicka på länk i kurslistnings-vyn
+för att registera ny lärare.
 
 User Story 7: 
-Lärare kan klicka på länk i kursdetaljvyn för att registera ny elev.
-
+Som Lärare
+kan klicka på länk i kursdetalj-vyn
+för att registera ny elev.
 
 User Story 8:
-Inloggad lärare kan i kurslistning gå till en skapa ny kursvy där han kan skapa en ny kurs.
+Som lärare
+kan i kurslistnings-vyn klicka på knapp (eller liknande)
+för att skapa ny kurs och därmed också komma till kursdetalj-vyn (editeringsläge) för den nya kursen.
 
 User Story 9:
-I Kurslistning eller kurs detaljer ska lärare kunna gå till kurs editeringläge där kursen kan modifieras.
+Som lärare
+kan jag i Kurslistnings-vyb eller kursdetalj-vyn genom att 'klicka'
+komma till kursdetalj-vyn i editeringläge och därmed kunna modifiera kursen.
 
 User Story 12: 
-Inloggad lärare kan i kursediterings läge ladda up dokument assosierade med kursen.
-
+Som lärare
+kan jag i kursdetalj-vyn i editeringläge, 'klicka'
+för att ladda up dokument assosierade med kursen.
 
 User Story 10: 
-Inloggad lärare kan i modullistning gå till en skapa ny modulvy där han kan skapa en ny modul.
+Som lärare
+kan jag i kursdetalj-vyn i editeringläge, 'klicka'
+för att skapa en ny modul och därmed komma till moduldetalj-vyn (editeringsläge) för den nya modulen.
 
-User Story 11: 
-I modullistning eller moduldetaljer ska lärare kunna gå till modulediteringläge där modulen kan modifieras.
+User Story 11:
+Som lärare 
+kan jag från modullistning (i kursdetalj-vyn) eller moduldetalj-vyn, 'klicka'
+för att hamna i moduldetalj-vyn i editeringsläge för att kunna modifiera modulen.
 
 User Story 13: 
-Inloggad lärare kan i modulediteringsläge ladda up document assosierade med modulen.
-
+Som lärare
+kan jag i moduldetalj-vyn i editeringsläge, 'klicka'
+för att ladda up dokument assosierade med modulen.
 
 User Story 10: 
-Inloggad lärare kan i modulschemat skapa ny aktiviteter att lägga till i schema listan
+Som lärare 
+kan i modulschemat 'klicka'
+för att skapa ny aktivitet som ska ingå i schemat.
 
-User Story 11: 
-Inloggad lärare kan i modulschemat editera aktiviteter.
+User Story 11.5: 
+Som lärare
+kan jag klicka på specifik aktivitet i modulschemat
+för att editera aktiviteten.
 
 User Story 14: 
-Inloggad lärare kan i moduleschemaEditor(wireframe#3) ladda up övningar med begränsad inlämnings tid.
-
-User Story 15: 
-Inloggade Elevar kan i aktivitetsdetaljvy ladda up uppgifts inlämningar
+Som lärare
+kan jag klicka i moduleschemat(wireframe#3) (editeringsläge)
+för att ladda up övningar(filer) med begränsad inlämnings tid.
 
 User Story 16:
-Ej Inloggad registererad elev loggar in i LMS(et) med namn och lösenord.
-
-
+Som Ej Inloggad, registererad elev
+kan jag logga in i LMS med användarnamn och lösenord
+för att bli inloggad.
 
 User Story 17: 
-Inloggad elev navigerar till elevkursöversiktsida där klasskamrater, kursinfo och dokument sysns för kursen.
-(Wireframe#1)
+Som elev
+kan jag navigera till (via navigerinsbar) kursöversikts-vyn(Wireframe#1) (för elever)
+för att där se klasskamrater, kursinfo och dokument för kursen.
 
 User Story 18:
-Inloggad elev navigerar till det enkel navigerade modulschema där moduler och aktiviterer listas med datum och icon om filer är assosierade.
-
+Som elev
+kan jag navigera (via navigerinsbar)
+för att komma till modulschemat där moduler och aktiviterer listas med datum och ikon om filer är assosierade.
+(Modulschemat är även default-vy efter lyckad inloggning för elev)
 
 User story 19:
-Inloggad elev navigerar till vy som listar samtliga inlämnings upgifer och dess status 
+Som elev
+kan jag navigera (via navigerinsbar) till inlämningsuppgift-vyn
+för att se samtliga inlämnings uppgifer och dess status 
+
+User Story 15.0: 
+Som elev
+kan jag klicka på aktivitet i modulschemat
+för att komma till aktivitetsdetalj-vyn.
+
+User Story 15: 
+Som elev
+kan jag klicka i aktivitetsdetalj-vyn
+för att ladda upp uppgifts inlämningar.
 
 user story 20:
-Från inlämnings vyn kan inloggad elev navigera vidare till en vy där han kan ladda up en upgift för inlämning.
+Som elev
+kan jag klicka på specifik inlämningsuppgift i inlämningsuppgift-vyn
+för att kunna ladda up en uppgift för inlämning.
+
+
+User Story 21: 
+Som elev
+kan jag klicka på kurs-associerat dokument i kursöversikts-vyn(Wireframe#1)
+för att ladda ner detta dokument.
+
+User Story 22: 
+Som elev
+kan jag klicka på modul-associerat dokument i modulschemat
+för att ladda ner detta dokument.
+
+User Story 23: 
+Som elev
+kan jag klicka på aktivitet-associerat dokument i aktivitetsdetalj-vyn
+för att ladda ner detta dokument.
+
 
 
 
 
 ----Nice to have----
 
-"User story 21" Fusk vy för att begärra nytt lösenord sedan det vi absolut inte har tid att dicka runt med en email server.
+"User story X0" Fusk vy för att begärra nytt lösenord sedan det vi absolut inte har tid att dicka runt med en email server.
 (så vit jag vet finns mer eller mindre vyn redan som standard... men som sagt fucking mail server Om inte.........
 
 Användare ska kunna gå till en vy och behära nytt lösenord baserad med email och sedan trycka på verfifications mail länken som skickas ut
 )
 
 
-user Story 22:
+user Story X1:
 Inloggad lärare som går in på en filvy för en inlämning och skriver 
 
 
