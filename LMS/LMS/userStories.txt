@@ -1,13 +1,13 @@
 ﻿User Story 1:
 Som Ej Inloggad registererad lärare
 kan läraren loggar in i LMS, med användarnamn och lösenord
-för att uppnå inloggning i systemet.
+för att uppnå inloggning i systemet och komma till Kurslistning-vyn.
 
 User Story 2: 
 Som Inloggad Lärare
 kan jag navigera till (via navigerinsbar) Kurslistning-vyn
 för att kunna se alla kurser. 
-(Kurslistning-vyn är även default-vy efter lyckad inloggning för lärare)
+
 
 User Story 3: 
 Som lärare
@@ -90,7 +90,7 @@ för att ladda up övningar(filer) med begränsad inlämnings tid.
 User Story 16:
 Som Ej Inloggad, registererad elev
 kan jag logga in i LMS med användarnamn och lösenord
-för att bli inloggad.
+för att bli inloggad och komma till Modulschemat.
 
 User Story 17: 
 Som elev
@@ -101,7 +101,6 @@ User Story 18:
 Som elev
 kan jag navigera (via navigerinsbar)
 för att komma till modulschemat där moduler och aktiviterer listas med datum och ikon om filer är assosierade.
-(Modulschemat är även default-vy efter lyckad inloggning för elev)
 
 User story 19:
 Som elev
