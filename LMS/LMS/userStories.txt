@@ -1,4 +1,6 @@
-﻿User Story 1:
+﻿---- Lärare -----
+
+User Story 1:
 Som Ej Inloggad registererad lärare
 kan läraren loggar in i LMS, med användarnamn och lösenord
 för att uppnå inloggning i systemet och komma till Kurslistning-vyn.
@@ -14,20 +16,12 @@ Som lärare
 kan jag klicka på specifik kurs i kurslistning-vyn
 för att komma till kursdealj-vyn för kursen för att se kursens samtliga egenskaper, relaterade moduler och inlämningsuppgifter.
 
-(User Story 5a:
-Som lärare
-kan jag klicka på specifik kurs i kurslistning-vyn
-för att komma till kursdetalj-vyn för denna kurs.)
-
 User Story 4:
 Som lärare
 kan jag klicka på specifik modul i Kursdetelj-vyn
 för att komma till moduldetalj-vyn där Aktiviteter listas.
 
-(User Story 5: (kursdetalj-vyn innehåller listning av alla kursens inlämningsuppgifter)
-Som Inloggad lärare i kursdetalj-vyn kan jag även se Listning av samtliga inlämnings uppgifter.)
-
-User Story 5b: 
+User Story 5: 
 Som Lärare i kursdetaljvy
 kan jag klicka på inlämnings-uppgift
 för att se samtiga elevinlämningar tillhörande uppgiften.
@@ -52,11 +46,6 @@ Som lärare
 kan jag i Kurslistnings-vyb eller kursdetalj-vyn genom att 'klicka'
 komma till kursdetalj-vyn i editeringläge och därmed kunna modifiera kursen.
 
-User Story 12: 
-Som lärare
-kan jag i kursdetalj-vyn i editeringläge, 'klicka'
-för att ladda up dokument assosierade med kursen.
-
 User Story 10: 
 Som lärare
 kan jag i kursdetalj-vyn i editeringläge, 'klicka'
@@ -67,79 +56,94 @@ Som lärare
 kan jag från modullistning (i kursdetalj-vyn) eller moduldetalj-vyn, 'klicka'
 för att hamna i moduldetalj-vyn i editeringsläge för att kunna modifiera modulen.
 
+User Story 12: 
+Som lärare
+kan jag i kursdetalj-vyn i editeringläge, 'klicka'
+för att ladda up dokument assosierade med kursen.
+
 User Story 13: 
 Som lärare
 kan jag i moduldetalj-vyn i editeringsläge, 'klicka'
 för att ladda up dokument assosierade med modulen.
 
-User Story 10: 
+User Story 14: 
 Som lärare 
 kan i modulschemat 'klicka'
 för att skapa ny aktivitet som ska ingå i schemat.
 
-User Story 11.5: 
+User Story 15: 
 Som lärare
 kan jag klicka på specifik aktivitet i modulschemat
 för att editera aktiviteten.
 
-User Story 14: 
+User Story 16: 
 Som lärare
 kan jag klicka i moduleschemat(wireframe#3) (editeringsläge)
 för att ladda up övningar(filer) med begränsad inlämnings tid.
 
-User Story 16:
+------Elev----------
+
+User Story 20:
 Som Ej Inloggad, registererad elev
 kan jag logga in i LMS med användarnamn och lösenord
 för att bli inloggad och komma till Modulschemat.
 
-User Story 17: 
+User Story 21: 
 Som elev
 kan jag navigera till (via navigerinsbar) kursöversikts-vyn(Wireframe#1) (för elever)
 för att där se klasskamrater, kursinfo och dokument för kursen.
 
-User Story 18:
+User Story 22:
 Som elev
 kan jag navigera (via navigerinsbar)
 för att komma till modulschemat där moduler och aktiviterer listas med datum och ikon om filer är assosierade.
 
-User story 19:
+User story 23:
 Som elev
 kan jag navigera (via navigerinsbar) till inlämningsuppgift-vyn
 för att se samtliga inlämnings uppgifer och dess status 
 
-User Story 15.0: 
+User Story 24: 
 Som elev
 kan jag klicka på aktivitet i modulschemat
 för att komma till aktivitetsdetalj-vyn.
 
-User Story 15: 
+User Story 25: 
 Som elev
 kan jag klicka i aktivitetsdetalj-vyn
 för att ladda upp uppgifts inlämningar.
 
-user story 20:
+user story 26:
 Som elev
 kan jag klicka på specifik inlämningsuppgift i inlämningsuppgift-vyn
 för att kunna ladda up en uppgift för inlämning.
 
-
-User Story 21: 
+User Story 27: 
 Som elev
 kan jag klicka på kurs-associerat dokument i kursöversikts-vyn(Wireframe#1)
 för att ladda ner detta dokument.
 
-User Story 22: 
+User Story 28: 
 Som elev
 kan jag klicka på modul-associerat dokument i modulschemat
 för att ladda ner detta dokument.
 
-User Story 23: 
+User Story 29: 
 Som elev
 kan jag klicka på aktivitet-associerat dokument i aktivitetsdetalj-vyn
 för att ladda ner detta dokument.
 
 
 
+-----------------------------
+(User Story 5a:
+Som lärare
+kan jag klicka på specifik kurs i kurslistning-vyn
+för att komma till kursdetalj-vyn för denna kurs.)
+
+
+(User Story 5.0: (kursdetalj-vyn innehåller listning av alla kursens inlämningsuppgifter)
+Som Inloggad lärare i kursdetalj-vyn kan jag även se Listning av samtliga inlämnings uppgifter.)
 
 
 ----Nice to have----
