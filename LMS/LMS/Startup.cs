@@ -13,7 +13,7 @@ namespace LMS {
 
             //Registers the Default User and role
 
-            if (false)
+        
             using (DataAccessLayer.ApplicationDbContext db = new DataAccessLayer.ApplicationDbContext()) {
 
                 var store = new UserStore<ApplicationUser>(db);
@@ -27,15 +27,15 @@ namespace LMS {
                 }
                 var defaultTeacher = new ApplicationUser() {
                     Email = "Lärar@lärarson.se",
-                    UserName = "Lärar@lärarson.se",
+                    UserName = "StandardLarae",
                     Id = "679a290d-8b3b-4488-8ffb-7dea7a44efca",
                     EmailConfirmed=true
                 };
 
                 //if and only if default user is missing add user
                 if (db.Users.SingleOrDefault(n => n.Id == defaultTeacher.Id) == null) {
-                    manager.Create(defaultTeacher, "123AbC___");
-                    db.SaveChanges();
+                var x =    manager.Create(defaultTeacher, "123AbC___");
+                
                 }
 
 
