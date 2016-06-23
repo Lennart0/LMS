@@ -67,7 +67,7 @@ namespace LMS.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            App_Start.DefaultUserAndRoleStartupHelper.Create();
+            Helpers.DefaultUserAndRoleStartupHelper.Create();
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
