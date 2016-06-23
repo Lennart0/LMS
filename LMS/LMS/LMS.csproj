@@ -189,9 +189,13 @@
     <Compile Include="Migrations\201606231318179_ApplicationUser_CourseId_added.Designer.cs">
       <DependentUpon>201606231318179_ApplicationUser_CourseId_added.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606231500519_init1.cs" />
+    <Compile Include="Migrations\201606231500519_init1.Designer.cs">
+      <DependentUpon>201606231500519_init1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Activities.cs" />
+    <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\IEntity.cs" />
@@ -282,6 +286,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606231318179_ApplicationUser_CourseId_added.resx">
       <DependentUpon>201606231318179_ApplicationUser_CourseId_added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606231500519_init1.resx">
+      <DependentUpon>201606231500519_init1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
