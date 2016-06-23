@@ -17,7 +17,8 @@ namespace LMS.Models
             return userIdentity;
         }
 
-         public virtual Course Course{ get; set;}
+        public string FullName { get; set; }
+        public virtual Course Course{ get; set;}
 
 
     }

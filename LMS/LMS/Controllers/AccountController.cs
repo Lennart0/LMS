@@ -138,9 +138,12 @@ namespace LMS.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register( Guid? courseId /* Course course*/ )
         {
-            return View();
+            //ViewBag.Course = course;
+
+
+            return View( new RegisterViewModel { CourseId = courseId } );
         }
 
         //
@@ -152,11 +155,19 @@ namespace LMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var course = model.CourseId.HasValue ? new Course { Id = model.CourseId.Value } : null;
+
+                var user = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = model.UserName, FullName = model.FullName, Email = model.Email, Course = course  };
+                if ( !model.CourseId.HasValue ) {
+                    //user.Roles.Add( Helpers.Constants.TeacherRole );
+                }
+
+
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
