@@ -35,7 +35,7 @@ namespace LMS.Migrations
             //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...
 
              
-            manager.role
+       
 
         }
     }

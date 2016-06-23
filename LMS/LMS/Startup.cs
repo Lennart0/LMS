@@ -15,7 +15,7 @@ namespace LMS {
 
 
             using (DataAccessLayer.ApplicationDbContext db = new DataAccessLayer.ApplicationDbContext()) {
-           
+
                 var store = new UserStore<ApplicationUser>(db);
                 var manager = new UserManager<ApplicationUser>(store);
                 var roleName = "Lärare";
@@ -31,9 +31,10 @@ namespace LMS {
                 if (db.Users.SingleOrDefault(n => n.Id == defaultTeacher.Id) == null) {
                     manager.CreateIdentity(defaultTeacher, "123AbC___");
                     manager.AddToRole(defaultTeacher.Id, "Lärare");
-               }
+                }
 
 
+            }
         }
     }
 }
