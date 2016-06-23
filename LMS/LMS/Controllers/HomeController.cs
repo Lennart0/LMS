@@ -9,27 +9,16 @@ namespace LMS.Controllers
 {
     public class HomeController : Controller
     {
-
-       // DataAccessLayer.ApplicationDbContext db = new DataAccessLayer.ApplicationDbContext();
         public ActionResult Index()
         {
-       //    var x = db.Courses.Include( n => n.Students ).Where()
+            if (User.IsInRole(Helpers.Constants.TeacherRole)) {
+                return View();
+            }
+
+
 
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

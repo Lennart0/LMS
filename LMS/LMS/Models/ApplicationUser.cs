@@ -18,6 +18,7 @@ namespace LMS.Models
         }
 
          public virtual Course Course{ get; set;}
+         // public virtual Guid Course { get; set; }
 
 
     }
