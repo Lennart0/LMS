@@ -18,7 +18,7 @@ namespace LMS.DataAccessLayer {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Course>().HasKey(n => n.Id);
             modelBuilder.Entity<Course>().HasMany(n => n.Students).WithOptional(n => n.Course);//.HasForeignKey(n=> n.CourseId)
-
+ 
 
 
         }
