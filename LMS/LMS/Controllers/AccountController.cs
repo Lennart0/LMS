@@ -187,6 +187,10 @@ namespace LMS.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+
+                    if ( model.CourseId.HasValue ) {
+                        return RedirectToAction( "Details", "Courses", new { id = model.CourseId.Value.ToString() } );
+                    }
                     return RedirectToAction( "Index", "Home" );
                 }
                 AddErrors( result );
