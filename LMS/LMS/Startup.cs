@@ -18,7 +18,7 @@ namespace LMS {
 
                 var store = new UserStore<ApplicationUser>(db);
                 var manager = new UserManager<ApplicationUser>(store);
-                var roleName = "Lärare";
+                var roleName = Helpers.Constants.TeacherRole;
 
                 //if and only if role is empty add roll
                 if (db.Roles.SingleOrDefault(n => n.Name == roleName) == null) {
@@ -31,6 +31,7 @@ namespace LMS {
                     Id = "679a290d-8b3b-4488-8ffb-7dea7a44efca",
                     EmailConfirmed=true
                 };
+             
 
                 //if and only if default user is missing add user
                 if (db.Users.SingleOrDefault(n => n.Id == defaultTeacher.Id) == null) {
