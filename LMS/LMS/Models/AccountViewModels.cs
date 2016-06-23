@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+ 
 
 namespace LMS.Models
 {
@@ -63,6 +64,7 @@ namespace LMS.Models
         public bool RememberMe { get; set; }
     }
 
+    //[System.Web.Mvc.Bind( Include = "UserName,FullName,Email,Password,ConfirmPassword,CourseId" )]
     public class RegisterViewModel
     {
         [Required]
@@ -89,7 +91,8 @@ namespace LMS.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        public Guid? CourseId;
+        public Guid? CourseId { get; set; }
+        //public string CourseId { get; set; }
     }
 
     public class ResetPasswordViewModel

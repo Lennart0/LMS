@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 
 namespace LMS.Models
 {
@@ -18,10 +19,8 @@ namespace LMS.Models
         }
 
         public string FullName { get; set; }
+        public Guid? CourseId { get; set; }
         public virtual Course Course{ get; set;}
-        //public Guid? Course { get; set; }
-
-
     }
 
 

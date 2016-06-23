@@ -139,51 +139,50 @@ namespace LMS.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
-        public ActionResult Register( Guid? courseId /* Course course*/ )
+        [Authorize( Roles = Helpers.Constants.TeacherRole )]
+        public ActionResult Register( Guid? id = null /* Course course*/ )
         {
-            //ViewBag.Course = course;
-
-
-            return View( new RegisterViewModel { CourseId = courseId } );
+            return View( new RegisterViewModel { CourseId = id } );
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = Helpers.Constants.TeacherRole)]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register( RegisterViewModel model )
         {
-            if (ModelState.IsValid)
-            {
-                var course = model.CourseId.HasValue ? new Course { Id = model.CourseId.Value } : null;
+            if ( ModelState.IsValid ) {
 
-                var user = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = model.UserName, FullName = model.FullName, Email = model.Email, Course = course  };
-                if ( !model.CourseId.HasValue ) {
-                    //user.Roles.Add( Helpers.Constants.TeacherRole );
-                }
+                var user = new ApplicationUser {
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = model.UserName,
+                    FullName = model.FullName,
+                    Email = model.Email,
+                    CourseId = model.CourseId.HasValue ? model.CourseId.Value : (Guid?)null };
 
+                var result = await UserManager.CreateAsync( user, model.Password );
 
+                if ( result.Succeeded ) {
+                    if ( !model.CourseId.HasValue ) {
+                        UserManager.AddToRole( user.Id, Helpers.Constants.TeacherRole );
+                    }
 
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction( "Index", "Home" );
                 }
-                AddErrors(result);
+                AddErrors( result );
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View( model );
         }
 
         //

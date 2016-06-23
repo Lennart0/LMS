@@ -184,6 +184,10 @@
     <Compile Include="Migrations\201606230933575_ApplicationUser_FullName_added.Designer.cs">
       <DependentUpon>201606230933575_ApplicationUser_FullName_added.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606231318179_ApplicationUser_CourseId_added.cs" />
+    <Compile Include="Migrations\201606231318179_ApplicationUser_CourseId_added.Designer.cs">
+      <DependentUpon>201606231318179_ApplicationUser_CourseId_added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Course.cs" />
@@ -272,6 +276,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606230933575_ApplicationUser_FullName_added.resx">
       <DependentUpon>201606230933575_ApplicationUser_FullName_added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606231318179_ApplicationUser_CourseId_added.resx">
+      <DependentUpon>201606231318179_ApplicationUser_CourseId_added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
