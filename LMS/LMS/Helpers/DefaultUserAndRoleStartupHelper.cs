@@ -19,7 +19,7 @@ namespace LMS.Helpers {
     public class DefaultUserAndRoleStartupHelper {
 
 
-        public static void Create(){
+        public static void Create() {
 
             using (var db = new DataAccessLayer.ApplicationDbContext()) {
                 var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
@@ -49,5 +49,6 @@ namespace LMS.Helpers {
                 }
             }
 
+        }
     }
 }
