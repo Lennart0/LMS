@@ -9,6 +9,10 @@
 <div>
     <h4>Course</h4>
     <hr />
+    <div>
+        @Html.ActionLink( linkText:"Registrera elev", actionName:"Register", controllerName:"Account", routeValues:new { id = Model.Id }, htmlAttributes:null )
+    </div>
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Description)
