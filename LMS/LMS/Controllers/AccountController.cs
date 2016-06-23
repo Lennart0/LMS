@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LMS.Models;
+using Microsoft.Owin;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LMS.Controllers
 {
@@ -17,7 +19,7 @@ namespace LMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+ 
         public AccountController()
         {
         }
@@ -27,7 +29,14 @@ namespace LMS.Controllers
            
             UserManager = userManager;
             SignInManager = signInManager;
+
+
+           
+
+
         }
+
+      
 
         public ApplicationSignInManager SignInManager
         {
@@ -58,6 +67,7 @@ namespace LMS.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            App_Start.DefaultUserAndRoleStartupHelper.Create();
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -69,11 +79,12 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
  
 
             // This doesn't count login failures towards account lockout
