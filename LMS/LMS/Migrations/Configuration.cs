@@ -1,5 +1,9 @@
 namespace LMS.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.AspNet.Identity.Owin;
+    using Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -26,6 +30,13 @@ namespace LMS.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+
+            //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...
+
+             
+       
+
         }
     }
 }

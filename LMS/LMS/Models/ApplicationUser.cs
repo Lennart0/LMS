@@ -19,6 +19,7 @@ namespace LMS.Models
 
         public string FullName { get; set; }
         public virtual Course Course{ get; set;}
+        //public Guid? Course { get; set; }
 
 
     }
