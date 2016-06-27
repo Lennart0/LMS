@@ -132,5 +132,17 @@ namespace LMS.Controllers
             }
             base.Dispose(disposing);
         }
+
+        /// <summary>
+        /// GET: Display all students in a course
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult CourseStudentList(Guid id)
+        {
+            Course course = db.Courses.Find(id);
+
+            return View(db.Users.ToList());
+        }
     }
 }
