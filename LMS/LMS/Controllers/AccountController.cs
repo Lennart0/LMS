@@ -167,9 +167,9 @@ namespace LMS.Controllers
 
                 var user = new ApplicationUser {
                     Id = Guid.NewGuid().ToString(),
-                    UserName = model.UserName,
-                    FullName = model.FullName,
                     Email = model.Email,
+                    UserName = model.Email, //model.UserName,
+                    FullName = model.FullName,
                     CourseId = model.CourseId.HasValue ? model.CourseId.Value : (Guid?)null };
 
                 var result = await UserManager.CreateAsync( user, model.Password );
