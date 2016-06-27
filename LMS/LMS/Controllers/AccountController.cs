@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LMS.Models;
+using Microsoft.Owin;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LMS.Controllers
 {
@@ -17,7 +19,7 @@ namespace LMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+ 
         public AccountController()
         {
         }
@@ -27,7 +29,14 @@ namespace LMS.Controllers
            
             UserManager = userManager;
             SignInManager = signInManager;
+
+
+           
+
+
         }
+
+      
 
         public ApplicationSignInManager SignInManager
         {
@@ -58,6 +67,7 @@ namespace LMS.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            Helpers.DefaultUserAndRoleStartupHelper.Create();
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -69,11 +79,12 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
  
 
             // This doesn't count login failures towards account lockout
@@ -139,40 +150,54 @@ namespace LMS.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
-        public ActionResult Register()
+        [Authorize( Roles = Helpers.Constants.TeacherRole )]
+        public ActionResult Register( Guid? id = null /* Course course*/ )
         {
-            return View();
+            return View( new RegisterViewModel { CourseId = id } );
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = Helpers.Constants.TeacherRole)]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register( RegisterViewModel model )
         {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+            if ( ModelState.IsValid ) {
+
+                var user = new ApplicationUser {
+                    Id = Guid.NewGuid().ToString(),
+                    Email = model.Email,
+                    UserName = model.Email, //model.UserName,
+                    FullName = model.FullName,
+                    CourseId = model.CourseId.HasValue ? model.CourseId.Value : (Guid?)null };
+
+                var result = await UserManager.CreateAsync( user, model.Password );
+
+                if ( result.Succeeded ) {
+                    if ( !model.CourseId.HasValue ) {
+                        UserManager.AddToRole( user.Id, Helpers.Constants.TeacherRole );
+                    }
+
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+
+                    if ( model.CourseId.HasValue ) {
+                        return RedirectToAction( "Details", "Courses", new { id = model.CourseId.Value.ToString() } );
+                    }
+                    return RedirectToAction( "Index", "Home" );
                 }
-                AddErrors(result);
+                AddErrors( result );
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View( model );
         }
 
         //

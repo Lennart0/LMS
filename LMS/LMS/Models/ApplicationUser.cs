@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.Collections.Generic;
 
 namespace LMS.Models
 {
@@ -17,10 +19,10 @@ namespace LMS.Models
             return userIdentity;
         }
 
-         public virtual Course Course{ get; set;}
-         // public virtual Guid Course { get; set; }
-
-
+        public string FullName { get; set; }
+        public Guid? CourseId { get; set; }
+        public virtual Course Course{ get; set;}
+        public ICollection<Document> Documents { get; internal set; }
     }
 
 

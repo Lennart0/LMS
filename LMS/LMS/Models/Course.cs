@@ -15,6 +15,14 @@ namespace LMS.Models
         //[Index("IX_NameDayStart", 1, IsUnique = true)]
         public string Name { get; set; }
 
+        [DataType(DataType.Date)]
+        public DateTime Start { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime End { get; set; }
+
+
+        public virtual List<Module> Modules { get; set; }
+
         public DateTime LunchStart { get; set; }
 
         public DateTime LunchEnd { get; set; }
@@ -25,5 +33,6 @@ namespace LMS.Models
         public DateTime DayEnd { get; set; }
 
         public virtual List<ApplicationUser> Students { get; set; }
+        public List<Document> Documents { get; internal set; }
     }
 }
