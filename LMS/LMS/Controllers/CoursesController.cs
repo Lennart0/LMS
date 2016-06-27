@@ -142,7 +142,9 @@ namespace LMS.Controllers
         {
             Course course = db.Courses.Find(id);
 
-            return View(db.Users.ToList());
+            var studentList = course.Students.ToList();
+
+            return View(studentList);
         }
     }
 }
