@@ -15,8 +15,7 @@ namespace LMS.Controllers
         public ActionResult Index()
         {
 
-        
-
+  
 
             if (User.IsInRole(Helpers.Constants.TeacherRole)) {
                 return RedirectToAction("Index", "Courses");
