@@ -15,6 +15,13 @@ namespace LMS.Models
         public DateTime DayStart { get; set; }
         public DateTime DayEnd { get; set; }
 
+
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+
+
+        public virtual List<Module> Modules { get; set; }
+
         public virtual List<ApplicationUser> Students { get; set; }
     }
 }
