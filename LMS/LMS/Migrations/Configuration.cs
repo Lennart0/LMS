@@ -17,7 +17,7 @@ namespace LMS.Migrations
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(LMS.DataAccessLayer.ApplicationDbContext context)
+        protected override void Seed( LMS.DataAccessLayer.ApplicationDbContext context )
         {
             var courseGuid = new Guid("91838d6c-ec99-4b97-b930-ea99d3e52967");
 
@@ -131,6 +131,7 @@ namespace LMS.Migrations
                 course1.Documents.Add(doc1);
 
 
+            //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...
 
 
                 context.Courses.AddOrUpdate(p => p.Id, course1);
