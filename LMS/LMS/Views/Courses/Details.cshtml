@@ -9,10 +9,11 @@
 <div>
     <h4>Course</h4>
     <hr />
-    <div>
+ 
         @Html.ActionLink( linkText:"Registrera elev", actionName:"Register", controllerName:"Account", routeValues:new { id = Model.Id }, htmlAttributes:null )
-    </div>
-
+ 
+        @Html.ActionLink(linkText: "Add Module", actionName: "Create", controllerName: "Modules", routeValues: new { id = Model.Id }, htmlAttributes: null)
+ 
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Description)
@@ -31,38 +32,65 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LunchStart)
+            @Html.DisplayNameFor(model => model.Start)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.LunchStart)
+            @Html.DisplayFor(model => model.Start)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LunchEnd)
+            @Html.DisplayNameFor(model => model.End)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.LunchEnd)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DayStart)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DayStart)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DayEnd)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DayEnd)
+            @Html.DisplayFor(model => model.End)
         </dd>
 
     </dl>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Start)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.End)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Modules) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Start)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.End)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

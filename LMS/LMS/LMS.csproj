@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Helpers\DefaultUserAndRoleStartupHelper.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -192,6 +193,26 @@
     <Compile Include="Migrations\201606231500519_init1.cs" />
     <Compile Include="Migrations\201606231500519_init1.Designer.cs">
       <DependentUpon>201606231500519_init1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606270749597_datatimechange.cs" />
+    <Compile Include="Migrations\201606270749597_datatimechange.Designer.cs">
+      <DependentUpon>201606270749597_datatimechange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606270752562_datatimechange1.cs" />
+    <Compile Include="Migrations\201606270752562_datatimechange1.Designer.cs">
+      <DependentUpon>201606270752562_datatimechange1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606270812103_datatimechange2.cs" />
+    <Compile Include="Migrations\201606270812103_datatimechange2.Designer.cs">
+      <DependentUpon>201606270812103_datatimechange2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606270820103_datatimechange3.cs" />
+    <Compile Include="Migrations\201606270820103_datatimechange3.Designer.cs">
+      <DependentUpon>201606270820103_datatimechange3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606270827432_datatimechange4.cs" />
+    <Compile Include="Migrations\201606270827432_datatimechange4.Designer.cs">
+      <DependentUpon>201606270827432_datatimechange4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -265,6 +286,11 @@
     <Content Include="Views\Courses\Details.cshtml" />
     <Content Include="Views\Courses\Edit.cshtml" />
     <Content Include="Views\Courses\Index.cshtml" />
+    <Content Include="Views\Modules\Create.cshtml" />
+    <Content Include="Views\Modules\Delete.cshtml" />
+    <Content Include="Views\Modules\Details.cshtml" />
+    <Content Include="Views\Modules\Edit.cshtml" />
+    <Content Include="Views\Modules\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -289,6 +315,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606231500519_init1.resx">
       <DependentUpon>201606231500519_init1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606270749597_datatimechange.resx">
+      <DependentUpon>201606270749597_datatimechange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606270752562_datatimechange1.resx">
+      <DependentUpon>201606270752562_datatimechange1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606270812103_datatimechange2.resx">
+      <DependentUpon>201606270812103_datatimechange2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606270820103_datatimechange3.resx">
+      <DependentUpon>201606270820103_datatimechange3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606270827432_datatimechange4.resx">
+      <DependentUpon>201606270827432_datatimechange4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
