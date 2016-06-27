@@ -14,7 +14,7 @@ namespace LMS.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed( LMS.DataAccessLayer.ApplicationDbContext context )
