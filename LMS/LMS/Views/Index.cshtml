@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<LMS.Models.Module>
 
 @{
-    ViewBag.Title = "Schedule";
+    ViewBag.Title = "Index";
 }
 
-<h2>Schema för @ViewBag.CourseName</h2>
+<h2>Index</h2>
 
 <p>
     @*Html.ActionLink("Create New", "Create")*@
@@ -34,7 +34,7 @@
         
         <tr>
             <td>
-                <a id="@item.Id"></a>
+                <a id="@item.Id" />
                 @Html.DisplayFor( modelItem => item.Name )
             </td>
             <!--td>
@@ -54,7 +54,7 @@
         </tr>
 
         DateTime activityDate = new DateTime( 0 );
-        foreach ( var activity in item.Activities.OrderBy(a=>a.Start) ) {
+        foreach ( var activity in item.Activities ) {
             if( activity.Start.Date != activityDate.Date ) {
                 activityDate = activity.Start;
                 <tr><td>@Html.DisplayFor( x => activity.Start.Date )</td></tr>

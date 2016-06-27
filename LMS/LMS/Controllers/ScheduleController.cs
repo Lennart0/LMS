@@ -27,7 +27,9 @@ namespace LMS.Controllers
                 return Content( "INGEN KURS VALD!" );
             }
 
-            return View(course.Modules);
+            ViewBag.CourseName = course.Name;
+
+            return View( course.Modules.OrderBy( m => m.Start ) );
         }
 
         // GET: Schedule/Details/5
