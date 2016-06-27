@@ -8,24 +8,52 @@ namespace LMS.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Courses",
+                "dbo.Activities",
                 c => new
                     {
                         Id = c.Guid(nullable: false),
                         Description = c.String(),
                         Name = c.String(),
-                        LunchStart = c.DateTime(nullable: false),
-                        LunchEnd = c.DateTime(nullable: false),
-                        DayStart = c.DateTime(nullable: false),
-                        DayEnd = c.DateTime(nullable: false),
+                        Start = c.DateTime(nullable: false),
+                        End = c.DateTime(nullable: false),
+                        Module_Id = c.Guid(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Modules", t => t.Module_Id)
+                .Index(t => t.Module_Id);
+            
+            CreateTable(
+                "dbo.Document",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Type = c.Int(nullable: false),
+                        Url = c.String(),
+                        IsLocal = c.Boolean(nullable: false),
+                        UploadDate = c.DateTime(nullable: false),
+                        PublishDate = c.DateTime(nullable: false),
+                        Course_Id = c.Guid(),
+                        Module_Id = c.Guid(),
+                        User_Id = c.String(nullable: false, maxLength: 128),
+                        Activity_Id = c.Guid(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Courses", t => t.Course_Id)
+                .ForeignKey("dbo.Modules", t => t.Module_Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.User_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Activities", t => t.Activity_Id)
+                .Index(t => t.Course_Id)
+                .Index(t => t.Module_Id)
+                .Index(t => t.User_Id)
+                .Index(t => t.Activity_Id);
             
             CreateTable(
                 "dbo.AspNetUsers",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
+                        FullName = c.String(),
+                        CourseId = c.Guid(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -37,12 +65,11 @@ namespace LMS.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
-                        Course_Id = c.Guid(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Courses", t => t.Course_Id)
-                .Index(t => t.UserName, unique: true, name: "UserNameIndex")
-                .Index(t => t.Course_Id);
+                .ForeignKey("dbo.Courses", t => t.CourseId)
+                .Index(t => t.CourseId)
+                .Index(t => t.UserName, unique: true, name: "UserNameIndex");
             
             CreateTable(
                 "dbo.AspNetUserClaims",
@@ -56,6 +83,33 @@ namespace LMS.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.Courses",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Description = c.String(),
+                        Name = c.String(),
+                        Start = c.DateTime(nullable: false),
+                        End = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Modules",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Description = c.String(),
+                        Name = c.String(),
+                        Start = c.DateTime(nullable: false),
+                        End = c.DateTime(nullable: false),
+                        Course_Id = c.Guid(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Courses", t => t.Course_Id)
+                .Index(t => t.Course_Id);
             
             CreateTable(
                 "dbo.AspNetUserLogins",
@@ -92,28 +146,57 @@ namespace LMS.Migrations
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
+            CreateTable(
+                "dbo.TimeSensetiveDocument",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        DeadLine = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Document", t => t.Id)
+                .Index(t => t.Id);
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.TimeSensetiveDocument", "Id", "dbo.Document");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.AspNetUsers", "Course_Id", "dbo.Courses");
+            DropForeignKey("dbo.Document", "Activity_Id", "dbo.Activities");
+            DropForeignKey("dbo.Document", "User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUsers", "CourseId", "dbo.Courses");
+            DropForeignKey("dbo.Modules", "Course_Id", "dbo.Courses");
+            DropForeignKey("dbo.Document", "Module_Id", "dbo.Modules");
+            DropForeignKey("dbo.Activities", "Module_Id", "dbo.Modules");
+            DropForeignKey("dbo.Document", "Course_Id", "dbo.Courses");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropIndex("dbo.TimeSensetiveDocument", new[] { "Id" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            DropIndex("dbo.Modules", new[] { "Course_Id" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
-            DropIndex("dbo.AspNetUsers", new[] { "Course_Id" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.AspNetUsers", new[] { "CourseId" });
+            DropIndex("dbo.Document", new[] { "Activity_Id" });
+            DropIndex("dbo.Document", new[] { "User_Id" });
+            DropIndex("dbo.Document", new[] { "Module_Id" });
+            DropIndex("dbo.Document", new[] { "Course_Id" });
+            DropIndex("dbo.Activities", new[] { "Module_Id" });
+            DropTable("dbo.TimeSensetiveDocument");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.Modules");
+            DropTable("dbo.Courses");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
-            DropTable("dbo.Courses");
+            DropTable("dbo.Document");
+            DropTable("dbo.Activities");
         }
     }
 }

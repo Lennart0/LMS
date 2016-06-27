@@ -1,31 +1,29 @@
-namespace LMS.Migrations
-{
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Microsoft.AspNet.Identity.Owin;
-    using Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<LMS.DataAccessLayer.ApplicationDbContext>
-    {
-        public Configuration()
-        {
-            AutomaticMigrationsEnabled = true;
-        }
-
-        protected override void Seed(LMS.DataAccessLayer.ApplicationDbContext context)
-        {
-            var courseGuid = new Guid("91838d6c-ec99-4b97-b930-ea99d3e52967");
+ï»¿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LMS.Models;
+using System.Data.Entity.Migrations;
+using System.Collections.Generic;
 
 
-            if (context.Courses.Count(n=> n.Id == courseGuid)==0) {
+
+
+using System;
+using System.Data.Entity;
+using System.Linq;
+using System.IO;
+
+namespace LMS_Test {
+    [TestClass]
+    public class UnitTest1 {
+    
+        [TestMethod]
+        public void SeedTest() {
+
+
+            using (var context = new LMS.DataAccessLayer.ApplicationDbContext()) {
                 var y = context.Courses.ToList();
                 var course1 = new Course {
-                    Id = courseGuid,
+                    Id = new Guid("d46f1dae-a53f-460d-8b89-a6c53753b4c2"),
                     Name = "Modern burklax produktion",
                     Description = "conservering och lax",
                     Start = new DateTime(2016, 11, 3),
@@ -33,48 +31,48 @@ namespace LMS.Migrations
                 };
 
                 var module1 = new Module {
-                    Id = new Guid("cb817e0c-4df2-490a-a188-4140c9b07ca5"),
+                    Id = new Guid("0cfbe895-4fc0-4d75-ac28-0ce2224ca117"),
                     Name = "Conservering 101",
-                    Description = "Inläggning och konservering",
+                    Description = "InlÃ¤ggning och konservering",
                     Start = new DateTime(2016, 11, 4),
                     End = new DateTime(2017, 2, 25),
-
+                
                 };
 
                 var activity1 = new Activity {
                     Id = new Guid("c186df12-1220-4c30-90e2-5bd095be3ac3"),
-                    Name = "förpackningar och burkar A",
+                    Name = "fÃ¶rpackningar och burkar A",
                     Start = new DateTime(2016, 11, 3, 8, 30, 0),
                     End = new DateTime(2016, 11, 3, 17, 0, 0),
-
+        
                 };
 
 
                 var activity2 = new Activity {
-                    Id = new Guid("40de38aa-ff3f-4d45-b8df-b7c1cb81c147"),
-                    Name = "förpackningar och burkar B",
+                    Id = new Guid("4c1a93ad-b13c-48e2-a07d-a6f840c85d05"),
+                    Name = "fÃ¶rpackningar och burkar B",
                     Start = new DateTime(2016, 11, 4, 8, 30, 0),
                     End = new DateTime(2016, 11, 4, 17, 0, 0),
-
+                   
                 };
 
                 var activity3 = new Activity {
-                    Id = new Guid("08952d1c-f8ea-43db-a2b1-bff489acd9a7"),
-                    Name = "Konservering ämnen",
+                    Id = new Guid("2bb0523c-ede0-478c-8d83-0d9aef58ca90"),
+                    Name = "Konservering Ã¤mnen",
                     Start = new DateTime(2016, 11, 5, 8, 30, 0),
                     End = new DateTime(2016, 11, 5, 17, 0, 0),
-
+           
                 };
                 var activity4 = new Activity {
                     Id = new Guid("d6760b11-13e0-40c2-b27f-9ab4bfda3242"),
-                    Name = "Konservering ämnen och matsäkerhet",
+                    Name = "Konservering Ã¤mnen och matsÃ¤kerhet",
                     Start = new DateTime(2016, 11, 6, 8, 30, 0),
                     End = new DateTime(2016, 11, 6, 17, 0, 0),
-
+            
                 };
 
-                //    context.Activies.AddOrUpdate(n => n.Id, activity1, activity2, activity3, activity4);
-                //    context.SaveChanges();
+                context.Activies.AddOrUpdate(n => n.Id, activity1, activity2, activity3, activity4);
+                context.SaveChanges();
                 module1.Activities = new List<Activity> { activity1, activity2, activity3, activity4 };
 
                 var module2 = new Module {
@@ -88,22 +86,22 @@ namespace LMS.Migrations
                 var module3 = new Module {
                     Id = new Guid("2bccc925-b668-40b5-bad4-66676edcf2f2"),
                     Name = "Automations system Grund",
-                    Description = "Grundläggande kurs i hur man jobbar med automation system för konsevburkar.",
+                    Description = "GrundlÃ¤ggande kurs i hur man jobbar med automation system fÃ¶r konsevburkar.",
                     Start = new DateTime(2017, 3, 12),
                     End = new DateTime(2017, 6, 26),
 
                 };
                 var module4 = new Module {
-                    Id = new Guid("6bc0323b-a2f1-44eb-8ef3-e56605c3c743"),
+                    Id = new Guid("bcae51d1-c44f-403e-a786-6a367bda8649"),
                     Name = "Burklax 101",
-                    Description = "Burlax ABs förtags specifika kurs.",
+                    Description = "Burlax ABs fÃ¶rtags specifika kurs.",
                     Start = new DateTime(2017, 6, 27),
                     End = new DateTime(2017, 7, 13),
 
                 };
 
-                // context.Modules.AddOrUpdate(p => p.Id, module1, module2, module3, module4);
-                //context.SaveChanges();
+                context.Modules.AddOrUpdate(p => p.Id, module1, module2, module3, module4);
+                context.SaveChanges();
                 course1.Modules = new List<Module> { module1, module2, module3, module4 };
 
                 var user = context.Users.FirstOrDefault(n => n.Id == "679a290d-8b3b-4488-8ffb-7dea7a44efca");
@@ -123,21 +121,21 @@ namespace LMS.Migrations
                     User = user,
                     Activity = activity1
                 };
+  //              user.Documents.Add(doc1);
+//                course1.Documents.Add(doc1);
 
-
-                //   context.Documents.AddOrUpdate(n => n.Id, doc1);
-                //  context.SaveChanges();
-                user.Documents.Add(doc1);
-                course1.Documents.Add(doc1);
-
-
-
+               // context.Documents.AddOrUpdate(n => n.Id, doc1);
+              //  context.SaveChanges();
 
                 context.Courses.AddOrUpdate(p => p.Id, course1);
                 context.SaveChanges();
+         
+                var z = context.Courses.ToList();
 
+
+                Assert.IsTrue(z.Count > 0);
+               
             }
-
         }
-        }
+    }
 }

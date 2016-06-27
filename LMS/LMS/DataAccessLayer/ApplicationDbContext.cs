@@ -10,16 +10,26 @@ namespace LMS.DataAccessLayer {
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser> {
         public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false) {
+         //   Database.SetInitializer<ApplicationDbContext>(null); // should probably uncomment this later since it probablly a bit of a dirty fix.... to avoid a minor issue and let me test what the underlying problem is...
+
         }
+ 
+
 
         public DbSet<Course> Courses { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<Activity> Activies { get; set; }
-
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<TimeSensetiveDocument> TimeSensetiveDocuments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Course>().HasKey(n => n.Id);
+
+
+              modelBuilder.Entity<Document>().ToTable("Document");
+             modelBuilder.Entity<TimeSensetiveDocument>().ToTable("TimeSensetiveDocument");
+    
 
 
             modelBuilder.Entity<Course>().HasMany(n => n.Students).WithOptional(n => n.Course);//.HasForeignKey(n=> n.CourseId)
