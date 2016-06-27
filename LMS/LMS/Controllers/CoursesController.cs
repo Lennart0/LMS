@@ -49,6 +49,13 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Description,Name,LunchStart,LunchEnd,DayStart,DayEnd")] Course course)
         {
+            // Checking Name and Start date of course, that it's no duplicates in DB.
+            if (db.Courses.Any(c => c.Name == course.Name && c.DayStart == course.DayStart))
+            {
+                ModelState.AddModelError("Name", "This course has already registered!");
+
+            }
+
             if (ModelState.IsValid)
             {
                 course.Id = Guid.NewGuid();
