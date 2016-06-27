@@ -36,9 +36,7 @@ namespace LMS.DataAccessLayer {
 
 
             modelBuilder.Entity<Document>().HasKey(n => n.Id);
-            modelBuilder.Entity<Document>().HasRequired(n => n.User).WithMany(n => n.Documents);
-
-        
+            modelBuilder.Entity<Document>().HasRequired(n => n.User).WithMany(n => n.Documents);    
 
 
 
@@ -47,6 +45,8 @@ namespace LMS.DataAccessLayer {
         public static ApplicationDbContext Create() {
             return new ApplicationDbContext();
         }
+
+        //public System.Data.Entity.DbSet<LMS.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 
 }

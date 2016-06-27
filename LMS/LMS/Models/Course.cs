@@ -15,9 +15,12 @@ namespace LMS.Models
         //[Index("IX_NameDayStart", 1, IsUnique = true)]
         public string Name { get; set; }
 
-        [DataType(DataType.Date)]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Start { get; set; }
-        [DataType(DataType.Date)]
+
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime End { get; set; }
 
 
