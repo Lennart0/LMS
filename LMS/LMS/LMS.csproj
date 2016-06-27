@@ -214,14 +214,20 @@
     <Compile Include="Migrations\201606270827432_datatimechange4.Designer.cs">
       <DependentUpon>201606270827432_datatimechange4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606270924091_document.cs" />
+    <Compile Include="Migrations\201606270924091_document.Designer.cs">
+      <DependentUpon>201606270924091_document.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Document.cs" />
     <Compile Include="Models\IEntity.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Module.cs" />
+    <Compile Include="Models\TimeSensetiveDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -330,6 +336,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606270827432_datatimechange4.resx">
       <DependentUpon>201606270827432_datatimechange4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606270924091_document.resx">
+      <DependentUpon>201606270924091_document.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

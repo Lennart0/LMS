@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -11,9 +12,9 @@ namespace LMS.Models
         public string Description { get; set; }
         public string Name { get; set; }
 
-        [System.ComponentModel.DataAnnotations.DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
+        [DataType(DataType.Date)]
         public DateTime Start { get; set; }
-        [System.ComponentModel.DataAnnotations.DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
+        [DataType(DataType.Date)]
         public DateTime End { get; set; }
 
 

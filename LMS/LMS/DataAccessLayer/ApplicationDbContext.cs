@@ -30,7 +30,12 @@ namespace LMS.DataAccessLayer {
             modelBuilder.Entity<Module>().HasMany(n => n.Activities).WithOptional(n => n.Module);//.HasForeignKey(n=> n.CourseId)
 
             modelBuilder.Entity<Activity>().HasKey(n => n.Id);
-          
+
+            modelBuilder.Entity<Document>().HasKey(n => n.Id);
+            modelBuilder.Entity<Document>().HasOptional(n => n.Activity).WithMany(n => n.Documents);
+            modelBuilder.Entity<Document>().HasRequired(n => n.User).WithMany(n => n.Documents);
+        
+
 
 
 
