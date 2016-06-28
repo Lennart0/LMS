@@ -95,9 +95,9 @@
                 </td>
                 <td>
                    
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                       @* @Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        @Html.ActionLink("Edit", "Edit", controllerName: "Modules", routeValues: new { id = item.Id }, htmlAttributes: null ) |
+                        @Html.ActionLink("Details", "Details", controllerName: "Modules", routeValues: new { id = item.Id }, htmlAttributes: null ) |
+                        @Html.ActionLink("Delete", "Delete", controllerName: "Modules", routeValues: new { id = item.Id }, htmlAttributes: null )
                     </td>
             </tr>
         }
