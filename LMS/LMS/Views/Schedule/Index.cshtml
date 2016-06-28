@@ -59,8 +59,8 @@
         foreach ( var activity in item.Activities.OrderBy(a=>a.Start) ) {
             if( activity.Start.Date != activityDate.Date ) {
                 activityDate = activity.Start;
-                <tr><td colspan="4">
-                    @activity.Start.ToString("d MMMM")
+                <tr><td colspan="4" class="@(DateTime.Now.Date==activityDate.Date?"today":"")">
+                    @activity.Start.ToString("dddd d MMMM")
                     @*Html.DisplayFor( x => activity.Start.Date )*@
                 </td></tr>
             }
