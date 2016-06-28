@@ -47,7 +47,7 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,Name,Start,End")] Course course)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,Start,End")] Course course)
         {
             // This is for avoiding duplicates in DB. Check the Name and Start date of course.
             if (db.Courses.Any(c => c.Name == course.Name && c.DayStart == course.DayStart))
