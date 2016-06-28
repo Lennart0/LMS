@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Helpers\DefaultUserAndRoleStartupHelper.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -178,49 +179,25 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Constants.cs" />
-    <Compile Include="Migrations\201606230733370_init.cs" />
-    <Compile Include="Migrations\201606230733370_init.Designer.cs">
-      <DependentUpon>201606230733370_init.cs</DependentUpon>
+    <Compile Include="Migrations\201606271337362_init.cs" />
+    <Compile Include="Migrations\201606271337362_init.Designer.cs">
+      <DependentUpon>201606271337362_init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606230933575_ApplicationUser_FullName_added.cs" />
-    <Compile Include="Migrations\201606230933575_ApplicationUser_FullName_added.Designer.cs">
-      <DependentUpon>201606230933575_ApplicationUser_FullName_added.cs</DependentUpon>
+    <Compile Include="Migrations\201606271356581_init1.cs" />
+    <Compile Include="Migrations\201606271356581_init1.Designer.cs">
+      <DependentUpon>201606271356581_init1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606231318179_ApplicationUser_CourseId_added.cs" />
-    <Compile Include="Migrations\201606231318179_ApplicationUser_CourseId_added.Designer.cs">
-      <DependentUpon>201606231318179_ApplicationUser_CourseId_added.cs</DependentUpon>
+    <Compile Include="Migrations\201606271451186_init2.cs" />
+    <Compile Include="Migrations\201606271451186_init2.Designer.cs">
+      <DependentUpon>201606271451186_init2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606231500519_init1.cs" />
-    <Compile Include="Migrations\201606231500519_init1.Designer.cs">
-      <DependentUpon>201606231500519_init1.cs</DependentUpon>
+    <Compile Include="Migrations\201606271831308_init3.cs" />
+    <Compile Include="Migrations\201606271831308_init3.Designer.cs">
+      <DependentUpon>201606271831308_init3.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606270749597_datatimechange.cs" />
-    <Compile Include="Migrations\201606270749597_datatimechange.Designer.cs">
-      <DependentUpon>201606270749597_datatimechange.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606270752562_datatimechange1.cs" />
-    <Compile Include="Migrations\201606270752562_datatimechange1.Designer.cs">
-      <DependentUpon>201606270752562_datatimechange1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606270812103_datatimechange2.cs" />
-    <Compile Include="Migrations\201606270812103_datatimechange2.Designer.cs">
-      <DependentUpon>201606270812103_datatimechange2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606270820103_datatimechange3.cs" />
-    <Compile Include="Migrations\201606270820103_datatimechange3.Designer.cs">
-      <DependentUpon>201606270820103_datatimechange3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606270827432_datatimechange4.cs" />
-    <Compile Include="Migrations\201606270827432_datatimechange4.Designer.cs">
-      <DependentUpon>201606270827432_datatimechange4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606270924091_document.cs" />
-    <Compile Include="Migrations\201606270924091_document.Designer.cs">
-      <DependentUpon>201606270924091_document.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606270930224_document1.cs" />
-    <Compile Include="Migrations\201606270930224_document1.Designer.cs">
-      <DependentUpon>201606270930224_document1.cs</DependentUpon>
+    <Compile Include="Migrations\201606271928535_init4.cs" />
+    <Compile Include="Migrations\201606271928535_init4.Designer.cs">
+      <DependentUpon>201606271928535_init4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -296,6 +273,11 @@
     <Content Include="Views\Courses\Details.cshtml" />
     <Content Include="Views\Courses\Edit.cshtml" />
     <Content Include="Views\Courses\Index.cshtml" />
+    <Content Include="Views\Schedule\Create.cshtml" />
+    <Content Include="Views\Schedule\Delete.cshtml" />
+    <Content Include="Views\Schedule\Details.cshtml" />
+    <Content Include="Views\Schedule\Edit.cshtml" />
+    <Content Include="Views\Schedule\Index.cshtml" />
     <Content Include="Views\Modules\Create.cshtml" />
     <Content Include="Views\Modules\Delete.cshtml" />
     <Content Include="Views\Modules\Details.cshtml" />
@@ -314,38 +296,20 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606230733370_init.resx">
-      <DependentUpon>201606230733370_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606271337362_init.resx">
+      <DependentUpon>201606271337362_init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606230933575_ApplicationUser_FullName_added.resx">
-      <DependentUpon>201606230933575_ApplicationUser_FullName_added.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606271356581_init1.resx">
+      <DependentUpon>201606271356581_init1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606231318179_ApplicationUser_CourseId_added.resx">
-      <DependentUpon>201606231318179_ApplicationUser_CourseId_added.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606271451186_init2.resx">
+      <DependentUpon>201606271451186_init2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606231500519_init1.resx">
-      <DependentUpon>201606231500519_init1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606271831308_init3.resx">
+      <DependentUpon>201606271831308_init3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606270749597_datatimechange.resx">
-      <DependentUpon>201606270749597_datatimechange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606270752562_datatimechange1.resx">
-      <DependentUpon>201606270752562_datatimechange1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606270812103_datatimechange2.resx">
-      <DependentUpon>201606270812103_datatimechange2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606270820103_datatimechange3.resx">
-      <DependentUpon>201606270820103_datatimechange3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606270827432_datatimechange4.resx">
-      <DependentUpon>201606270827432_datatimechange4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606270924091_document.resx">
-      <DependentUpon>201606270924091_document.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606270930224_document1.resx">
-      <DependentUpon>201606270930224_document1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606271928535_init4.resx">
+      <DependentUpon>201606271928535_init4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

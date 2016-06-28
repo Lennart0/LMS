@@ -5,6 +5,9 @@ using System.Web;
 
 namespace LMS.Models {
     public class Activity : IEntity {
+        public Activity() {
+            this.Documents = new List<Document>();
+        }
         public string Description {
             get;
             set;

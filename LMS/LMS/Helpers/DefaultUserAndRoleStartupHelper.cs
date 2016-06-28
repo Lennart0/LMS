@@ -18,7 +18,7 @@ using Microsoft.Owin;
 namespace LMS.Helpers {
     public class DefaultUserAndRoleStartupHelper {
 
-
+       
         public static void Create() {
 
             using (var db = new DataAccessLayer.ApplicationDbContext()) {
@@ -50,5 +50,7 @@ namespace LMS.Helpers {
             }
 
         }
+
+      
     }
 }
