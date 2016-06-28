@@ -56,7 +56,7 @@
     </dl>
     <br /><br />
     <h4>Modules</h4>
-    @Html.ActionLink(linkText: "Add Module", actionName: "Create", controllerName: "Modules", routeValues: new { id = Model.Id }, htmlAttributes: null)
+    @Html.ActionLink(linkText: "Lägg till modul", actionName: "Create", controllerName: "Modules", routeValues: new { id = Model.Id }, htmlAttributes: null)
     <table class="table">
         <tr>
             <th>
@@ -105,8 +105,7 @@
     </table>
     <br /><br />
     <h4>Students</h4>
-    @Html.ActionLink(linkText: "Add student", actionName: "Register", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)
-
+    @Html.ActionLink(linkText: "Lägg till student", actionName: "Register", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)
     <table class="table">
         <tr>
             <th>
@@ -142,6 +141,48 @@
         }
 
     </table>
+
+
+    <br /><br />
+    <h4>Dokument</h4>
+    @Html.ActionLink(linkText: "Lägg till dokument", actionName: "Add", controllerName: "Document", routeValues: new { id = Model.Id, Type="Course" }, htmlAttributes: null)
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Students.First().Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Students.First().PhoneNumber)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Students) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+
 
 
 </div>

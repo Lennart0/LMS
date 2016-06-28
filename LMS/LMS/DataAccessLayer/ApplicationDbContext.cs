@@ -27,7 +27,7 @@ namespace LMS.DataAccessLayer {
             modelBuilder.Entity<Course>().HasKey(n => n.Id);
 
 
-              modelBuilder.Entity<Document>().ToTable("Document");
+             modelBuilder.Entity<Document>().ToTable("Document");
              modelBuilder.Entity<TimeSensetiveDocument>().ToTable("TimeSensetiveDocument");
     
 

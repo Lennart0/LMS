@@ -39,6 +39,6 @@ namespace LMS.Models
         public DateTime? DayEnd { get; set; }
 
         public virtual List<ApplicationUser> Students { get; set; }
-        public List<Document> Documents { get; set; }
+        public virtual List<Document> Documents { get; set; }
     }
 }
