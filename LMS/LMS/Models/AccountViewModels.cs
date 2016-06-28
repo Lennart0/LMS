@@ -67,13 +67,11 @@ namespace LMS.Models
     //[System.Web.Mvc.Bind( Include = "UserName,FullName,Email,Password,ConfirmPassword,CourseId" )]
     public class RegisterViewModel
     {
+        /*
         [Required]
         [Display( Name = "Användarnamn" )]
         public string UserName { get; set; }
-
-        [Required]
-        [Display( Name = "Namn" )]
-        public string FullName { get; set; }
+         */
 
         [Required]
         [EmailAddress]
@@ -81,7 +79,11 @@ namespace LMS.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Display( Name = "Namn" )]
+        public string FullName { get; set; }
+
+        [Required]
+        //[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Lösenord")]
         public string Password { get; set; }

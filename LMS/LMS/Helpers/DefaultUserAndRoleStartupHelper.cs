@@ -18,7 +18,7 @@ using Microsoft.Owin;
 namespace LMS.Helpers {
     public class DefaultUserAndRoleStartupHelper {
 
-
+       
         public static void Create() {
 
             using (var db = new DataAccessLayer.ApplicationDbContext()) {
@@ -41,14 +41,16 @@ namespace LMS.Helpers {
                 //if and only if default user is missing add user
                 if (db.Users.SingleOrDefault(n => n.Id == defaultTeacher.Id) == null) {
                     var result = UserManager.Create(defaultTeacher, "@ackN0w");
-
+                    if (defaultTeacher?.Roles.Count == 0 && result.Succeeded == true) {
+                        UserManager.AddToRole(defaultTeacher.Id, Helpers.Constants.TeacherRole);
+                    }
                 }
 
-                if (defaultTeacher?.Roles.Count == 0) {
-                    UserManager.AddToRole(defaultTeacher.Id, Helpers.Constants.TeacherRole);
-                }
+              
             }
 
         }
+
+      
     }
 }

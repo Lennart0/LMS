@@ -3,16 +3,16 @@ namespace LMS.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class ApplicationUser_FullName_added : DbMigration
+    public partial class init1 : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.AspNetUsers", "FullName", c => c.String());
+            CreateIndex("dbo.Courses", new[] { "Name", "DayStart" }, unique: true, name: "IX_NameDayStart");
         }
         
         public override void Down()
         {
-            DropColumn("dbo.AspNetUsers", "FullName");
+            DropIndex("dbo.Courses", "IX_NameDayStart");
         }
     }
 }

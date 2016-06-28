@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 
 namespace LMS.Models {
-    public class Activities {
+    public class TimeSensetiveDocument: Document {
+        public DateTime DeadLine { get; set; }
     }
 }

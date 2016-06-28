@@ -11,115 +11,109 @@ using LMS.Models;
 
 namespace LMS.Controllers
 {
-    public class CoursesController : Controller
+    public class ModulesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Courses
+        // GET: Modules
         public ActionResult Index()
         {
-            return View(db.Courses.ToList());
+            return View(db.Modules.ToList());
         }
 
-        // GET: Courses/Details/5
+        // GET: Modules/Details/5
         public ActionResult Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
-            if (course == null)
+            Module module = db.Modules.Find(id);
+            if (module == null)
             {
                 return HttpNotFound();
             }
-            return View(course);
+            return View(module);
         }
 
-        // GET: Courses/Create
-        public ActionResult Create()
+        // GET: Modules/Create
+        public ActionResult Create(Guid id)
         {
-            return View();
+            return View(new Module() { Course = db.Courses.FirstOrDefault(n=> n.Id== id) });
         }
 
-        // POST: Courses/Create
+        // POST: Modules/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Start,End")] Course course)
-        {
-            // This is for avoiding duplicates in DB. Check the Name and Start date of course.
-            if (db.Courses.Any(c => c.Name == course.Name && c.DayStart == course.DayStart))
-            {
-                ModelState.AddModelError("Name", "This course has already registered!");
-
-            }
-
+        public ActionResult Create([Bind(Include = "Id,Description,Name,Start,End,Course")] Module module)
+        { 
             if (ModelState.IsValid)
             {
-                course.Id = Guid.NewGuid();
-                db.Courses.Add(course);
+                module.Course = db.Courses.FirstOrDefault(n => n.Id == module.Course.Id);
+                module.Id = Guid.NewGuid();
+                db.Modules.Add(module);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(course);
+            return View(module);
         }
 
-        // GET: Courses/Edit/5
+        // GET: Modules/Edit/5
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
-            if (course == null)
+            Module module = db.Modules.Find(id);
+            if (module == null)
             {
                 return HttpNotFound();
             }
-            return View(course);
+            return View(module);
         }
 
-        // POST: Courses/Edit/5
+        // POST: Modules/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,Name")] Course course)
+        public ActionResult Edit([Bind(Include = "Id,Description,Name,Start,End")] Module module)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(course).State = EntityState.Modified;
+                db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(course);
+            return View(module);
         }
 
-        // GET: Courses/Delete/5
+        // GET: Modules/Delete/5
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
-            if (course == null)
+            Module module = db.Modules.Find(id);
+            if (module == null)
             {
                 return HttpNotFound();
             }
-            return View(course);
+            return View(module);
         }
 
-        // POST: Courses/Delete/5
+        // POST: Modules/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Course course = db.Courses.Find(id);
-            db.Courses.Remove(course);
+            Module module = db.Modules.Find(id);
+            db.Modules.Remove(module);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -131,20 +125,6 @@ namespace LMS.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        /// <summary>
-        /// GET: Display all students in a course
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public ActionResult CourseStudentList(Guid id)
-        {
-            Course course = db.Courses.Find(id);
-
-            var studentList = course.Students.ToList();
-
-            return View(studentList);
         }
     }
 }
