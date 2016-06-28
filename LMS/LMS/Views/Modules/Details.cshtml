@@ -63,7 +63,7 @@
         @foreach ( var item in Model.Activities ) {
             <tr>
                 <td>
-                    @Html.DisplayFor( x => item.Name )
+                    <abbr title="@item.Description">@item.Name</abbr>  @*Html.DisplayFor( x => item.Name )*@
                 </td>
                 <td>
                     @Html.DisplayFor( x => item.Start )
