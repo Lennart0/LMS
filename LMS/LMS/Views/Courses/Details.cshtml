@@ -95,16 +95,16 @@
                 </td>
                 <td>
                    
-                        @Html.ActionLink("Edit", "Edit", controllerName: "Modules", routeValues: new { id = item.Id }, htmlAttributes: null ) |
-                        @Html.ActionLink("Details", "Details", controllerName: "Modules", routeValues: new { id = item.Id }, htmlAttributes: null ) |
-                        @Html.ActionLink("Delete", "Delete", controllerName: "Modules", routeValues: new { id = item.Id }, htmlAttributes: null )
+                        @Html.ActionLink("Editera", "Edit", controllerName: "Modules", routeValues: new { id = item.Id }, htmlAttributes: null ) |
+                        @Html.ActionLink("Detaljvy", "Details", controllerName: "Modules", routeValues: new { id = item.Id }, htmlAttributes: null ) |
+                        @Html.ActionLink("Tabort", "Delete", controllerName: "Modules", routeValues: new { id = item.Id }, htmlAttributes: null )
                     </td>
             </tr>
         }
 
     </table>
     <br /><br />
-    <h4>Students</h4>
+    <h4>Elever</h4>
     @Html.ActionLink(linkText: "Lägg till student", actionName: "Register", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)
     <table class="table">
         <tr>
@@ -133,16 +133,16 @@
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Editera", "Edit", new { id = item.Id }) |
                     @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Tabort", "Delete", new { id = item.Id })
                 </td>
             </tr>
         }
 
     </table>
 
-
+   @*
     <br /><br />
     <h4>Dokument</h4>
     @Html.ActionLink(linkText: "Lägg till dokument", actionName: "Add", controllerName: "Document", routeValues: new { id = Model.Id, Type="Course" }, htmlAttributes: null)
@@ -173,15 +173,14 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>
         }
 
     </table>
-
-
+    *@
 
 
 
