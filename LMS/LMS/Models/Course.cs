@@ -10,10 +10,12 @@ namespace LMS.Models
     public class Course : IEntity
     {
 
-        public Course() {
+        public Course()
+        {
             this.Documents = new List<Document>();
-            this.Modules = new List<Module>();
+            this.Modules   = new List<Module>();
         }
+
         public Guid Id { get; set; }
         public string Description { get; set; }
 
@@ -26,9 +28,6 @@ namespace LMS.Models
         //[DataType(DataType.Date)]
         public DateTime End { get; set; }
 
-
-        public virtual List<Module> Modules { get; set; }
-
         public DateTime? LunchStart { get; set; }
 
         public DateTime? LunchEnd { get; set; }
@@ -38,6 +37,7 @@ namespace LMS.Models
 
         public DateTime? DayEnd { get; set; }
 
+        public virtual List<Module> Modules { get; set; }
         public virtual List<ApplicationUser> Students { get; set; }
         public List<Document> Documents { get; set; }
     }

@@ -19,10 +19,10 @@
                 </button>
 
                 @*<a href="~/Home/index.cshtml">
-                    <img class="img-responsive navbar-brand"
-                         src="~/images/logo-lexicon2.gif"
-                         title="Lexicon Learning Managment System" />
-                </a>*@
+                        <img class="img-responsive navbar-brand"
+                             src="~/images/logo-lexicon2.gif"
+                             title="Lexicon Learning Managment System" />
+                    </a>*@
 
                 @Html.ActionLink("Lexicon LMS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
@@ -30,8 +30,8 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Course", "Index", "Courses")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Course info and students", "CourseStudentList/8c08b986-7fa6-4d0c-84c0-c16e0e06ab55", "Courses")</li>
+                    <li>@Html.ActionLink("Modules", "Index", "Modules")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -39,11 +39,19 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        @*<hr />*@
-        <footer class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+        <hr />
+        @*<@*footer class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
             <div class="container">
                 <div class="navbar-text pull-left">
-                    <p>&copy; @DateTime.Now.Year - Lexicon LMS Application &nbsp; &nbsp; | &nbsp; &nbsp; Created by Group 3</p>
+                    <p>&copy; @DateTime.Now.Year - Lexicon LMS Application &nbsp; &nbsp; | &nbsp; &nbsp; Created by Group 3: Kalle, Lennart, Santana</p>
+                </div>
+            </div>
+        </footer>*@
+
+        <footer>
+            <div class="container">
+                <div class="navbar-text pull-right">
+                    <p>&copy; @DateTime.Now.Year - Lexicon LMS Application &nbsp; &nbsp; | &nbsp; &nbsp; Created by Group 3: Kalle, Lennart, Santana</p>
                 </div>
             </div>
         </footer>

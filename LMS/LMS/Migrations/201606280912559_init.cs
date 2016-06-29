@@ -93,6 +93,10 @@ namespace LMS.Migrations
                         Name = c.String(),
                         Start = c.DateTime(nullable: false),
                         End = c.DateTime(nullable: false),
+                        LunchStart = c.DateTime(),
+                        LunchEnd = c.DateTime(),
+                        DayStart = c.DateTime(),
+                        DayEnd = c.DateTime(),
                     })
                 .PrimaryKey(t => t.Id);
             

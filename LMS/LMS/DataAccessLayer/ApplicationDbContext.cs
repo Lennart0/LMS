@@ -55,8 +55,6 @@ namespace LMS.DataAccessLayer {
         public static ApplicationDbContext Create() {
             return new ApplicationDbContext();
         }
-
-        //public System.Data.Entity.DbSet<LMS.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 
 }

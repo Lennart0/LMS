@@ -49,11 +49,16 @@
         </dd>
 
         <dt>
-           @* @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })*@
+            @* @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })*@
             @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id })*@
         </dt>
 
     </dl>
+
+    @*<div>
+            @Html.ActionLink(linkText: "Registrera lärare", actionName: "Register", controllerName: "Account")
+        </div>*@
+
     <br /><br />
     <h4>Modules</h4>
     @Html.ActionLink(linkText: "Add Module", actionName: "Create", controllerName: "Modules", routeValues: new { id = Model.Id }, htmlAttributes: null)
@@ -94,11 +99,10 @@
                     @Html.DisplayFor(modelItem => item.End)
                 </td>
                 <td>
-                   
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                       @* @Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
+
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
             </tr>
         }
 
