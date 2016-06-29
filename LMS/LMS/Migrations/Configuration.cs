@@ -14,7 +14,7 @@ namespace LMS.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed( LMS.DataAccessLayer.ApplicationDbContext context )
@@ -126,9 +126,8 @@ namespace LMS.Migrations
 
                 //   context.Documents.AddOrUpdate(n => n.Id, doc1);
                 //  context.SaveChanges();
-                if ( user != null )
-                    user.Documents.Add( doc1 );
-                course1.Documents.Add( doc1 );
+                user.Documents.Add(doc1);
+                activity1.Documents.Add(doc1);
 
 
                 //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...

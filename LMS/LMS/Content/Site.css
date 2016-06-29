@@ -23,6 +23,31 @@ textarea {
     max-width: 280px;
 }
 
-#BackToList{
-    float: right;
+#courseLink{
+    color: black;
+}
+
+#courseLink:hover{
+    color: #ff6a00;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+#tableCell{
+    width: 300px;
+}
+
+.text-description{
+    max-width: 650px;
+    display: inline-block;
+    text-align:justify;
+}
+
+.table-width{
+     max-width: 650px;
+}
+
+#tableCol1, #tableCol2, #tableCol3, #tableCol4{
+    background: #908e8e;
+    color: #ffffff;
 }

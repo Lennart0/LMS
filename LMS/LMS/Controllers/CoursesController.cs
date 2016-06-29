@@ -11,6 +11,7 @@ using LMS.Models;
 
 namespace LMS.Controllers
 {
+    [Authorize]
     public class CoursesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -87,7 +88,7 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,Name")] Course course)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,Start,End")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -138,13 +139,28 @@ namespace LMS.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ActionResult CourseStudentList(Guid id)
+        public ActionResult CourseStudentList(Guid? id)
         {
-            Course course = db.Courses.Find(id);
+            Course course = id != null ? db.Courses.Find(id.Value) : null;
+            ViewBag.CourseName = course != null ? course.Name : "";
+            ViewBag.CourseDescription = course != null ? course.Description : "";
 
-            var studentList = course.Students.ToList();
+            var studentList = course?.Students.ToList();
 
             return View(studentList);
         }
+
+        // GET: Courses
+        [Authorize(Users = "student1@test.se")]
+        public ActionResult CourseInfoAndStudents()
+        {
+            //Guid id = "8c08b986-7fa6-4d0c-84c0-c16e0e06ab55";
+            //Course course = id != null ? db.Courses.Find(id.Value) : null;
+            //ViewBag.CourseName = course.Name;
+            //ViewBag.CourseDescription = course.Description;
+
+            return View(db.Courses.ToList());
+        }
     }
 }
+
