@@ -29,13 +29,13 @@
         <th></th>
     </tr-->
 
-
+    @{DateTime today = DateTime.Now.Date;}
     @foreach ( var item in Model ) {
         
         <tr>
             <td colspan="2">
                 <a id="@item.Id"></a>
-                @Html.DisplayFor( modelItem => item.Name )
+                <span style="font-weight: bold">@Html.DisplayFor( modelItem => item.Name )</span>
             </td>
             <!--td>
                 @*Html.DisplayFor( modelItem => item.Description )*@
@@ -49,9 +49,9 @@
                 @*Html.DisplayFor( modelItem => item.End )*@
             </td-->
             <td>
-                @*Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
-                @Html.ActionLink( "Details", "Details", new { id = item.Id } )
-                @*Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+                @*Html.ActionLink("Ändra", "Edit", new { id=item.Id }) |*@
+                @Html.ActionLink( "Info", "Details", new { id = item.Id } )
+                @*Html.ActionLink("Ta bort", "Delete", new { id=item.Id })*@
             </td>
         </tr>
 
@@ -59,8 +59,8 @@
         foreach ( var activity in item.Activities.OrderBy(a=>a.Start) ) {
             if( activity.Start.Date != activityDate.Date ) {
                 activityDate = activity.Start;
-                <tr><td colspan="4" class="@(DateTime.Now.Date==activityDate.Date?"today":"")">
-                    @activity.Start.ToString("dddd d MMMM")
+                <tr><td colspan="4" >  <!-- class="@**@(DateTime.Now.Date==activityDate.Date?"today":"")"  <span @**@(activityDate.Date==today?"style=\"font-weight: bold\"":"")> --> 
+                        <span style="@(DateTime.Now.Date==activityDate.Date?"font-weight: bold":"")">@activity.Start.ToString( "dddd d MMMM" )</span>
                     @*Html.DisplayFor( x => activity.Start.Date )*@
                 </td></tr>
             }
@@ -75,6 +75,9 @@
                 <td colspan="3">
                     @Html.DisplayFor( x => activity.Name )
                 </td>
+                <td>
+                    @Html.ActionLink( "Info", "Details", "Activities", new { id = activity.Id }, null )
+                </td>
             </tr>
             <tr>
                 <td colspan="4">
@@ -83,5 +86,7 @@
             </tr>
         }
     }
-
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
 </table>
