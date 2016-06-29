@@ -19,57 +19,56 @@ namespace LMS.Migrations
 
         protected override void Seed( LMS.DataAccessLayer.ApplicationDbContext context )
         {
-            var courseGuid = new Guid("91838d6c-ec99-4b97-b930-ea99d3e52967");
+            var courseGuid = new Guid( "91838d6c-ec99-4b97-b930-ea99d3e52967" );
 
 
-            if (context.Courses.Count(n=> n.Id == courseGuid)==0) {
+            if ( context.Courses.Count( n => n.Id == courseGuid ) == 0 ) {
                 var y = context.Courses.ToList();
                 var course1 = new Course {
                     Id = courseGuid,
                     Name = "Modern burklax produktion",
                     Description = "conservering och lax",
-                    Start = new DateTime(2016, 11, 3),
-                    End = new DateTime(2017, 4, 16)
+                    Start = new DateTime( 2016, 11, 3 ),
+                    End = new DateTime( 2017, 4, 16 )
                 };
 
                 var module1 = new Module {
-                    Id = new Guid("cb817e0c-4df2-490a-a188-4140c9b07ca5"),
+                    Id = new Guid( "cb817e0c-4df2-490a-a188-4140c9b07ca5" ),
                     Name = "Conservering 101",
                     Description = "Inläggning och konservering",
-                    Start = new DateTime(2016, 11, 4),
-                    End = new DateTime(2017, 2, 25),
-
+                    Start = new DateTime( 2016, 11, 4 ),
+                    End = new DateTime( 2017, 2, 25 ),
                 };
 
                 var activity1 = new Activity {
-                    Id = new Guid("c186df12-1220-4c30-90e2-5bd095be3ac3"),
+                    Id = new Guid( "c186df12-1220-4c30-90e2-5bd095be3ac3" ),
                     Name = "förpackningar och burkar A",
-                    Start = new DateTime(2016, 11, 3, 8, 30, 0),
-                    End = new DateTime(2016, 11, 3, 17, 0, 0),
+                    Start = new DateTime( 2016, 11, 3, 8, 30, 0 ),
+                    End = new DateTime( 2016, 11, 3, 17, 0, 0 ),
 
                 };
 
 
                 var activity2 = new Activity {
-                    Id = new Guid("40de38aa-ff3f-4d45-b8df-b7c1cb81c147"),
+                    Id = new Guid( "40de38aa-ff3f-4d45-b8df-b7c1cb81c147" ),
                     Name = "förpackningar och burkar B",
-                    Start = new DateTime(2016, 11, 4, 8, 30, 0),
-                    End = new DateTime(2016, 11, 4, 17, 0, 0),
+                    Start = new DateTime( 2016, 11, 4, 8, 30, 0 ),
+                    End = new DateTime( 2016, 11, 4, 17, 0, 0 ),
 
                 };
 
                 var activity3 = new Activity {
-                    Id = new Guid("08952d1c-f8ea-43db-a2b1-bff489acd9a7"),
+                    Id = new Guid( "08952d1c-f8ea-43db-a2b1-bff489acd9a7" ),
                     Name = "Konservering ämnen",
-                    Start = new DateTime(2016, 11, 5, 8, 30, 0),
-                    End = new DateTime(2016, 11, 5, 17, 0, 0),
+                    Start = new DateTime( 2016, 11, 5, 8, 30, 0 ),
+                    End = new DateTime( 2016, 11, 5, 17, 0, 0 ),
 
                 };
                 var activity4 = new Activity {
-                    Id = new Guid("d6760b11-13e0-40c2-b27f-9ab4bfda3242"),
+                    Id = new Guid( "d6760b11-13e0-40c2-b27f-9ab4bfda3242" ),
                     Name = "Konservering ämnen och matsäkerhet",
-                    Start = new DateTime(2016, 11, 6, 8, 30, 0),
-                    End = new DateTime(2016, 11, 6, 17, 0, 0),
+                    Start = new DateTime( 2016, 11, 6, 8, 30, 0 ),
+                    End = new DateTime( 2016, 11, 6, 17, 0, 0 ),
 
                 };
 
@@ -78,27 +77,27 @@ namespace LMS.Migrations
                 module1.Activities = new List<Activity> { activity1, activity2, activity3, activity4 };
 
                 var module2 = new Module {
-                    Id = new Guid("63e5cc14-3fff-48b5-b640-a0f5f792512b"),
+                    Id = new Guid( "63e5cc14-3fff-48b5-b640-a0f5f792512b" ),
                     Name = "Fiskrensning och Hygien",
                     Description = "Fiskrensning och Hygien",
-                    Start = new DateTime(2017, 2, 26),
-                    End = new DateTime(2017, 3, 11),
+                    Start = new DateTime( 2017, 2, 26 ),
+                    End = new DateTime( 2017, 3, 11 ),
 
                 };
                 var module3 = new Module {
-                    Id = new Guid("2bccc925-b668-40b5-bad4-66676edcf2f2"),
+                    Id = new Guid( "2bccc925-b668-40b5-bad4-66676edcf2f2" ),
                     Name = "Automations system Grund",
                     Description = "Grundläggande kurs i hur man jobbar med automation system för konsevburkar.",
-                    Start = new DateTime(2017, 3, 12),
-                    End = new DateTime(2017, 6, 26),
+                    Start = new DateTime( 2017, 3, 12 ),
+                    End = new DateTime( 2017, 6, 26 ),
 
                 };
                 var module4 = new Module {
-                    Id = new Guid("6bc0323b-a2f1-44eb-8ef3-e56605c3c743"),
+                    Id = new Guid( "6bc0323b-a2f1-44eb-8ef3-e56605c3c743" ),
                     Name = "Burklax 101",
                     Description = "Burlax ABs förtags specifika kurs.",
-                    Start = new DateTime(2017, 6, 27),
-                    End = new DateTime(2017, 7, 13),
+                    Start = new DateTime( 2017, 6, 27 ),
+                    End = new DateTime( 2017, 7, 13 ),
 
                 };
 
@@ -106,7 +105,7 @@ namespace LMS.Migrations
                 //context.SaveChanges();
                 course1.Modules = new List<Module> { module1, module2, module3, module4 };
 
-                var user = context.Users.FirstOrDefault(n => n.Id == "679a290d-8b3b-4488-8ffb-7dea7a44efca");
+                var user = context.Users.FirstOrDefault( n => n.Id == "679a290d-8b3b-4488-8ffb-7dea7a44efca" );
 
 
                 LMS.Helpers.DefaultUserAndRoleStartupHelper.Create();
@@ -114,7 +113,7 @@ namespace LMS.Migrations
 
 
                 var doc1 = new Document {
-                    Id = new Guid("f6128c63-d52c-4b70-a1a1-f7ca9040a044"),
+                    Id = new Guid( "f6128c63-d52c-4b70-a1a1-f7ca9040a044" ),
                     Type = DocumentType.Info,
                     IsLocal = false,
                     Url = "www.burklaxAB.se/kursInfo/intro.pdf",
@@ -131,14 +130,99 @@ namespace LMS.Migrations
                 activity1.Documents.Add(doc1);
 
 
-            //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...
+                //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...
 
 
-                context.Courses.AddOrUpdate(p => p.Id, course1);
+                context.Courses.AddOrUpdate( p => p.Id, course1 );
                 context.SaveChanges();
 
             }
 
+
+            /***************************************************************/
+
+            //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...
+            Guid newCourseId1 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef01" );
+            Guid newModuleId1 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef02" );
+            Guid newModuleId2 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef03" );
+            Guid newActivityId1 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef04" );
+            Guid newActivityId2 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef05" );
+            Guid newActivityId3 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef06" );
+            Guid newActivityId4 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef07" );
+
+            Course course10 = null;
+            Module module10 = null;
+            Module module20 = null;
+
+            context.Courses.AddOrUpdate( c => c.Id,
+                course10 = new Course {
+                    Id = newCourseId1,
+                    Name = "Test-kurs1",
+                    Description = "Beskrivning av test-kurs 1...",
+                    Start = new DateTime( 2016, 6, 1 ),
+                    End = new DateTime( 2016, 9, 30 ),
+                    DayStart = new DateTime( 2016, 6, 1, 8, 30, 0 ),
+                    DayEnd = new DateTime( 2016, 6, 1, 17, 0, 0 ),
+                    LunchStart = new DateTime( 2016, 6, 1, 12, 0, 0 ),
+                    LunchEnd = new DateTime( 2016, 6, 1, 13, 0, 0 ),
+                }
+            );
+
+
+            context.Modules.AddOrUpdate( m => m.Name,
+                module10 = new Module {
+                    Id = newModuleId1,
+                    Name = "Testmodul1",
+                    Description = "Beskrivning av testmodul 1...",
+                    Start = new DateTime( 2016, 6, 1 ),
+                    End = new DateTime( 2016, 6, 30 ),
+                    Course = course10,
+                },
+                module20 = new Module {
+                    Id = newModuleId2,
+                    Name = "Testmodul2",
+                    Description = "Beskrivning av testmodul 2...",
+                    Start = new DateTime( 2016, 7, 1 ),
+                    End = new DateTime( 2016, 7, 31 ),
+                    Course = course10,
+                }
+            );
+
+            context.Activies.AddOrUpdate( a => a.Id,
+                new Activity {
+                    Id = newActivityId1,
+                    Name = "Test-aktivitet1",
+                    Description = "Beskrivning av test-aktivitet 1...",
+                    Start = new DateTime( 2016, 6, 1, 8, 30, 0 ),
+                    End = new DateTime( 2016, 6, 1, 17, 0, 0 ),
+                    Module = module10,
+                },
+                new Activity {
+                    Id = newActivityId2,
+                    Name = "Test-aktivitet2",
+                    Description = "Beskrivning av test-aktivitet 2...",
+                    Start = new DateTime( 2016, 6, 2, 8, 30, 0 ),
+                    End = new DateTime( 2016, 6, 2, 12, 0, 0 ),
+                    Module = module10,
+                },
+                new Activity {
+                    Id = newActivityId3,
+                    Name = "Test-aktivitet3",
+                    Description = "Beskrivning av test-aktivitet 3...",
+                    Start = new DateTime( 2016, 6, 2, 13, 0, 0 ),
+                    End = new DateTime( 2016, 6, 2, 17, 0, 0 ),
+                    Module = module10,
+                },
+                new Activity {
+                    Id = newActivityId4,
+                    Name = "Test-aktivitet4",
+                    Description = "Beskrivning av test-aktivitet 4...",
+                    Start = new DateTime( 2016, 7, 1, 8, 30, 0 ),
+                    End = new DateTime( 2016, 7, 1, 17, 0, 0 ),
+                    Module = module20,
+                }
+            );
+
         }
-        }
+    }
 }

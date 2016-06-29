@@ -7,6 +7,7 @@ namespace LMS.Models {
     public enum DocumentType {
         Info, Upgift,Annan //?? lite osäker på om vi alla hade samma åsikt här vi får diskutera så att vi inte har samma förväntningar tror jag
     }
+    
     public class Document {
         public Guid Id { get; set; }
         public DocumentType Type { get; set; }

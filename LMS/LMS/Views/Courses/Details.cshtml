@@ -54,11 +54,6 @@
         </dt>
 
     </dl>
-
-    @*<div>
-            @Html.ActionLink(linkText: "Registrera lärare", actionName: "Register", controllerName: "Account")
-        </div>*@
-
     <br /><br />
     <h4>Modules</h4>
     @Html.ActionLink(linkText: "Add Module", actionName: "Create", controllerName: "Modules", routeValues: new { id = Model.Id }, htmlAttributes: null)
@@ -108,9 +103,8 @@
 
     </table>
     <br /><br />
-    <h4>Students</h4>
-    @Html.ActionLink(linkText: "Add student", actionName: "Register", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)
-
+    <h4>Elever</h4>
+    @Html.ActionLink(linkText: "Lägg till student", actionName: "Register", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)
     <table class="table">
         <tr>
             <th>
@@ -139,13 +133,15 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>
         }
 
     </table>
+    *@
+
 
 
 </div>
