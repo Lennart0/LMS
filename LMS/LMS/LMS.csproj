@@ -167,6 +167,7 @@
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
+    <Compile Include="Controllers\AssignmentsController.cs" />
     <Compile Include="Helpers\DefaultUserAndRoleStartupHelper.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -272,6 +273,7 @@
     <Content Include="Views\Modules\Index.cshtml" />
     <Content Include="Views\Courses\CourseStudentList.cshtml" />
     <Content Include="Views\Courses\CourseInfoAndStudents.cshtml" />
+    <Content Include="Views\Assignments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
