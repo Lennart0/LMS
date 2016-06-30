@@ -8,7 +8,7 @@ namespace LMS.Models {
     public class Module : IEntity {
 
         public Module() {
-            this.Documents = new List<Document>();
+            this.Documents  = new List<Document>();
             this.Activities = new List<Activity>();
         }
         public string Description {

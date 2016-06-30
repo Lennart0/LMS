@@ -55,11 +55,12 @@ namespace LMS.Controllers
                 module.Id = Guid.NewGuid();
                 db.Modules.Add(module);
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
+                //return RedirectToAction("Index");
+            }
             return View(module);
         }
+
 
         // GET: Modules/Edit/5
         public ActionResult Edit(Guid? id)
@@ -69,6 +70,8 @@ namespace LMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Module module = db.Modules.Find(id);
+            ViewBag.EditModule = module.Name;
+
             if (module == null)
             {
                 return HttpNotFound();
@@ -87,9 +90,16 @@ namespace LMS.Controllers
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Details", "Courses", new { id = module.Id.ToString()});
+                //return RedirectToAction("GoPreviousView", new { r = Request.Url.ToString() });
             }
             return View(module);
+        }
+
+        public ActionResult GoPreviousView()
+        {
+            return Redirect(Request.QueryString["r"]);
         }
 
         // GET: Modules/Delete/5
@@ -99,7 +109,10 @@ namespace LMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Module module = db.Modules.Find(id);
+            ViewBag.DeleteModule = module.Name;
+
             if (module == null)
             {
                 return HttpNotFound();
@@ -117,6 +130,7 @@ namespace LMS.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
 
         protected override void Dispose(bool disposing)
         {

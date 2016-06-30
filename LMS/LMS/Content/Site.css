@@ -35,6 +35,8 @@ textarea {
 
 #tableCell{
     width: 300px;
+    display: inline-block;
+    text-align:justify;
 }
 
 .text-description{
@@ -50,4 +52,13 @@ textarea {
 #tableCol1, #tableCol2, #tableCol3, #tableCol4{
     background: #908e8e;
     color: #ffffff;
+}
+
+.navbar-custom{
+    height: 35px;
+    color: #ffffff;
+    text-align:center;
+    padding-top: 8px;
+    font-size: 12px;
+    margin-top: 30px;
 }

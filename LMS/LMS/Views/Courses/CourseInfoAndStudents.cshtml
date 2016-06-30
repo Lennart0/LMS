@@ -1,52 +1,41 @@
-﻿
-
-@model IEnumerable<LMS.Models.Course>
+﻿@model  IEnumerable<LMS.Models.ApplicationUser>
 
 @{
     ViewBag.Title = "CourseInfoAndStudents";
 }
 
+<h2>Course: <span class="text-success">@ViewBag.CourseName</span></h2>
 <br />
-<h3>Course register</h3>
-<br />
-<table class="table table-striped">
+<h4>Description</h4>
+<div class="text-description">
+    @ViewBag.CourseDescription
+</div>
+
+<br /><br />
+
+<h4>Students</h4>
+<table class="table table-responsive table-striped table-width">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
+        <th id="tableCol2">
+            @Html.DisplayNameFor(model => model.FullName)
         </th>
 
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
+        <th id="tableCol2">
+            @Html.DisplayNameFor(model => model.Email)
         </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.Start)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.End)
-        </th>
-
-        <th></th>
     </tr>
-
-    @foreach (var item in Model)
+    @if (Model != null)
     {
-        <tr>
-            <td>
-                @Html.ActionLink(linkText: item.Name, actionName: "CourseStudentList", controllerName: "Courses", routeValues: new { id = item.Id }, htmlAttributes: new { @id = "courseLink" })
-            </td>
-            <td id="tableCell">
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Start)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.End)
-            </td>
-        </tr>
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+            </tr>
+        }
     }
-
 </table>
-
-
