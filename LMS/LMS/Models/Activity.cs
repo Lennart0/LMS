@@ -26,6 +26,6 @@ namespace LMS.Models {
         }
         public DateTime End { get; set; }
         public virtual Module Module { get; set; }
-        public List<Document> Documents { get; set; }
+        public virtual List<Document> Documents { get; set; }
     }
 }
