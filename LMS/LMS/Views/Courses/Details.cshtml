@@ -141,14 +141,40 @@
 
     </table>
   
+    <h4>Kurs-dokument</h4>
   
 @Html.Partial("~/Views/Shared/ModelFileView.cshtml",
     new LMS.Models.FileModalPartialViewModel {
         Id = Model.Id,
         Type =LMS.Models.DocumentTargetEntity.Course,
-        PostBackChange ="alert('weeee')" })
+        PostBackChange ="location.reload()" })
+
+    <ul>
+        @foreach ( var doc in Model.Documents ) {
+            if ( string.IsNullOrWhiteSpace( doc.Url ) ) {
+                continue;
+            }
+            <li>
+                @{
+                    string url = doc.Url;
+                    int ix = url != null ? url.LastIndexOf( '/' ) : -1;
+                    string name = url;
+                    if ( ix >= 0 ) {
+                        name = name.Substring( ix + 1 );
+                    }
+                    else {
+                        url = "~/Documents/Course/" + url;
+                    }
+                }
+                <a href="@url" download>@name</a>
+            </li>
+        }
+    </ul>
 
 
+
+
+    <p><a href="~/Documents/Course/userStories.txt" download>Nerladdnings-test</a></p>
 
 
 </div>
