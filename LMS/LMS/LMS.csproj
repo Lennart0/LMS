@@ -207,6 +207,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\logo-lexicon2.gif" />
+    <Compile Include="Models\FileModalPartialViewModel.cs" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -272,6 +273,13 @@
     <Content Include="Views\Modules\Index.cshtml" />
     <Content Include="Views\Courses\CourseStudentList.cshtml" />
     <Content Include="Views\Courses\CourseInfoAndStudents.cshtml" />
+    <Content Include="Views\Document\Add.cshtml" />
+    <Content Include="Views\Activities\Create.cshtml" />
+    <Content Include="Views\Activities\Delete.cshtml" />
+    <Content Include="Views\Activities\Details.cshtml" />
+    <Content Include="Views\Activities\Edit.cshtml" />
+    <Content Include="Views\Activities\Index.cshtml" />
+    <Content Include="Views\Shared\ModelFileView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

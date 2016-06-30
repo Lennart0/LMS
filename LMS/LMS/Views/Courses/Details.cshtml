@@ -141,6 +141,13 @@
 
     </table>
   
+  
+@Html.Partial("~/Views/Shared/ModelFileView.cshtml",
+    new LMS.Models.FileModalPartialViewModel {
+        Id = Model.Id,
+        Type =LMS.Models.DocumentTargetEntity.Course,
+        PostBackChange ="alert('weeee')" })
+
 
 
 
