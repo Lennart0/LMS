@@ -163,8 +163,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Controllers\ActivitiesController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
+    <Compile Include="Controllers\AssignmentsController.cs" />
     <Compile Include="Helpers\DefaultUserAndRoleStartupHelper.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -186,6 +189,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
+    <Compile Include="Models\AddDocumentViewModel.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Document.cs" />
@@ -269,9 +273,14 @@
     <Content Include="Views\Modules\Index.cshtml" />
     <Content Include="Views\Courses\CourseStudentList.cshtml" />
     <Content Include="Views\Courses\CourseInfoAndStudents.cshtml" />
+    <Content Include="Views\Assignments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Documents\Activity\" />
+    <Folder Include="Documents\Course\" />
+    <Folder Include="Documents\Module\" />
+    <Folder Include="Documents\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

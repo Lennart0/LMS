@@ -146,8 +146,8 @@ namespace LMS.Controllers
         public ActionResult CourseStudentList(Guid? id)
         {
             Course course = id != null ? db.Courses.Find(id.Value) : null;
-            ViewBag.CourseName = course.Name;
-            ViewBag.CourseDescription = course.Description;
+            ViewBag.CourseName = course != null ? course.Name : "";
+            ViewBag.CourseDescription = course != null ? course.Description : "";
 
             var studentList = course?.Students.ToList();
 
