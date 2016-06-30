@@ -33,7 +33,7 @@ namespace LMS.Migrations
             Course course10 = null;
             Module module10 = null;
             Module module20 = null;
-
+            /*
             context.Courses.AddOrUpdate( c => c.Id,
                 course10 = new Course {
                     Id = newCourseId1,
@@ -158,7 +158,7 @@ namespace LMS.Migrations
                     User = user
                 }
             );
-
+            */
             /********************************************/
 
             var courseGuid = new Guid( "91838d6c-ec99-4b97-b930-ea99d3e52967" );
@@ -269,6 +269,7 @@ namespace LMS.Migrations
                 //  context.SaveChanges();
                 if ( user != null )
                     user.Documents.Add( doc1 );
+
                 activity1.Documents.Add( doc1 );
 
 
