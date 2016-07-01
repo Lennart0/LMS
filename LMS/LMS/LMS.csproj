@@ -168,6 +168,7 @@
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Controllers\AssignmentsController.cs" />
+    <Compile Include="Helpers\CourseDays.cs" />
     <Compile Include="Helpers\DefaultUserAndRoleStartupHelper.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
