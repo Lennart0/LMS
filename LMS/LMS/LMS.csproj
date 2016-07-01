@@ -186,10 +186,15 @@
     <Compile Include="Migrations\201606280912559_init.Designer.cs">
       <DependentUpon>201606280912559_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607010740235_AssignmentSubmission_and_navprop_ids_added.cs" />
+    <Compile Include="Migrations\201607010740235_AssignmentSubmission_and_navprop_ids_added.Designer.cs">
+      <DependentUpon>201607010740235_AssignmentSubmission_and_navprop_ids_added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\AddDocumentViewModel.cs" />
+    <Compile Include="Models\AssignmentSubmission.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Document.cs" />
@@ -301,6 +306,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201606280912559_init.resx">
       <DependentUpon>201606280912559_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607010740235_AssignmentSubmission_and_navprop_ids_added.resx">
+      <DependentUpon>201607010740235_AssignmentSubmission_and_navprop_ids_added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -25,7 +25,9 @@ namespace LMS.Models {
             /// </summary>
         public bool IsLocal { get; set; }
 
+        public string UserId { get; set; }
         public ApplicationUser User { get; set; }
+        public Guid? ActivityId { get; set; }
         public Activity Activity { get; set; }
         public DateTime UploadDate { get; set; }
         public DateTime PublishDate { get; set; }
