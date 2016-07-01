@@ -11,6 +11,7 @@ using LMS.Models;
 
 namespace LMS.Controllers
 {
+    [Authorize]
     public class ScheduleController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LMS.Models;
-
+using System.Data.Entity;
 namespace LMS.Controllers {
     [Authorize]
     public class DocumentController : Controller {
@@ -12,27 +12,75 @@ namespace LMS.Controllers {
 
         // GET: Document
         public ActionResult Add(Guid EntityId, Models.DocumentTargetEntity entityType) {
-
+            var user = db.Users.First(n => n.Email == User.Identity.Name);
+            List<DocumentItem> items = new List<DocumentItem>();
             var entityName = "";
             switch (entityType) {
                 case Models.DocumentTargetEntity.User:
                     entityName = db.Users.FirstOrDefault(n => n.Id == EntityId.ToString()).UserName;
+                    items = 
+                        userPrivlageFileter(
+                            db.Documents.Where(n => n.User.Id == EntityId.ToString()) , user)
+                            .Select(n => new DocumentItem() {
+                                URL = n.Url,
+                                RequiresUpload =false,
+                                SelectionMechanic = DocumentSelectionMechanic.Url,
+                                Owner = n.User.FullName,
+                                Status = DocumentStatus.Yellow,
+                                StatusText ="test" }).ToList();
                     break;
                 case Models.DocumentTargetEntity.Activity:
                     entityName = db.Activies.FirstOrDefault(n => n.Id == EntityId).Name;
+                    items =
+                     userPrivlageFileter(
+                         db.Documents.Where(n => n.Activity.Id == EntityId), user)
+                         .Select(n => new DocumentItem() {
+                             URL = n.Url,
+                             RequiresUpload = false,
+                             SelectionMechanic = DocumentSelectionMechanic.Url,
+                             Owner = n.User.FullName,
+                             Status = DocumentStatus.Yellow,
+                             StatusText = "test"
+                         }).ToList();
                     break;
                 case Models.DocumentTargetEntity.Module:
                     entityName = db.Modules.FirstOrDefault(n => n.Id == EntityId).Name;
+                    items =
+                     userPrivlageFileter(
+                         db.Documents.Where(n => n.Module.Id == EntityId), user)
+                         .Select(n => new DocumentItem() {
+                             URL = n.Url,
+                             RequiresUpload = false,
+                             SelectionMechanic = DocumentSelectionMechanic.Url,
+                             Owner = n.User.FullName,
+                             Status = DocumentStatus.Yellow,
+                             StatusText = "test"
+                         }).ToList();
                     break;
                 case Models.DocumentTargetEntity.Course:
                     entityName = db.Courses.FirstOrDefault(n => n.Id == EntityId).Name;
+                    items =
+                     userPrivlageFileter(
+                         db.Documents.Where(n => n.Course.Id == EntityId),user)
+                         .Select(n => new DocumentItem() {
+                             URL = n.Url,
+                             RequiresUpload = false,
+                             SelectionMechanic = DocumentSelectionMechanic.Url,
+                             Owner = n.User.FullName,
+                             Status = DocumentStatus.Yellow,
+                             StatusText = "test"
+                         }).ToList();
                     break;
                 default:
                     entityName = "";
+                    items = new List<DocumentItem>();
                     break;
             }
 
-            var user = db.Users.First(n => n.Email == User.Identity.Name);
+            if (items == null) {
+                items = new List<DocumentItem>();
+            }
+
 
             return View(new Models.AddDocumentsViewModel {
                 EntityId = EntityId,
@@ -40,17 +88,23 @@ namespace LMS.Controllers {
                 EntityType = entityType,
                 Done = false,
                 ComboItems = LMS.Models.ComboBoxListItemHelper.GetOptions(typeof(Models.DocumentSelectionMechanic)),
-                Items = new List<Models.DocumentItem>() {
-                    // new Models.DocumentItem { Owner = user.FullName, SelectionMechanic= Models.DocumentSelectionMechanic.File, RequiresUpload = true },
-                  //   new Models.DocumentItem { Owner = user.FullName, SelectionMechanic= Models.DocumentSelectionMechanic.InternalUrlLookup, RequiresUpload = true },
-                     new Models.DocumentItem { Owner = user.FullName, SelectionMechanic= Models.DocumentSelectionMechanic.Url, RequiresUpload = true }
-                }
+                Items =   items
+
             });
+        }
+
+        private IQueryable<Document> userPrivlageFileter(IQueryable<Document> queryable,ApplicationUser user) {
+            return queryable;
         }
 
         [HttpPost]
         public ActionResult Add(Models.AddDocumentsViewModel model) {
             var user = db.Users.First(n => n.Email == User.Identity.Name);
+
+            if (model.Items == null) {
+                model.Items = new List<DocumentItem>();
+            }
+
 
 
             if (!model.Done) {
@@ -100,6 +154,9 @@ namespace LMS.Controllers {
                 Id = Guid.NewGuid(),
                 IsLocal = false,
                 Activity = activity,
+                 Course = course,
+                  Module = module,
+                  
                 User = user,
                 Url = item.URL,
                 UploadDate = DateTime.Now,

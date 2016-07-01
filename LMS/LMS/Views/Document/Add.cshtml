@@ -1,6 +1,7 @@
 ﻿@model LMS.Models.AddDocumentsViewModel
 @{
     ViewBag.Title = "Add";
+  Layout = null;
 }
 
 @Html.DisplayFor(n => n.EntityType): {@Html.DisplayFor(n => n.EntityId)} <br />
@@ -17,12 +18,12 @@
             <div class="item">
                 @switch (Model.Items[i].SelectionMechanic) {
                 case LMS.Models.DocumentSelectionMechanic.File:
-                @*
+                @*    @Html.EditorFor(n => n.Items[i].URL)   *@
     @Html.TextBoxFor(n => n.Items[i].File,  new { type = "file" })
-                *@                    @Html.EditorFor(n => n.Items[i].URL)
+                      
                         break;
                     case LMS.Models.DocumentSelectionMechanic.InternalUrlLookup:
-                @Html.EditorFor(n => n.Items[i].URL) <button>Lookup</button>
+                @Html.EditorFor(n => n.Items[i].URL) <a href="#">Lookup</a>
                 break;
                 case LMS.Models.DocumentSelectionMechanic.Url:
                 @Html.EditorFor(n => n.Items[i].URL)

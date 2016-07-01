@@ -3,17 +3,12 @@
 @{
     ViewBag.Title = "Details";
 }
-<br /><br /><br />
-<h2>Course Details</h2>
+<br />
+<h2>Course Details: &nbsp; &nbsp; @ViewBag.CourseName</h2>
+
 
 <div>
-    @Html.ActionLink("Back to Course Register", "Index")
-</div>
-
-<div>
-    @*<h4>Course</h4>*@
     <hr />
-
 
     <dl class="dl-horizontal">
         <dt>
@@ -29,7 +24,9 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            <span class="text-description">
+                @Html.DisplayFor(model => model.Description)
+            </span>
         </dd>
 
         <dt>
@@ -52,28 +49,29 @@
             @* @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })*@
             @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id })*@
         </dt>
-
     </dl>
-    <br /><br />
+
+    <br /><hr /><br />
+
     <h4>Modules</h4>
     @Html.ActionLink(linkText: "Add Module", actionName: "Create", controllerName: "Modules", routeValues: new { id = Model.Id }, htmlAttributes: null)
-    <table class="table">
+    <table class="table table-responsive table-striped">
         <tr>
-            <th>
+            <th id="tableCol1">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
 
-            <th>
+            <th id="tableCol1">
                 @Html.DisplayNameFor(model => model.Description)
             </th>
 
-            <th>
+            <th id="tableCol1">
                 @Html.DisplayNameFor(model => model.Start)
             </th>
-            <th>
+            <th id="tableCol1">
                 @Html.DisplayNameFor(model => model.End)
             </th>
-            <th></th>
+            <th id="tableCol1"></th>
         </tr>
 
         @foreach (var item in Model.Modules)
@@ -94,29 +92,29 @@
                     @Html.DisplayFor(modelItem => item.End)
                 </td>
                 <td>
-
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Edit", "Edit", "Modules", new { id = item.Id, returnUrl = "/Courses/Details/" + Model.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Modules", new { id = item.Id }, null)
+         
                 </td>
             </tr>
         }
 
     </table>
-    <br /><br />
-    <h4>Elever</h4>
-    @Html.ActionLink(linkText: "Lägg till student", actionName: "Register", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)
-    <table class="table">
+
+    <br /><hr /><br />
+
+    <h4>Students</h4>
+    @Html.ActionLink(linkText: "Add student", actionName: "Register", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)
+
+    <table class="table table-responsive table-striped table-width">
         <tr>
-            <th>
+            <th id="tableCol2">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th id="tableCol2">
                 @Html.DisplayNameFor(model => model.Students.First().Email)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Students.First().PhoneNumber)
-            </th>
-            <th></th>
+            @*<th id="tableCol2"></th>*@
         </tr>
 
         @foreach (var item in Model.Students)
@@ -128,23 +126,53 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
+                @*<td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
+                </td>*@
             </tr>
         }
 
     </table>
+  
+    <h4>Kurs-dokument</h4>
+  
+@Html.Partial("~/Views/Shared/ModelFileView.cshtml",
+    new LMS.Models.FileModalPartialViewModel {
+        Id = Model.Id,
+        Type =LMS.Models.DocumentTargetEntity.Course,
+        PostBackChange ="location.reload()" })
+
+    <ul>
+        @foreach ( var doc in Model.Documents ) {
+            if ( string.IsNullOrWhiteSpace( doc.Url ) ) {
+                continue;
+            }
+            <li>
+                @{
+                    string url = doc.Url;
+                    int ix = url != null ? url.LastIndexOf( '/' ) : -1;
+                    string name = url;
+                    if ( ix >= 0 ) {
+                        name = name.Substring( ix + 1 );
+                    }
+                    else {
+                        url = "~/Documents/Course/" + url;
+                    }
+                }
+                <a href="@url" download>@name</a>
+            </li>
+        }
+    </ul>
 
 
 
 
+    <p><a href="~/Documents/Course/userStories.txt" download>Nerladdnings-test</a></p>
+
+
+<br /><br />
+<hr />
+<div>
+    @Html.ActionLink("Back to Course Register", "Index")
 </div>
-
-
-

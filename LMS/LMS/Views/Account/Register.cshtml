@@ -4,12 +4,12 @@
     ViewBag.Title = "Register";
 }
 
-<h2>@ViewBag.Title.</h2>
+@*<h2>@ViewBag.Title</h2>*@
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h3>Registrera ny @(Model.CourseId==null?"lärare":"elev till kursen" /*+((Course)ViewBag.Course).Name*/).</h3>
+    <h3>Add a new @(Model.CourseId==null?"teacher":"student into course" /*+((Course)ViewBag.Course).Name*/)</h3>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
 
@@ -53,10 +53,14 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+            <input type="submit" class="btn btn-default" value="Add Student" />
         </div>
     </div>
 }
+
+<div>
+    @Html.ActionLink("Back to previous page", null, null, null, new { href = Request.UrlReferrer })
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
