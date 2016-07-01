@@ -11,9 +11,12 @@ namespace LMS.Models {
     public class Document {
         public Guid Id { get; set; }
         public DocumentType Type { get; set; }
-        public Course Course { get; set; } //possibly include later...
-        public Module Module { get; set; }
-        public Activity Activity { get; set; }
+        public Guid? CourseId { get; set; }
+        public virtual Course Course { get; set; } //possibly include later...
+        public Guid? ModuleId { get; set; }
+        public virtual Module Module { get; set; }
+        public Guid? ActivityId { get; set; }
+        public virtual Activity Activity { get; set; }
 
         /// <summary>
         /// document location local or external as a web accessible url
@@ -25,8 +28,8 @@ namespace LMS.Models {
             /// </summary>
         public bool IsLocal { get; set; }
 
+        public string UserId { get; set; }
         public ApplicationUser User { get; set; }
-   
         public DateTime UploadDate { get; set; }
         public DateTime? PublishDate { get; set; }
     //    public Guid? CourseId { get; internal set; }

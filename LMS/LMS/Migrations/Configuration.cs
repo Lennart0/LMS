@@ -20,6 +20,7 @@ namespace LMS.Migrations
         protected override void Seed( LMS.DataAccessLayer.ApplicationDbContext context )
         {
             ApplicationUser user = null;
+            string userId = "679a290d-8b3b-4488-8ffb-7dea7a44efca";
 
             //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...
             Guid newCourseId1 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef01" );
@@ -29,24 +30,24 @@ namespace LMS.Migrations
             Guid newActivityId2 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef05" );
             Guid newActivityId3 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef06" );
             Guid newActivityId4 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef07" );
-            /*
-        Course course10 = null;
-        Module module10 = null;
-        Module module20 = null;
 
-        context.Courses.AddOrUpdate( c => c.Id,
-            course10 = new Course {
-                Id = newCourseId1,
-                Name = "Test-kurs1",
-                Description = "Beskrivning av test-kurs 1...",
-                Start = new DateTime( 2016, 6, 1 ),
-                End = new DateTime( 2016, 9, 30 ),
-                DayStart = new DateTime( 2016, 6, 1, 8, 30, 0 ),
-                DayEnd = new DateTime( 2016, 6, 1, 17, 0, 0 ),
-                LunchStart = new DateTime( 2016, 6, 1, 12, 0, 0 ),
-                LunchEnd = new DateTime( 2016, 6, 1, 13, 0, 0 ),
-            }
-        );
+            Course course10 = null;
+            Module module10 = null;
+            Module module20 = null;
+
+            context.Courses.AddOrUpdate( c => c.Id,
+                course10 = new Course {
+                    Id = newCourseId1,
+                    Name = "Test-kurs1",
+                    Description = "Beskrivning av test-kurs 1...",
+                    Start = new DateTime( 2016, 6, 1 ),
+                    End = new DateTime( 2016, 9, 30 ),
+                    DayStart = new DateTime( 2016, 6, 1, 8, 30, 0 ),
+                    DayEnd = new DateTime( 2016, 6, 1, 17, 0, 0 ),
+                    LunchStart = new DateTime( 2016, 6, 1, 12, 0, 0 ),
+                    LunchEnd = new DateTime( 2016, 6, 1, 13, 0, 0 ),
+                }
+            );
 
 
         context.Modules.AddOrUpdate( m => m.Name,
@@ -116,49 +117,49 @@ namespace LMS.Migrations
 
         user = context.Users.FirstOrDefault( n => n.Id == "679a290d-8b3b-4488-8ffb-7dea7a44efca" );
 
-        context.Documents.AddOrUpdate( d => d.Id,
-            new TimeSensetiveDocument {
-                Id = newDocId1,
-                Type = DocumentType.Upgift,
-                Activity = act1,
-                PublishDate = DateTime.Now - new TimeSpan(1,0,0,0),
-                DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
-                UploadDate = new DateTime( 2016, 1, 1 ),
-                IsLocal = false,
-                User = user
-            },
-            new TimeSensetiveDocument {
-                Id = newDocId2,
-                Type = DocumentType.Upgift,
-                Activity = act2,
-                PublishDate = DateTime.Now + new TimeSpan( 1, 0, 0, 0 ),
-                DeadLine = (DateTime.Now + new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
-                UploadDate = new DateTime( 2016, 1, 1 ),
-                IsLocal = false,
-                User = user
-            },
-            new TimeSensetiveDocument {
-                Id = newDocId3,
-                Type = DocumentType.Upgift,
-                Activity = act3,
-                PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
-                DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
-                UploadDate = new DateTime( 2016, 1, 1 ),
-                IsLocal = false,
-                User = user
-            },
-            new TimeSensetiveDocument {
-                Id = newDocId4,
-                Type = DocumentType.Upgift,
-                Activity = act4,
-                PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
-                DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
-                UploadDate = new DateTime( 2016, 1, 1 ),
-                IsLocal = false,
-                User = user
-            }
-        );
-        */
+            context.Documents.AddOrUpdate( d => d.Id,
+                new TimeSensetiveDocument {
+                    Id = newDocId1,
+                    Type = DocumentType.Upgift,
+                    Activity = act1,
+                    PublishDate = DateTime.Now - new TimeSpan(1,0,0,0),
+                    DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
+                    UploadDate = new DateTime( 2016, 1, 1 ),
+                    IsLocal = false,
+                    User = user
+                },
+                new TimeSensetiveDocument {
+                    Id = newDocId2,
+                    Type = DocumentType.Upgift,
+                    Activity = act2,
+                    PublishDate = DateTime.Now + new TimeSpan( 1, 0, 0, 0 ),
+                    DeadLine = (DateTime.Now + new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
+                    UploadDate = new DateTime( 2016, 1, 1 ),
+                    IsLocal = false,
+                    User = user
+                },
+                new TimeSensetiveDocument {
+                    Id = newDocId3,
+                    Type = DocumentType.Upgift,
+                    Activity = act3,
+                    PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
+                    DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
+                    UploadDate = new DateTime( 2016, 1, 1 ),
+                    IsLocal = false,
+                    User = user
+                },
+                new TimeSensetiveDocument {
+                    Id = newDocId4,
+                    Type = DocumentType.Upgift,
+                    Activity = act4,
+                    PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
+                    DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
+                    UploadDate = new DateTime( 2016, 1, 1 ),
+                    IsLocal = false,
+                    User = user
+                }
+            );
+            */
             /********************************************/
 
             var courseGuid = new Guid( "91838d6c-ec99-4b97-b930-ea99d3e52967" );
@@ -260,17 +261,16 @@ namespace LMS.Migrations
                     Url = "www.burklaxAB.se/kursInfo/intro.pdf",
                     PublishDate = DateTime.Now,
                     UploadDate = DateTime.Now,
-                    User = user,
+                    UserId = userId,
+                    //User = user,
                     Activity = activity1
                 };
 
 
                 //   context.Documents.AddOrUpdate(n => n.Id, doc1);
                 //  context.SaveChanges();
-                if ( user != null )
-                    user.Documents.Add( doc1 );
-
-                activity1.Documents.Add( doc1 );
+                //if ( user != null ) user.Documents.Add( doc1 );
+                //activity1.Documents.Add( doc1 );
 
 
                 //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...

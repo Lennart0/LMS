@@ -168,6 +168,7 @@
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Controllers\AssignmentsController.cs" />
+    <Compile Include="Helpers\CourseDays.cs" />
     <Compile Include="Helpers\DefaultUserAndRoleStartupHelper.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -186,6 +187,10 @@
     <Compile Include="Migrations\201606301438251_init.Designer.cs">
       <DependentUpon>201606301438251_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607010842043_Merge_migration.cs" />
+    <Compile Include="Migrations\201607010842043_Merge_migration.Designer.cs">
+      <DependentUpon>201607010842043_Merge_migration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201607011323329_init1.cs" />
     <Compile Include="Migrations\201607011323329_init1.Designer.cs">
       <DependentUpon>201607011323329_init1.cs</DependentUpon>
@@ -194,6 +199,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\AddDocumentViewModel.cs" />
+    <Compile Include="Models\AssignmentSubmission.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Document.cs" />
@@ -309,6 +315,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607011323329_init1.resx">
       <DependentUpon>201607011323329_init1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607010842043_Merge_migration.resx">
+      <DependentUpon>201607010842043_Merge_migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
