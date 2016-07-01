@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using LMS.DataAccessLayer;
 using LMS.Models;
+using Microsoft.AspNet.Identity;
 
 namespace LMS.Controllers
 {
@@ -30,6 +31,9 @@ namespace LMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Course course = db.Courses.Find(id);
+            ViewBag.CourseName = course.Name;
+            ViewBag.CourseId   = course.Id;
+
             if (course == null)
             {
                 return HttpNotFound();
@@ -69,7 +73,8 @@ namespace LMS.Controllers
         }
 
         // GET: Courses/Edit/5
-        public ActionResult Edit(Guid? id)
+        private const string CourseEditReturnUrlKey = "coursereturnurl";
+        public ActionResult Edit(Guid? id, string returnUrl)
         {
             if (id == null)
             {
@@ -80,6 +85,10 @@ namespace LMS.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (returnUrl != null)
+                HttpContext.Session.Contents[CourseEditReturnUrlKey] = returnUrl;
+
             return View(course);
         }
 
@@ -94,6 +103,11 @@ namespace LMS.Controllers
             {
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
+
+                string returnUrl = (string)HttpContext.Session.Contents[CourseEditReturnUrlKey];
+                if (!string.IsNullOrEmpty(returnUrl))
+                    return Redirect(returnUrl);
+
                 return RedirectToAction("Index");
             }
             return View(course);
@@ -151,15 +165,23 @@ namespace LMS.Controllers
         }
 
         // GET: Courses
-        [Authorize(Users = "student1@test.se")]
+        //[Authorize(Users = "student1@test.se")]
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult CourseInfoAndStudents()
         {
-            //Guid id = "8c08b986-7fa6-4d0c-84c0-c16e0e06ab55";
-            //Course course = id != null ? db.Courses.Find(id.Value) : null;
-            //ViewBag.CourseName = course.Name;
-            //ViewBag.CourseDescription = course.Description;
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
 
-            return View(db.Courses.ToList());
+            Course course = currentUser.CourseId != null ? db.Courses.Find(currentUser.CourseId.Value) : null;
+            ViewBag.CourseName = course.Name;
+            ViewBag.CourseDescription = course.Description;
+
+            var studentList = course?.Students.ToList();
+
+            return View(studentList);
         }
     }
 }
