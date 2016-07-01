@@ -49,7 +49,7 @@
         </dd>
 
         <dt>
-           @* @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })*@
+            @* @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })*@
             @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id })*@
         </dt>
 
@@ -94,19 +94,17 @@
                     @Html.DisplayFor(modelItem => item.End)
                 </td>
                 <td>
-                   
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                       @* @Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
+
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
             </tr>
         }
 
     </table>
     <br /><br />
-    <h4>Students</h4>
-    @Html.ActionLink(linkText: "Add student", actionName: "Register", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)
-
+    <h4>Elever</h4>
+    @Html.ActionLink(linkText: "Lägg till student", actionName: "Register", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)
     <table class="table">
         <tr>
             <th>
@@ -135,13 +133,48 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>
         }
 
     </table>
+  
+    <h4>Kurs-dokument</h4>
+  
+@Html.Partial("~/Views/Shared/ModelFileView.cshtml",
+    new LMS.Models.FileModalPartialViewModel {
+        Id = Model.Id,
+        Type =LMS.Models.DocumentTargetEntity.Course,
+        PostBackChange ="location.reload()" })
+
+    <ul>
+        @foreach ( var doc in Model.Documents ) {
+            if ( string.IsNullOrWhiteSpace( doc.Url ) ) {
+                continue;
+            }
+            <li>
+                @{
+                    string url = doc.Url;
+                    int ix = url != null ? url.LastIndexOf( '/' ) : -1;
+                    string name = url;
+                    if ( ix >= 0 ) {
+                        name = name.Substring( ix + 1 );
+                    }
+                    else {
+                        url = "~/Documents/Course/" + url;
+                    }
+                }
+                <a href="@url" download>@name</a>
+            </li>
+        }
+    </ul>
+
+
+
+
+    <p><a href="~/Documents/Course/userStories.txt" download>Nerladdnings-test</a></p>
 
 
 </div>

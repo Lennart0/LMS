@@ -7,18 +7,18 @@ namespace LMS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class init4 : IMigrationMetadata
+    public sealed partial class Merge_migration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(init4));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Merge_migration));
         
         string IMigrationMetadata.Id
         {
-            get { return "201606271928535_init4"; }
+            get { return "201607010842043_Merge_migration"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target

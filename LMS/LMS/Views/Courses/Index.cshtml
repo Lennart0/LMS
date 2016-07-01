@@ -3,56 +3,84 @@
 @{
     ViewBag.Title = "Index";
 }
+<script type="text/javascript">
+    window.addEventListener("load", function () {
+        var x = document.getElementById("test");
+        x.setAttribute("style", "display:initial");
 
-<h2>Course register</h2>
+    })
 
-<p>
-    @Html.ActionLink("Create New Course", "Create", null, new { @class = "btn btn-default" })
-</p>
-<div>
-    @Html.ActionLink(linkText: "Registrera lärare", actionName: "Register", controllerName: "Account")
+</script>
+
+
+
+
+
+
+
+ 
+
+<br />
+<div class="col-md-4">
+    <h3>Course register</h3>
 </div>
-<table class="table">
+
+<div class="col-md-2">
+    <br />
+    @Html.ActionLink("Add a New Course", "Create", null, new { @class = "btn btn-default" })
+</div>
+
+<div class="col-md-2">
+    <br />
+    @Html.ActionLink(linkText: "Add a New Teacher", actionName: "Register", controllerName: "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-default" })
+</div>
+
+<br /><br /><br /><br />
+<table class="table table-striped">
+
     <tr>
-        <th>
+        <th id="tableCol1">
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        
-        <th>
+
+        <th id="tableCol1">
             @Html.DisplayNameFor(model => model.Description)
         </th>
 
-        <th>
+        <th id="tableCol1">
             @Html.DisplayNameFor(model => model.Start)
         </th>
-        <th>
+        <th id="tableCol1">
             @Html.DisplayNameFor(model => model.End)
         </th>
 
-        <th></th>
+        <th id="tableCol1"></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Start)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.End)
-        </td>
-        
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+                @*@Html.ActionLink(item.Name, "CourseStudentList", new { id = item.Id }, new { @id = "courseLink" })*@
+                @*@Html.ActionLink(linkText: item.Name, actionName: "CourseStudentList", controllerName: "Courses", routeValues: new { id = item.Id }, htmlAttributes: new { @id = "courseLink" })*@
+            </td>
+            <td id="tableCell">
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Start)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.End)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>

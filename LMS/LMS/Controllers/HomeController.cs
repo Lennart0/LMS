@@ -11,23 +11,14 @@ namespace LMS.Controllers
 {
     public class HomeController : Controller
     {
-
-        private void test() {
-     
-
-        }
-
         [Authorize]
         public ActionResult Index()
         {
-            test();
-
-
 
             if (User.IsInRole(Helpers.Constants.TeacherRole)) {
                 return RedirectToAction("Index", "Courses");
             } else {
-                return View();
+                return RedirectToAction( "Index", "Schedule" );
             }      
         }
 

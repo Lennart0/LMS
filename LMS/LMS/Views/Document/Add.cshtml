@@ -1,0 +1,74 @@
+﻿@model LMS.Models.AddDocumentsViewModel
+@{
+    ViewBag.Title = "Add";
+  Layout = null;
+}
+
+@Html.DisplayFor(n => n.EntityType): {@Html.DisplayFor(n => n.EntityId)} <br />
+@Html.DisplayFor(n => n.EntityName) <br />
+<br />
+
+@using (Html.BeginForm()) {
+    @Html.HiddenFor(n => n.EntityId)
+    @Html.HiddenFor(n => n.EntityName)
+    @Html.HiddenFor(n => n.EntityType)
+    for (var i=0; i< Model.Items.Count; i++) {
+        <div class="items">
+            @if (Model.Items[i].RequiresUpload) {
+            <div class="item">
+                @switch (Model.Items[i].SelectionMechanic) {
+                case LMS.Models.DocumentSelectionMechanic.File:
+                @*    @Html.EditorFor(n => n.Items[i].URL)   *@
+    @Html.TextBoxFor(n => n.Items[i].File,  new { type = "file" })
+                      
+                        break;
+                    case LMS.Models.DocumentSelectionMechanic.InternalUrlLookup:
+                @Html.EditorFor(n => n.Items[i].URL) <a href="#">Lookup</a>
+                break;
+                case LMS.Models.DocumentSelectionMechanic.Url:
+                @Html.EditorFor(n => n.Items[i].URL)
+                break;
+                }
+            </div>
+
+
+                @Html.HiddenFor(n => n.Items[i].RequiresUpload)
+                @Html.HiddenFor(n => n.Items[i].SelectionMechanic)
+                @Html.HiddenFor(n => n.Items[i].Status)
+                @Html.HiddenFor(n => n.Items[i].StatusText)       
+                @Html.HiddenFor(n => n.Items[i].Owner)
+
+
+            } else {
+            <div class="item">
+                @Html.HiddenFor(n => n.Items[i].RequiresUpload)
+                @Html.HiddenFor(n => n.Items[i].SelectionMechanic)
+                @Html.HiddenFor(n => n.Items[i].Status)
+                @Html.HiddenFor(n => n.Items[i].StatusText)
+                @Html.HiddenFor(n => n.Items[i].URL)
+                @Html.HiddenFor(n => n.Items[i].Owner)
+   
+
+
+
+
+                @Html.DisplayFor(n => n.Items[i].URL) @Html.DisplayFor(n => n.Items[i].Owner)  @Html.DisplayFor(n => n.Items[i].StatusText, new { style = $"color:{Model.Items[i].Status};" })
+            </div>
+            }
+
+
+        </div>
+    }
+
+    @Html.DropDownListFor(n => n.SelectionMechanic, Model.ComboItems) <input type="submit" value="Lägg till nytt fält" />
+    @Html.HiddenFor(n=> n.Done, new { id="done" })
+
+    <input type="submit" onclick="__Done()" value="Klart" />
+    <script>
+        function __Done() {
+            var done = document.getElementById("done");
+            done.value = "true";
+            return true;
+        }
+    </script>
+}
