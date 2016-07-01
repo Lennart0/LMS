@@ -40,7 +40,10 @@ namespace LMS.Models {
         [DataType(DataType.Date)]
         public DateTime? PublishDate { get; set; }
         public bool HasDeadline { get; set; }
-        public TimeSpan? DeadLine { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, NullDisplayText = "Ej publiserad")]
+        [DataType(DataType.Date)]
+        public DateTime? DeadLine { get; set; }
         public string Feedback { get; set; }
   
     }

@@ -16,24 +16,24 @@ namespace LMS.Controllers {
             List<DocumentItem> items = new List<DocumentItem>();
             var entityName = "";
             switch (entityType) {
-                case Models.DocumentTargetEntity.User:
-                    entityName = db.Users.FirstOrDefault(n => n.Id == EntityId.ToString()).UserName;
-                    items = 
-                        userPrivlageFileter(
-                            db.Documents.Where(n => n.User.Id == EntityId.ToString()) , user)
-                            .Select(n => new DocumentItem() {
-                                URL = n.Url,
-                                RequiresUpload =false,
-                                SelectionMechanic = DocumentSelectionMechanic.Url,
-                                Owner = n.User.UserName,
-                                Status = DocumentStatus.Yellow,
-                                StatusText ="test",
-                             PublishDate= DateTime.Now,
-                             Feedback="",
-                             DeadLine=null,
-                             HasDeadline=false,
-                             DocumentDbId = n.Id}).ToList();
-                    break;
+                //case Models.DocumentTargetEntity.User:
+                //    entityName = db.Users.FirstOrDefault(n => n.Id == EntityId.ToString()).UserName;
+                //    items = 
+                //        userPrivlageFileter(
+                //            db.Documents.Where(n => n.User.Id == EntityId.ToString()) , user)
+                //            .Select(n => new DocumentItem() {
+                //                URL = n.Url,
+                //                RequiresUpload =false,
+                //                SelectionMechanic = DocumentSelectionMechanic.Url,
+                //                Owner = n.User.UserName,
+                //                Status = DocumentStatus.Yellow,
+                //                StatusText ="",
+                //             PublishDate= DateTime.Now,
+                //             Feedback="",
+                //             DeadLine=null,
+                //             HasDeadline=false,
+                //             DocumentDbId = n.Id}).ToList();
+                //    break;
                 case Models.DocumentTargetEntity.Activity:
                     entityName = db.Activies.FirstOrDefault(n => n.Id == EntityId).Name;
                     items =
@@ -45,7 +45,7 @@ namespace LMS.Controllers {
                              SelectionMechanic = DocumentSelectionMechanic.Url,
                              Owner = n.User.UserName,
                              Status = DocumentStatus.Yellow,
-                             StatusText = "test",
+                             StatusText = "",
                              PublishDate = DateTime.Now,
                              Feedback = "",
                              DeadLine = null,
@@ -64,7 +64,7 @@ namespace LMS.Controllers {
                              SelectionMechanic = DocumentSelectionMechanic.Url,
                              Owner = n.User.UserName,
                              Status = DocumentStatus.Yellow,
-                             StatusText = "test",
+                             StatusText = "",
                              PublishDate = DateTime.Now,
                              Feedback = "",
                              DeadLine = null,
@@ -83,7 +83,7 @@ namespace LMS.Controllers {
                              SelectionMechanic = DocumentSelectionMechanic.Url,
                              Owner = n.User.UserName,
                              Status = DocumentStatus.Yellow,
-                             StatusText = "test",
+                             StatusText = "",
                              PublishDate = DateTime.Now,
                              Feedback = "",
                              DeadLine = null,
@@ -173,18 +173,35 @@ namespace LMS.Controllers {
             if (preexisting == null) {
 
                 if (item.PublishDate.HasValue) {
-                    db.Documents.Add(new Document {
-                        Id = Guid.NewGuid(),
-                        IsLocal = false,
-                        Activity = activity,
-                        Course = course,
-                        Module = module,
 
-                        User = user,
-                        Url = item.URL,
-                        UploadDate = DateTime.Now,
-                        PublishDate = item.PublishDate.Value
-                    });
+                    if (item.DeadLine != null) {
+                        db.Documents.Add(new TimeSensetiveDocument {
+                            Id = Guid.NewGuid(),
+                            IsLocal = false,
+                            Activity = activity,
+                            Course = course,
+                            Module = module,
+                            DeadLine = item.DeadLine.Value,
+                            User = user,
+                            Url = item.URL,
+                            UploadDate = DateTime.Now,
+                            PublishDate = item.PublishDate.Value
+                        });
+                    } else {
+
+                        db.Documents.Add(new Document {
+                            Id = Guid.NewGuid(),
+                            IsLocal = false,
+                            Activity = activity,
+                            Course = course,
+                            Module = module,
+
+                            User = user,
+                            Url = item.URL,
+                            UploadDate = DateTime.Now,
+                            PublishDate = item.PublishDate.Value
+                        });
+                    }
                     db.SaveChanges();
                     return true;
                 } else {

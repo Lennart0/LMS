@@ -159,7 +159,7 @@ namespace LMS.Migrations
                     User = user
                 }
             );
-            */
+           
             /********************************************/
 
             var courseGuid = new Guid( "91838d6c-ec99-4b97-b930-ea99d3e52967" );

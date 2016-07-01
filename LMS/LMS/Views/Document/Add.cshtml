@@ -39,7 +39,7 @@
                     @if (Model.Items[i].RequiresUpload) {
                         <td>
                             @switch (Model.Items[i].SelectionMechanic) {
-                            case LMS.Models.DocumentSelectionMechanic.File:
+                                case LMS.Models.DocumentSelectionMechanic.File:
                                     @Html.TextBoxFor(n => n.Items[i].File, new { type = "file" })
                                     break;
                                 case LMS.Models.DocumentSelectionMechanic.InternalUrlLookup:
@@ -51,8 +51,10 @@
                             }
                         </td>
                         <td>@Html.DisplayFor(n => n.Items[i].Owner)</td>
-                        <td>
-                            @Html.EditorFor(n => n.Items[i].StatusText, new { style = $"color:{Model.Items[i].Status};" })
+                        <td style="color:@Model.Items[i].Status;" >
+                        
+                            @Html.DisplayFor(n => n.Items[i].StatusText)
+                       
                         </td>
                         <td>
                             @Html.EditorFor(n => n.Items[i].PublishDate)
@@ -63,7 +65,7 @@
                                 @Html.HiddenFor(n => n.Items[i].HasDeadline)
                             } else {
                                 <div style="display:initial;">
-                                    @Html.CheckBoxFor(n => n.Items[i].HasDeadline, new { onchange = $"ModalDocumentManager.DeadLine({i})" })
+                                    @Html.CheckBoxFor(n => n.Items[i].HasDeadline, new {  onchange = $"ModalDocumentManager.DeadLine({i})" }) Inlämningsuppgift
                                 </div>
                                 <div style="display:none;">
                                     @Html.EditorFor(n => n.Items[i].DeadLine)
