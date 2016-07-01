@@ -57,7 +57,8 @@ namespace LMS.Migrations
                 Description = "Beskrivning av testmodul 1...",
                 Start = new DateTime( 2016, 6, 1 ),
                 End = new DateTime( 2016, 6, 30 ),
-                Course = course10,
+                //Course = course10,
+                CourseId = newCourseId1
             },
             module20 = new Module {
                 Id = newModuleId2,
@@ -65,7 +66,8 @@ namespace LMS.Migrations
                 Description = "Beskrivning av testmodul 2...",
                 Start = new DateTime( 2016, 7, 1 ),
                 End = new DateTime( 2016, 7, 31 ),
-                Course = course10,
+                //Course = course10,
+                CourseId = newCourseId1
             }
         );
 
@@ -81,7 +83,8 @@ namespace LMS.Migrations
                 Description = "Beskrivning av test-aktivitet 1...",
                 Start = new DateTime( 2016, 6, 1, 8, 30, 0 ),
                 End = new DateTime( 2016, 6, 1, 17, 0, 0 ),
-                Module = module10,
+                //Module = module10,
+                ModuleId = newModuleId1
             },
             act2 = new Activity {
                 Id = newActivityId2,
@@ -89,7 +92,8 @@ namespace LMS.Migrations
                 Description = "Beskrivning av test-aktivitet 2...",
                 Start = new DateTime( 2016, 6, 2, 8, 30, 0 ),
                 End = new DateTime( 2016, 6, 2, 12, 0, 0 ),
-                Module = module10,
+                //Module = module10,
+                ModuleId = newModuleId1
             },
             act3 = new Activity {
                 Id = newActivityId3,
@@ -97,7 +101,8 @@ namespace LMS.Migrations
                 Description = "Beskrivning av test-aktivitet 3...",
                 Start = new DateTime( 2016, 6, 2, 13, 0, 0 ),
                 End = new DateTime( 2016, 6, 2, 17, 0, 0 ),
-                Module = module10,
+                //Module = module10,
+                ModuleId = newModuleId1
             },
             act4 = new Activity {
                 Id = newActivityId4,
@@ -105,7 +110,8 @@ namespace LMS.Migrations
                 Description = "Beskrivning av test-aktivitet 4...",
                 Start = new DateTime( 2016, 7, 1, 8, 30, 0 ),
                 End = new DateTime( 2016, 7, 1, 17, 0, 0 ),
-                Module = module20,
+                //Module = module20,
+                ModuleId = newModuleId2
             }
         );
 
@@ -121,7 +127,8 @@ namespace LMS.Migrations
                 new TimeSensetiveDocument {
                     Id = newDocId1,
                     Type = DocumentType.Upgift,
-                    Activity = act1,
+                    //Activity = act1,
+                    ActivityId = newActivityId1,
                     PublishDate = DateTime.Now - new TimeSpan(1,0,0,0),
                     DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
@@ -131,7 +138,8 @@ namespace LMS.Migrations
                 new TimeSensetiveDocument {
                     Id = newDocId2,
                     Type = DocumentType.Upgift,
-                    Activity = act2,
+                    //Activity = act2,
+                    ActivityId = newActivityId2,
                     PublishDate = DateTime.Now + new TimeSpan( 1, 0, 0, 0 ),
                     DeadLine = (DateTime.Now + new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
@@ -141,7 +149,8 @@ namespace LMS.Migrations
                 new TimeSensetiveDocument {
                     Id = newDocId3,
                     Type = DocumentType.Upgift,
-                    Activity = act3,
+                    //Activity = act3,
+                    ActivityId = newActivityId3,
                     PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
                     DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
@@ -151,7 +160,8 @@ namespace LMS.Migrations
                 new TimeSensetiveDocument {
                     Id = newDocId4,
                     Type = DocumentType.Upgift,
-                    Activity = act4,
+                    //Activity = act4,
+                    ActivityId = newActivityId4,
                     PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
                     DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
@@ -159,7 +169,7 @@ namespace LMS.Migrations
                     User = user
                 }
             );
-            */
+
             /********************************************/
 
             var courseGuid = new Guid( "91838d6c-ec99-4b97-b930-ea99d3e52967" );
@@ -263,7 +273,8 @@ namespace LMS.Migrations
                     UploadDate = DateTime.Now,
                     UserId = userId,
                     //User = user,
-                    Activity = activity1
+                    //Activity = activity1
+                    ActivityId = activity1.Id
                 };
 
 
