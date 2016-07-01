@@ -31,7 +31,7 @@ namespace LMS.Models {
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
         public DateTime UploadDate { get; set; }
-        public DateTime PublishDate { get; set; }
+        public DateTime? PublishDate { get; set; }
     //    public Guid? CourseId { get; internal set; }
      //   public Guid? ModuleId { get; internal set; }
       //  public Guid? ActivityId { get; internal set; }
