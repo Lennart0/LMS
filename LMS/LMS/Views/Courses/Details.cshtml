@@ -141,7 +141,8 @@
     new LMS.Models.FileModalPartialViewModel {
         Id = Model.Id,
         Type =LMS.Models.DocumentTargetEntity.Course,
-        PostBackChange ="location.reload()" })
+        Title = Model.Name,
+        PostBackChange ="/* location.reload()*/ alert('test')" })
 
     <ul>
         @foreach ( var doc in Model.Documents ) {
