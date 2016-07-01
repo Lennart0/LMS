@@ -186,9 +186,9 @@
     <Compile Include="Migrations\201606301438251_init.Designer.cs">
       <DependentUpon>201606301438251_init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607010740235_AssignmentSubmission_and_navprop_ids_added.cs" />
-    <Compile Include="Migrations\201607010740235_AssignmentSubmission_and_navprop_ids_added.Designer.cs">
-      <DependentUpon>201607010740235_AssignmentSubmission_and_navprop_ids_added.cs</DependentUpon>
+    <Compile Include="Migrations\201607010842043_Merge_migration.cs" />
+    <Compile Include="Migrations\201607010842043_Merge_migration.Designer.cs">
+      <DependentUpon>201607010842043_Merge_migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -307,8 +307,8 @@
     <EmbeddedResource Include="Migrations\201606301438251_init.resx">
       <DependentUpon>201606301438251_init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607010740235_AssignmentSubmission_and_navprop_ids_added.resx">
-      <DependentUpon>201607010740235_AssignmentSubmission_and_navprop_ids_added.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607010842043_Merge_migration.resx">
+      <DependentUpon>201607010842043_Merge_migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
