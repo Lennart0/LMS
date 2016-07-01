@@ -142,7 +142,7 @@
         Id = Model.Id,
         Type =LMS.Models.DocumentTargetEntity.Course,
         Title = Model.Name,
-        PostBackChange ="/* location.reload()*/ alert('test')" })
+        PostBackChange ="location.reload()" })
 
     <ul>
         @foreach ( var doc in Model.Documents ) {
@@ -168,8 +168,7 @@
 
 
 
-
-    <p><a href="~/Documents/Course/userStories.txt" download>Nerladdnings-test</a></p>
+ 
 
 
 <br /><br />
