@@ -12,11 +12,11 @@ namespace LMS.Models {
         public Guid Id { get; set; }
         public DocumentType Type { get; set; }
         public Guid? CourseId { get; set; }
-        public Course Course { get; set; } //possibly include later...
+        public virtual Course Course { get; set; } //possibly include later...
         public Guid? ModuleId { get; set; }
-        public Module Module { get; set; }
+        public virtual Module Module { get; set; }
         public Guid? ActivityId { get; set; }
-        public Activity Activity { get; set; }
+        public virtual Activity Activity { get; set; }
 
         /// <summary>
         /// document location local or external as a web accessible url

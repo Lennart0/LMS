@@ -30,7 +30,7 @@ namespace LMS.Models {
         public Guid? CourseId { get; set; }
         public  virtual Course Course { get; set;}
         public virtual List<Activity> Activities { get; set; }
-        public List<Document> Documents { get;  set; }
+        public virtual List<Document> Documents { get;  set; }
     }
 
 }
