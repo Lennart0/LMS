@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,7 +23,7 @@ namespace LMS.Models {
  
 
     public class DocumentItem {
-
+        public Guid DocumentDbId { get; set; }
         public DocumentSelectionMechanic SelectionMechanic { get; set; }
         public bool RequiresUpload { get; set; } //if it has already been uploaded this is also compared with selection machanic
  
@@ -34,6 +35,14 @@ namespace LMS.Models {
         public HttpPostedFileBase File { get; set; }//not used in sprint 1
         public DocumentStatus Status {get;set;}
         public string StatusText { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, NullDisplayText = "Ej publiserad")]
+        [DataType(DataType.Date)]
+        public DateTime? PublishDate { get; set; }
+        public bool HasDeadline { get; set; }
+        public TimeSpan? DeadLine { get; set; }
+        public string Feedback { get; set; }
+  
     }
 
     public class ComboBoxListItemHelper {
@@ -59,5 +68,6 @@ namespace LMS.Models {
         public bool Done { get; set; }
         public DocumentSelectionMechanic? SelectionMechanic { get; set; }
         public List<SelectListItem> ComboItems { get; set; }
-       }
+ 
+    }
 }

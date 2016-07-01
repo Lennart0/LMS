@@ -29,136 +29,136 @@ namespace LMS.Migrations
             Guid newActivityId2 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef05" );
             Guid newActivityId3 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef06" );
             Guid newActivityId4 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef07" );
-
-            Course course10 = null;
-            Module module10 = null;
-            Module module20 = null;
             /*
-            context.Courses.AddOrUpdate( c => c.Id,
-                course10 = new Course {
-                    Id = newCourseId1,
-                    Name = "Test-kurs1",
-                    Description = "Beskrivning av test-kurs 1...",
-                    Start = new DateTime( 2016, 6, 1 ),
-                    End = new DateTime( 2016, 9, 30 ),
-                    DayStart = new DateTime( 2016, 6, 1, 8, 30, 0 ),
-                    DayEnd = new DateTime( 2016, 6, 1, 17, 0, 0 ),
-                    LunchStart = new DateTime( 2016, 6, 1, 12, 0, 0 ),
-                    LunchEnd = new DateTime( 2016, 6, 1, 13, 0, 0 ),
-                }
-            );
+        Course course10 = null;
+        Module module10 = null;
+        Module module20 = null;
+
+        context.Courses.AddOrUpdate( c => c.Id,
+            course10 = new Course {
+                Id = newCourseId1,
+                Name = "Test-kurs1",
+                Description = "Beskrivning av test-kurs 1...",
+                Start = new DateTime( 2016, 6, 1 ),
+                End = new DateTime( 2016, 9, 30 ),
+                DayStart = new DateTime( 2016, 6, 1, 8, 30, 0 ),
+                DayEnd = new DateTime( 2016, 6, 1, 17, 0, 0 ),
+                LunchStart = new DateTime( 2016, 6, 1, 12, 0, 0 ),
+                LunchEnd = new DateTime( 2016, 6, 1, 13, 0, 0 ),
+            }
+        );
 
 
-            context.Modules.AddOrUpdate( m => m.Name,
-                module10 = new Module {
-                    Id = newModuleId1,
-                    Name = "Testmodul1",
-                    Description = "Beskrivning av testmodul 1...",
-                    Start = new DateTime( 2016, 6, 1 ),
-                    End = new DateTime( 2016, 6, 30 ),
-                    Course = course10,
-                },
-                module20 = new Module {
-                    Id = newModuleId2,
-                    Name = "Testmodul2",
-                    Description = "Beskrivning av testmodul 2...",
-                    Start = new DateTime( 2016, 7, 1 ),
-                    End = new DateTime( 2016, 7, 31 ),
-                    Course = course10,
-                }
-            );
+        context.Modules.AddOrUpdate( m => m.Name,
+            module10 = new Module {
+                Id = newModuleId1,
+                Name = "Testmodul1",
+                Description = "Beskrivning av testmodul 1...",
+                Start = new DateTime( 2016, 6, 1 ),
+                End = new DateTime( 2016, 6, 30 ),
+                Course = course10,
+            },
+            module20 = new Module {
+                Id = newModuleId2,
+                Name = "Testmodul2",
+                Description = "Beskrivning av testmodul 2...",
+                Start = new DateTime( 2016, 7, 1 ),
+                End = new DateTime( 2016, 7, 31 ),
+                Course = course10,
+            }
+        );
 
 
-            Activity act1 = null;
-            Activity act2 = null;
-            Activity act3 = null;
-            Activity act4 = null;
-            context.Activies.AddOrUpdate( a => a.Id,
-                act1 = new Activity {
-                    Id = newActivityId1,
-                    Name = "Test-aktivitet1",
-                    Description = "Beskrivning av test-aktivitet 1...",
-                    Start = new DateTime( 2016, 6, 1, 8, 30, 0 ),
-                    End = new DateTime( 2016, 6, 1, 17, 0, 0 ),
-                    Module = module10,
-                },
-                act2 = new Activity {
-                    Id = newActivityId2,
-                    Name = "Test-aktivitet2",
-                    Description = "Beskrivning av test-aktivitet 2...",
-                    Start = new DateTime( 2016, 6, 2, 8, 30, 0 ),
-                    End = new DateTime( 2016, 6, 2, 12, 0, 0 ),
-                    Module = module10,
-                },
-                act3 = new Activity {
-                    Id = newActivityId3,
-                    Name = "Test-aktivitet3",
-                    Description = "Beskrivning av test-aktivitet 3...",
-                    Start = new DateTime( 2016, 6, 2, 13, 0, 0 ),
-                    End = new DateTime( 2016, 6, 2, 17, 0, 0 ),
-                    Module = module10,
-                },
-                act4 = new Activity {
-                    Id = newActivityId4,
-                    Name = "Test-aktivitet4",
-                    Description = "Beskrivning av test-aktivitet 4...",
-                    Start = new DateTime( 2016, 7, 1, 8, 30, 0 ),
-                    End = new DateTime( 2016, 7, 1, 17, 0, 0 ),
-                    Module = module20,
-                }
-            );
+        Activity act1 = null;
+        Activity act2 = null;
+        Activity act3 = null;
+        Activity act4 = null;
+        context.Activies.AddOrUpdate( a => a.Id,
+            act1 = new Activity {
+                Id = newActivityId1,
+                Name = "Test-aktivitet1",
+                Description = "Beskrivning av test-aktivitet 1...",
+                Start = new DateTime( 2016, 6, 1, 8, 30, 0 ),
+                End = new DateTime( 2016, 6, 1, 17, 0, 0 ),
+                Module = module10,
+            },
+            act2 = new Activity {
+                Id = newActivityId2,
+                Name = "Test-aktivitet2",
+                Description = "Beskrivning av test-aktivitet 2...",
+                Start = new DateTime( 2016, 6, 2, 8, 30, 0 ),
+                End = new DateTime( 2016, 6, 2, 12, 0, 0 ),
+                Module = module10,
+            },
+            act3 = new Activity {
+                Id = newActivityId3,
+                Name = "Test-aktivitet3",
+                Description = "Beskrivning av test-aktivitet 3...",
+                Start = new DateTime( 2016, 6, 2, 13, 0, 0 ),
+                End = new DateTime( 2016, 6, 2, 17, 0, 0 ),
+                Module = module10,
+            },
+            act4 = new Activity {
+                Id = newActivityId4,
+                Name = "Test-aktivitet4",
+                Description = "Beskrivning av test-aktivitet 4...",
+                Start = new DateTime( 2016, 7, 1, 8, 30, 0 ),
+                End = new DateTime( 2016, 7, 1, 17, 0, 0 ),
+                Module = module20,
+            }
+        );
 
 
-            Guid newDocId1 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44bfb4" );
-            Guid newDocId2 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44bfb5" );
-            Guid newDocId3 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44bfb6" );
-            Guid newDocId4 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44bfb7" );
+        Guid newDocId1 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44bfb4" );
+        Guid newDocId2 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44bfb5" );
+        Guid newDocId3 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44bfb6" );
+        Guid newDocId4 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44bfb7" );
 
-            user = context.Users.FirstOrDefault( n => n.Id == "679a290d-8b3b-4488-8ffb-7dea7a44efca" );
+        user = context.Users.FirstOrDefault( n => n.Id == "679a290d-8b3b-4488-8ffb-7dea7a44efca" );
 
-            context.Documents.AddOrUpdate( d => d.Id,
-                new TimeSensetiveDocument {
-                    Id = newDocId1,
-                    Type = DocumentType.Upgift,
-                    Activity = act1,
-                    PublishDate = DateTime.Now - new TimeSpan(1,0,0,0),
-                    DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
-                    UploadDate = new DateTime( 2016, 1, 1 ),
-                    IsLocal = false,
-                    User = user
-                },
-                new TimeSensetiveDocument {
-                    Id = newDocId2,
-                    Type = DocumentType.Upgift,
-                    Activity = act2,
-                    PublishDate = DateTime.Now + new TimeSpan( 1, 0, 0, 0 ),
-                    DeadLine = (DateTime.Now + new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
-                    UploadDate = new DateTime( 2016, 1, 1 ),
-                    IsLocal = false,
-                    User = user
-                },
-                new TimeSensetiveDocument {
-                    Id = newDocId3,
-                    Type = DocumentType.Upgift,
-                    Activity = act3,
-                    PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
-                    DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
-                    UploadDate = new DateTime( 2016, 1, 1 ),
-                    IsLocal = false,
-                    User = user
-                },
-                new TimeSensetiveDocument {
-                    Id = newDocId4,
-                    Type = DocumentType.Upgift,
-                    Activity = act4,
-                    PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
-                    DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
-                    UploadDate = new DateTime( 2016, 1, 1 ),
-                    IsLocal = false,
-                    User = user
-                }
-            );
-            */
+        context.Documents.AddOrUpdate( d => d.Id,
+            new TimeSensetiveDocument {
+                Id = newDocId1,
+                Type = DocumentType.Upgift,
+                Activity = act1,
+                PublishDate = DateTime.Now - new TimeSpan(1,0,0,0),
+                DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
+                UploadDate = new DateTime( 2016, 1, 1 ),
+                IsLocal = false,
+                User = user
+            },
+            new TimeSensetiveDocument {
+                Id = newDocId2,
+                Type = DocumentType.Upgift,
+                Activity = act2,
+                PublishDate = DateTime.Now + new TimeSpan( 1, 0, 0, 0 ),
+                DeadLine = (DateTime.Now + new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
+                UploadDate = new DateTime( 2016, 1, 1 ),
+                IsLocal = false,
+                User = user
+            },
+            new TimeSensetiveDocument {
+                Id = newDocId3,
+                Type = DocumentType.Upgift,
+                Activity = act3,
+                PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
+                DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
+                UploadDate = new DateTime( 2016, 1, 1 ),
+                IsLocal = false,
+                User = user
+            },
+            new TimeSensetiveDocument {
+                Id = newDocId4,
+                Type = DocumentType.Upgift,
+                Activity = act4,
+                PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
+                DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
+                UploadDate = new DateTime( 2016, 1, 1 ),
+                IsLocal = false,
+                User = user
+            }
+        );
+        */
             /********************************************/
 
             var courseGuid = new Guid( "91838d6c-ec99-4b97-b930-ea99d3e52967" );
