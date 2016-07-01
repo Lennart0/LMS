@@ -8,9 +8,7 @@
 
 
 <div>
-    @*<h4>Course</h4>*@
     <hr />
-
 
     <dl class="dl-horizontal">
         <dt>
@@ -94,8 +92,7 @@
                     @Html.DisplayFor(modelItem => item.End)
                 </td>
                 <td>
-
-                    @Html.ActionLink("Edit", "Edit", "Modules",    new { id = item.Id, returnUrl= }, null) |
+                    @Html.ActionLink("Edit", "Edit", "Modules", new { id = item.Id, returnUrl = "/Courses/Details/" + Model.Id }, null) |
                     @Html.ActionLink("Delete", "Delete", "Modules", new { id = item.Id }, null)
          
                 </td>

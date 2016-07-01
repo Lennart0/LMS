@@ -73,7 +73,8 @@ namespace LMS.Controllers
         }
 
         // GET: Courses/Edit/5
-        public ActionResult Edit(Guid? id)
+        private const string CourseEditReturnUrlKey = "coursereturnurl";
+        public ActionResult Edit(Guid? id, string returnUrl)
         {
             if (id == null)
             {
@@ -84,6 +85,10 @@ namespace LMS.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (returnUrl != null)
+                HttpContext.Session.Contents[CourseEditReturnUrlKey] = returnUrl;
+
             return View(course);
         }
 
@@ -98,6 +103,11 @@ namespace LMS.Controllers
             {
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
+
+                string returnUrl = (string)HttpContext.Session.Contents[CourseEditReturnUrlKey];
+                if (!string.IsNullOrEmpty(returnUrl))
+                    return Redirect(returnUrl);
+
                 return RedirectToAction("Index");
             }
             return View(course);
