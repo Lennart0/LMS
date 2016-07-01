@@ -57,7 +57,9 @@ namespace LMS.Controllers
 
             if ( ModelState.IsValid && moduleId != null )
             {
-                activity.Module = db.Modules.SingleOrDefault( m => m.Id == moduleId.Value );
+                //activity.Module = db.Modules.SingleOrDefault( m => m.Id == moduleId.Value );
+                activity.ModuleId = moduleId;
+
                 activity.Id = Guid.NewGuid();
                 db.Activies.Add(activity);
                 db.SaveChanges();
