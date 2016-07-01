@@ -35,6 +35,8 @@ textarea {
 
 #tableCell{
     width: 300px;
+    display: inline-block;
+    text-align:justify;
 }
 
 .text-description{

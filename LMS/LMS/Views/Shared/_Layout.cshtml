@@ -30,8 +30,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Course", "Index", "Courses")</li>
-                    <li>@Html.ActionLink("Course info and students", "CourseStudentList/679a290d-8b3b-4488-8ffb-7dea7a44ef01", "Courses")</li>
-                    @*<li>@Html.ActionLink("Modules", "Index", "Modules")</li>*@
+                    <li>@Html.ActionLink("Course info and students", "CourseInfoAndStudents", "Courses")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -39,18 +38,13 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        @*<@*footer class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
-            <div class="container">
-                <div class="navbar-text pull-left">
-                    <p>&copy; @DateTime.Now.Year - Lexicon LMS Application &nbsp; &nbsp; | &nbsp; &nbsp; Created by Group 3: Kalle, Lennart, Santana</p>
-                </div>
-            </div>
-        </footer>*@
 
-        <footer>
+        @*<hr />*@
+
+        <br /><br /><br /><br />
+        <footer class="navbar-inverse navbar-fixed-bottom navbar-custom">
             <div class="container">
-                <div class="navbar-text pull-right">
+                <div>
                     <p>&copy; @DateTime.Now.Year - Lexicon LMS Application &nbsp; &nbsp; | &nbsp; &nbsp; Created by Group 3: Kalle, Lennart, Santana</p>
                 </div>
             </div>
