@@ -51,3 +51,27 @@ textarea {
     background: #908e8e;
     color: #ffffff;
 }
+
+.btn-custom {
+  color: #333333;
+  background-color: #ffffff;
+  border-color: #cccccc;
+  height: 22px;
+  padding: 1px 6px;
+}
+
+.btn-custom:hover,
+.btn-custom:focus,
+.btn-custom:active,
+.btn-custom.active,
+.open .dropdown-toggle.btn-custom {
+  color: #333333;
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
+
+.btn-delete:hover{
+  color: #ffffff;
+  background-color: #ff0000;
+  border-color: #a90a0a;
+}
