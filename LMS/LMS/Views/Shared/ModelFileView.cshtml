@@ -1,0 +1,25 @@
+﻿@model LMS.Models.FileModalPartialViewModel
+
+<a data-toggle="modal" data-target="#myModal">
+    Editera filer
+</a>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">           
+                <iframe class="modal-dialog" id="test" frameBorder="0" src="@Url.Content($"/Document/Add/?EntityId={Model.Id}&entityType={Model.Type}")"></iframe>
+  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="@Model.PostBackCancle" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="@Model.PostBackChange" data-dismiss="modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

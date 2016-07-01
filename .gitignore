@@ -243,3 +243,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/LMS/LMS/Documents/Course/userStories.txt
+/LMS/LMS/Helpers/CourseDays.cs

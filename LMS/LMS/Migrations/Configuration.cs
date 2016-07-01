@@ -20,6 +20,7 @@ namespace LMS.Migrations
         protected override void Seed( LMS.DataAccessLayer.ApplicationDbContext context )
         {
             ApplicationUser user = null;
+            string userId = "679a290d-8b3b-4488-8ffb-7dea7a44efca";
 
             //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...
             Guid newCourseId1 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef01" );
@@ -121,11 +122,12 @@ namespace LMS.Migrations
                     Id = newDocId1,
                     Type = DocumentType.Upgift,
                     Activity = act1,
-                    PublishDate = DateTime.Now - new TimeSpan(1,0,0,0),
+                    PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
                     DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
                     IsLocal = false,
-                    User = user
+                    UserId = userId
+                    //User = user
                 },
                 new TimeSensetiveDocument {
                     Id = newDocId2,
@@ -135,7 +137,8 @@ namespace LMS.Migrations
                     DeadLine = (DateTime.Now + new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
                     IsLocal = false,
-                    User = user
+                    UserId = userId
+                    //User = user
                 },
                 new TimeSensetiveDocument {
                     Id = newDocId3,
@@ -145,7 +148,8 @@ namespace LMS.Migrations
                     DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
                     IsLocal = false,
-                    User = user
+                    UserId = userId
+                    //User = user
                 },
                 new TimeSensetiveDocument {
                     Id = newDocId4,
@@ -155,7 +159,8 @@ namespace LMS.Migrations
                     DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
                     IsLocal = false,
-                    User = user
+                    UserId = userId
+                    //User = user
                 }
             );
 
@@ -260,16 +265,16 @@ namespace LMS.Migrations
                     Url = "www.burklaxAB.se/kursInfo/intro.pdf",
                     PublishDate = DateTime.Now,
                     UploadDate = DateTime.Now,
-                    User = user,
+                    UserId = userId,
+                    //User = user,
                     Activity = activity1
                 };
 
 
                 //   context.Documents.AddOrUpdate(n => n.Id, doc1);
                 //  context.SaveChanges();
-                if ( user != null )
-                    user.Documents.Add( doc1 );
-                activity1.Documents.Add( doc1 );
+                //if ( user != null ) user.Documents.Add( doc1 );
+                //activity1.Documents.Add( doc1 );
 
 
                 //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...

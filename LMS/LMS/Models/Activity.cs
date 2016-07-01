@@ -25,6 +25,7 @@ namespace LMS.Models {
             set;
         }
         public DateTime End { get; set; }
+        public Guid? ModuleId { get; set; }
         public virtual Module Module { get; set; }
         public virtual List<Document> Documents { get; set; }
     }
