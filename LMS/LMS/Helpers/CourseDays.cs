@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Web;
 
 namespace LMS.Helpers
 {
@@ -59,7 +57,7 @@ namespace LMS.Helpers
 
             if ( courseDays == null )
                 CalcCourseDays();
-            return courseDays.IndexOf( d.Date ) >= 0;            
+            return courseDays.IndexOf( d ) >= 0;            
         }
 
         /// <summary>
@@ -77,7 +75,7 @@ namespace LMS.Helpers
             return null;
         }
 
-
+        #region Private
         private List<DateTime> courseDays = null;
         private DayOfWeek[] courseWeekdays;
         //private bool excludeHolidays;
@@ -85,80 +83,82 @@ namespace LMS.Helpers
         private DateTime lastDate;
         private bool noEnd;
 
-        static private Dictionary<int, DateTime> easterFriday = new Dictionary<int, DateTime>() {
-            { 2000, new DateTime(2000, 4, 21) },
-            { 2001, new DateTime(2001, 4, 13) },
-            { 2002, new DateTime(2002, 3, 29) },
-            { 2003, new DateTime(2003, 4, 18) },
-            { 2004, new DateTime(2004, 4, 9) },
-            { 2005, new DateTime(2005, 3, 25) },
-            { 2006, new DateTime(2006, 4, 14) },
-            { 2007, new DateTime(2007, 4, 6) },
-            { 2008, new DateTime(2008, 3, 21) },
-            { 2009, new DateTime(2009, 4, 10) },
-            { 2010, new DateTime(2010, 4, 2) },
-            { 2011, new DateTime(2011, 4, 22) },
-            { 2012, new DateTime(2012, 4, 6) },
-            { 2013, new DateTime(2013, 3, 29) },
-            { 2014, new DateTime(2014, 4, 18) },
-            { 2015, new DateTime(2015, 4, 3) },
-            { 2016, new DateTime(2016, 3, 25) },
-            { 2017, new DateTime(2017, 4, 14) },
-            { 2018, new DateTime(2018, 3, 30) },
-            { 2019, new DateTime(2019, 4, 19) },
-            { 2020, new DateTime(2020, 4, 10) },
-            { 2021, new DateTime(2021, 4, 2) },
-            { 2022, new DateTime(2022, 4, 15) },
-            { 2023, new DateTime(2023, 4, 7) },
-            { 2024, new DateTime(2024, 3, 29) },
-            { 2025, new DateTime(2025, 4, 18) },
-            { 2026, new DateTime(2026, 4, 3) },
-            { 2027, new DateTime(2027, 3, 26) },
-            { 2028, new DateTime(2028, 4, 14) },
-            { 2029, new DateTime(2029, 3, 30 ) },
-            { 2030, new DateTime(2030, 4, 19) },
-            { 2031, new DateTime(2031, 4, 11) },
-            { 2032, new DateTime(2032, 3, 26) },
-            { 2033, new DateTime(2033, 4, 15) },
-            { 2034, new DateTime(2034, 4, 7 ) },
-            { 2035, new DateTime(2035, 3, 23) },
-            { 2036, new DateTime(2036, 4, 11) },
-            { 2037, new DateTime(2037, 4, 3) },
-            { 2038, new DateTime(2038, 4, 23) },
-            { 2039, new DateTime(2039, 4, 8) },
-            { 2040, new DateTime(2040, 3, 30) },
-            { 2041, new DateTime(2041, 4, 19) },
-            { 2042, new DateTime(2042, 4, 4) },
-            { 2043, new DateTime(2043, 3, 27) },
-            { 2044, new DateTime(2044, 4, 15) },
-            { 2045, new DateTime(2045, 4, 7) },
-            { 2046, new DateTime(2046, 3, 23) },
-            { 2047, new DateTime(2047, 4, 12) },
-            { 2048, new DateTime(2048, 4, 3) },
-            { 2049, new DateTime(2049, 4, 16) },
-            { 2050, new DateTime(2050, 4, 8) },
-            { 2051, new DateTime(2051, 3, 31) },
-            { 2052, new DateTime(2052, 4, 19) },
-            { 2053, new DateTime(2053, 4, 4) },
-            { 2054, new DateTime(2054, 3, 27) },
-            { 2055, new DateTime(2055, 4, 16) },
-            { 2056, new DateTime(2056, 3, 31) },
-            { 2057, new DateTime(2057, 4, 20) },
-            { 2058, new DateTime(2058, 4, 12) },
-            { 2059, new DateTime(2059, 3, 28) },
-            { 2060, new DateTime(2060, 4, 16) },
-            { 2061, new DateTime(2061, 4, 8) },
-            { 2062, new DateTime(2062, 3, 24) },
+        static private DateTime[] easterFriday = {
+            new DateTime(2000, 4, 21),
+            new DateTime(2001, 4, 13),
+            new DateTime(2002, 3, 29),
+            new DateTime(2003, 4, 18),
+            new DateTime(2004, 4, 9), 
+            new DateTime(2005, 3, 25),
+            new DateTime(2006, 4, 14),
+            new DateTime(2007, 4, 6), 
+            new DateTime(2008, 3, 21),
+            new DateTime(2009, 4, 10),
+            new DateTime(2010, 4, 2), 
+            new DateTime(2011, 4, 22),
+            new DateTime(2012, 4, 6), 
+            new DateTime(2013, 3, 29),
+            new DateTime(2014, 4, 18),
+            new DateTime(2015, 4, 3), 
+            new DateTime(2016, 3, 25),
+            new DateTime(2017, 4, 14),
+            new DateTime(2018, 3, 30),
+            new DateTime(2019, 4, 19),
+            new DateTime(2020, 4, 10),
+            new DateTime(2021, 4, 2), 
+            new DateTime(2022, 4, 15),
+            new DateTime(2023, 4, 7), 
+            new DateTime(2024, 3, 29),
+            new DateTime(2025, 4, 18),
+            new DateTime(2026, 4, 3), 
+            new DateTime(2027, 3, 26),
+            new DateTime(2028, 4, 14),
+            new DateTime(2029, 3, 30),
+            new DateTime(2030, 4, 19),
+            new DateTime(2031, 4, 11),
+            new DateTime(2032, 3, 26),
+            new DateTime(2033, 4, 15),
+            new DateTime(2034, 4, 7 ),
+            new DateTime(2035, 3, 23),
+            new DateTime(2036, 4, 11),
+            new DateTime(2037, 4, 3), 
+            new DateTime(2038, 4, 23),
+            new DateTime(2039, 4, 8), 
+            new DateTime(2040, 3, 30),
+            new DateTime(2041, 4, 19),
+            new DateTime(2042, 4, 4), 
+            new DateTime(2043, 3, 27),
+            new DateTime(2044, 4, 15),
+            new DateTime(2045, 4, 7), 
+            new DateTime(2046, 3, 23),
+            new DateTime(2047, 4, 12),
+            new DateTime(2048, 4, 3), 
+            new DateTime(2049, 4, 16),
+            new DateTime(2050, 4, 8), 
+            new DateTime(2051, 3, 31),
+            new DateTime(2052, 4, 19),
+            new DateTime(2053, 4, 4), 
+            new DateTime(2054, 3, 27),
+            new DateTime(2055, 4, 16),
+            new DateTime(2056, 3, 31),
+            new DateTime(2057, 4, 20),
+            new DateTime(2058, 4, 12),
+            new DateTime(2059, 3, 28),
+            new DateTime(2060, 4, 16),
+            new DateTime(2061, 4, 8), 
+            new DateTime(2062, 3, 24),
         };
+        static private readonly int firstStoredEasterYear = easterFriday[0].Year;
+        static private readonly int lastStoredEasterYear = easterFriday[easterFriday.Length - 1].Year;
 
-        static private HashSet<DateTime>[] swedishHolidays = new HashSet<DateTime>[63];
+        static private HashSet<DateTime>[] swedishHolidays = new HashSet<DateTime>[easterFriday.Length];
 
         HashSet<DateTime> GetHolidays(int year) {
-            if (year < 2000 || 2062 < year)
+            if (year < firstStoredEasterYear || lastStoredEasterYear < year)
                 return CalcSwedishHolidays(year);
-            if (swedishHolidays[year - 2000] == null)
-                swedishHolidays[year - 2000] = CalcSwedishHolidays(year);
-            return swedishHolidays[year - 2000];
+            if (swedishHolidays[year - firstStoredEasterYear] == null)
+                swedishHolidays[year - firstStoredEasterYear] = CalcSwedishHolidays(year);
+            return swedishHolidays[year - firstStoredEasterYear];
         }
 
         private HashSet<DateTime> CalcSwedishHolidays(int year) {
@@ -167,8 +167,8 @@ namespace LMS.Helpers
                 return set;
 
             //Easter + kristi himelsf.
-            if (easterFriday.ContainsKey(year)) {
-                DateTime ef_0 = easterFriday[year];
+            if (firstStoredEasterYear <= year && year <= lastStoredEasterYear) {
+                DateTime ef_0 = easterFriday[year - firstStoredEasterYear];
                 set.Add(ef_0);
                 set.Add(AddDays(ef_0, 1));
                 set.Add(AddDays(ef_0, 2));
@@ -247,5 +247,6 @@ namespace LMS.Helpers
         // 26/12 helg
 
         //31/12 Nyårsafton
+        #endregion
     }
 }
