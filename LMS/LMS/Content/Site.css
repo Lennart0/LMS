@@ -34,13 +34,13 @@ textarea {
 }
 
 #tableCell{
-    width: 300px;
+    max-width: 600px;
     display: inline-block;
     text-align:justify;
 }
 
 .text-description{
-    max-width: 650px;
+    max-width: 700px;
     display: inline-block;
     text-align:justify;
 }
@@ -68,12 +68,81 @@ textarea {
 .btn-custom.active,
 .open .dropdown-toggle.btn-custom {
   color: #333333;
-  background-color: #ebebeb;
+  background-color: #8EF05F;
   border-color: #adadad;
 }
 
-.btn-delete:hover{
-  color: #ffffff;
-  background-color: #ff0000;
-  border-color: #a90a0a;
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active{
+    background-color: #8EF05F;
 }
+
+.footer-custom{
+  color: whitesmoke;
+  background-color: #222222;
+  border-color: #080808;
+  text-align:left;
+  padding-top: 5px;
+
+  position: fixed;
+  right: 0;
+  left: 0;
+  border-width: 0 0 1px;
+
+  bottom: 0;
+  margin-bottom: 0;
+}
+
+.navbar-custom{
+    color:  whitesmoke;
+}
+
+.navbar-custom:hover,
+.navbar-custom:focus {
+  color: #ffffff;
+  /*background-color: transparent;*/
+}
+
+.navbar-inverse {
+  background-color: #222222;
+  border-color: #080808;
+  color:  #fff;
+}
+
+.navbar-inverse .navbar-brand {
+  color: #fff;
+}
+.navbar-inverse .navbar-nav > li > a {
+  color: #fff;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+  /*color: #8EF05F;*/
+  background-color:  #8EF05F;
+  font-size: 18px;
+}
+
+.navbar-brand {
+  float: left;
+  padding: 15px 15px;
+  font-size: 18px;
+  line-height: 20px;
+  background-color: #D60000;
+  border: 1px solid  #D60000;
+  font-size: 22px;
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+  color:  #D60000;
+  background-color:  #ff0000;
+  border: 1px solid  #ff0000;
+  font-size: 22px;
+}
+
+.navbar {
+  border: 0px solid transparent;
+}
+

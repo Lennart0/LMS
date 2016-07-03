@@ -36,10 +36,19 @@ namespace LMS.Controllers
             return View(module);
         }
 
-        // GET: Modules/Create  
-        public ActionResult Create(Guid id)  //????????????????????????????????????????????????
+        // GET: Modules/Create 
+        private const string ModuleEditReturnUrlKey = "modulereturnurl";
+        public ActionResult Create(Guid id, string returnUrl)  //???????
         {
-            return View(new Module() { Course = db.Courses.FirstOrDefault(n=> n.Id== id) });
+            if (returnUrl != null)
+                HttpContext.Session.Contents[ModuleEditReturnUrlKey] = returnUrl;
+
+            if (id != null)
+            {
+                return View(new Module() { Course = db.Courses.FirstOrDefault(n=> n.Id== id) });
+            }
+
+            return View();
         }
 
         // POST: Modules/Create
@@ -47,23 +56,28 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Start,End")] Module module)
+        public ActionResult Create([Bind(Include = "Id,Description,Name,Start,End,CourseId")] Module module)
         { 
             if (ModelState.IsValid)
             {
                 module.Course = db.Courses.FirstOrDefault(n => n.Id == module.Course.Id);
+
                 module.Id = Guid.NewGuid();
                 db.Modules.Add(module);
                 db.SaveChanges();
 
-                //return RedirectToAction("Index");
+                string returnUrl = (string)HttpContext.Session.Contents[ModuleEditReturnUrlKey];
+                if (!string.IsNullOrEmpty(returnUrl))
+                    return Redirect(returnUrl);
+
+                return RedirectToAction("Index");
             }
             return View(module);
         }
 
 
         // GET: Modules/Edit/5
-        private const string ModuleEditReturnUrlKey = "modulereturnurl";
+        
         public ActionResult Edit(Guid? id)
         {
             if (id == null)

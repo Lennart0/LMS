@@ -57,7 +57,7 @@ namespace LMS.Controllers
             // This is for avoiding duplicates in DB. Check the Name and Start date of course.
             if (db.Courses.Any(c => c.Name == course.Name && c.DayStart == course.DayStart))
             {
-                ModelState.AddModelError("Name", "This course has already registered!");
+                ModelState.AddModelError("Name", "This course is already registered!");
 
             }
 
@@ -73,21 +73,19 @@ namespace LMS.Controllers
         }
 
         // GET: Courses/Edit/5
-        private const string CourseEditReturnUrlKey = "coursereturnurl";
-        public ActionResult Edit(Guid? id, string returnUrl)
+        public ActionResult Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Course course = db.Courses.Find(id);
+            ViewBag.CourseName = course.Name;
+
             if (course == null)
             {
                 return HttpNotFound();
             }
-
-            if (returnUrl != null)
-                HttpContext.Session.Contents[CourseEditReturnUrlKey] = returnUrl;
 
             return View(course);
         }
@@ -104,10 +102,6 @@ namespace LMS.Controllers
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
 
-                string returnUrl = (string)HttpContext.Session.Contents[CourseEditReturnUrlKey];
-                if (!string.IsNullOrEmpty(returnUrl))
-                    return Redirect(returnUrl);
-
                 return RedirectToAction("Index");
             }
             return View(course);
@@ -121,6 +115,8 @@ namespace LMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Course course = db.Courses.Find(id);
+            ViewBag.CourseName = course.Name;
+
             if (course == null)
             {
                 return HttpNotFound();

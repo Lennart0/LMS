@@ -17,23 +17,23 @@ namespace LMS.Models
         }
 
         public Guid Id { get; set; }
-        public string Description { get; set; }
 
-        //[Index("IX_NameDayStart", 1, IsUnique = true)]
         public string Name { get; set; }
+
+        public string Description { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Start { get; set; }
 
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime End { get; set; }
 
         public DateTime? LunchStart { get; set; }
 
         public DateTime? LunchEnd { get; set; }
 
-        //[Index("IX_NameDayStart", 2, IsUnique = true)]
         public DateTime? DayStart { get; set; }
 
         public DateTime? DayEnd { get; set; }

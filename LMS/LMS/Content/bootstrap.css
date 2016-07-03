@@ -4395,7 +4395,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
   color: #5e5e5e;
-  background-color: transparent;
+  /*background-color: transparent;*/
 }
 
 .navbar-default .navbar-text {
@@ -4512,7 +4512,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
   color: #ffffff;
-  background-color: transparent;
+  /*background-color: transparent;*/
 }
 
 .navbar-inverse .navbar-text {

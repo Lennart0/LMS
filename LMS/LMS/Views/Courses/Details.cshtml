@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
 }
 <br />
-<h2>Course Details: &nbsp; &nbsp; @ViewBag.CourseName</h2>
+<h2>Course Details:&nbsp; <strong>@ViewBag.CourseName</strong></h2>
 
 
 <div>
@@ -46,15 +46,13 @@
         </dd>
 
         <dt>
-            @* @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })*@
-            @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id })*@
         </dt>
     </dl>
 
     <br /><hr /><br />
 
     <h4>Modules</h4>
-    @Html.ActionLink(linkText: "Add Module", actionName: "Create", controllerName: "Modules", routeValues: new { id = Model.Id }, htmlAttributes: null)
+    @Html.ActionLink(linkText: "Add Module", actionName: "Create", controllerName: "Modules", routeValues: new { id = Model.Id, returnUrl = "/Courses/Details/" + Model.Id }, htmlAttributes: null)
     <table class="table table-responsive table-striped">
         <tr>
             <th id="tableCol1">
@@ -93,7 +91,9 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", "Modules", new { id = item.Id, returnUrl = "/Courses/Details/" + Model.Id }, null) |
+                    @*@Html.ActionLink("Edit", "Edit", "Modules", new { id = item.Id, returnUrl = Request.UrlReferrer }, null) |*@
                     @Html.ActionLink("Delete", "Delete", "Modules", new { id = item.Id }, null)
+                    
          
                 </td>
             </tr>
@@ -134,6 +134,8 @@
         }
 
     </table>
+
+    <br /><hr /><br />
   
     <h4>Kurs-dokument</h4>
   
@@ -171,8 +173,7 @@
     <p><a href="~/Documents/Course/userStories.txt" download>Nerladdnings-test</a></p>
 
 
-<br /><br />
-<hr />
+<br /><hr /><br />
 <div>
     @Html.ActionLink("Back to Course Register", "Index")
 </div>

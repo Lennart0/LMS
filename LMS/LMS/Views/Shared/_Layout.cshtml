@@ -9,7 +9,7 @@
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top navbar-custom">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -17,12 +17,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
-                @*<a href="~/Home/index.cshtml">
-                        <img class="img-responsive navbar-brand"
-                             src="~/images/logo-lexicon2.gif"
-                             title="Lexicon Learning Managment System" />
-                    </a>*@
 
                 @Html.ActionLink("Lexicon LMS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
@@ -42,7 +36,7 @@
         @*<hr />*@
 
         <br /><br /><br /><br />
-        <footer class="navbar-inverse navbar-fixed-bottom navbar-custom">
+        <footer class="footer-custom">
             <div class="container">
                 <div>
                     <p>&copy; @DateTime.Now.Year - Lexicon LMS Application &nbsp; &nbsp; | &nbsp; &nbsp; Created by Group 3: Kalle, Lennart, Santana</p>

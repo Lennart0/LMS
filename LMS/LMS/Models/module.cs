@@ -11,24 +11,25 @@ namespace LMS.Models {
             this.Documents  = new List<Document>();
             this.Activities = new List<Activity>();
         }
-        public string Description {
-            get;
-            set;
-        }
-        public string Name {
-            get;
-            set;
-        }
+
         public Guid Id { get; set; }
 
+        public string Name { get; set; }
+
+        public string Description { get; set; }        
+
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime  Start { get; set; }
 
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime End { get; set; }
 
+        
         public Guid? CourseId { get; set; }
-        public  virtual Course Course { get; set;}
+
+        public virtual Course Course { get; set;}
         public virtual List<Activity> Activities { get; set; }
         public virtual List<Document> Documents { get;  set; }
     }
