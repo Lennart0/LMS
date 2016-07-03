@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
 }
 
-<h3>Edit @ViewBag.EditModule</h3>
+<h3>Redigera modul @ViewBag.EditModule</h3>
 
 
 @using (Html.BeginForm())
@@ -48,9 +48,17 @@
             </div>
         </div>
 
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Course, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.Course, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Course, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Spara" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -59,7 +67,7 @@
 <hr />
 
 <div>
-    @Html.ActionLink("Back to previous view", null, null, null, new { href = Request.UrlReferrer })
+    @Html.ActionLink("Tillbaka till föregående sida", null, null, null, new { href = Request.UrlReferrer, @class = "link-text" })
 </div>
 
 @section Scripts {

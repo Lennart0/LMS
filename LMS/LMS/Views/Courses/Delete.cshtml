@@ -4,9 +4,9 @@
     ViewBag.Title = "Delete";
 }
 <br />
-<h2>Delete Course <strong>@ViewBag.CourseName</strong></h2>
+<h2>Ta bort kursen <strong>@ViewBag.CourseName</strong></h2>
 
-<h3>Are you sure you want to delete this course <strong>@ViewBag.CourseName</strong>?</h3>
+<h3>Vill du verkligen ta bort kurs <strong>@ViewBag.CourseName</strong>?</h3>
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -52,7 +52,7 @@
                 @Html.AntiForgeryToken()
 
                 @*<div class="form-actions no-color">*@
-                <input type="submit" value="Delete" class="btn btn-default" />
+                <input type="submit" value="Ta bort" class="btn btn-default" />
 
                     @*</div>*@
             }
@@ -60,7 +60,8 @@
     </dl>
 </div>
 
-<hr />
-<div id="BackToList">
-    @Html.ActionLink("Back to Course Register", "Index")
+<br /><hr />
+<div>
+    @Html.ActionLink("Tillbaka till kurslistan", "Index", null, null, new { @class = "link-text" })
 </div>
+

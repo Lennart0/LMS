@@ -39,23 +39,16 @@ namespace LMS.Controllers
 
         // GET: Modules/Create 
         private const string ModuleEditReturnUrlKey = "modulereturnurl";
-        public ActionResult Create(Guid id, string returnUrl)  //???????
+        public ActionResult Create(Guid id, string returnUrl) 
         {
             if (returnUrl != null)
                 HttpContext.Session.Contents[ModuleEditReturnUrlKey] = returnUrl;
 
-            if (id != null)
-            {
-                return View(new Module() { Course = db.Courses.FirstOrDefault(n=> n.Id== id) });
-            }
             if ( id == null ) {
                 return new HttpStatusCodeResult( HttpStatusCode.BadRequest );
             }
 
             return View( new Module() { CourseId = id /*Course = db.Courses.FirstOrDefault(n=> n.Id== id)*/ } );
-        }
-
-            return View();
         }
 
         // POST: Modules/Create
@@ -84,8 +77,11 @@ namespace LMS.Controllers
 
         // GET: Modules/Edit/5
         
-        public ActionResult Edit(Guid? id)
+        public ActionResult Edit(Guid? id, string returnUrl)
         {
+            if (returnUrl != null)
+                HttpContext.Session.Contents[ModuleEditReturnUrlKey] = returnUrl;
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -128,8 +124,13 @@ namespace LMS.Controllers
         }
 
         // GET: Modules/Delete/5
-        public ActionResult Delete(Guid? id)
+        public ActionResult Delete(Guid? id, string returnUrl)
         {
+            if (returnUrl != null)
+            {
+                HttpContext.Session.Contents[ModuleEditReturnUrlKey] = returnUrl;
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -153,6 +154,11 @@ namespace LMS.Controllers
             Module module = db.Modules.Find(id);
             db.Modules.Remove(module);
             db.SaveChanges();
+
+            string returnUrl = (string)HttpContext.Session.Contents[ModuleEditReturnUrlKey];
+            if (!string.IsNullOrEmpty(returnUrl))
+                return Redirect(returnUrl);
+
             return RedirectToAction("Index");
         }
 

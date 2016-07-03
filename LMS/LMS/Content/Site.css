@@ -29,25 +29,29 @@ textarea {
     max-width: 280px;
 }
 
-#courseLink{
-    color: black;
+.link-text{
+    color: #0094ff;
 }
 
-#courseLink:hover{
-    color: #ff6a00;
-    font-size: 16px;
+.link-text:hover{
+    color: #ffffff;
+    background-color: #adadad;
+    font-size: 15px;
     text-decoration: none;
 }
 
-#tableCell{
-    max-width: 600px;
-    display: inline-block;
+#table-description1{
+    max-width: 450px;
     text-align:justify;
 }
 
-.text-description{
-    max-width: 700px;
-    display: inline-block;
+#table-description2 {
+    max-width: 370px;
+    text-align:justify;
+}
+
+#table-description3{
+    max-width: 850px;
     text-align:justify;
 }
 
@@ -64,8 +68,8 @@ textarea {
   color: #333333;
   background-color: #ffffff;
   border-color: #cccccc;
-  height: 22px;
-  padding: 1px 6px;
+  height: 24px;
+  padding: 2px 6px;
 }
 
 .btn-custom:hover,
@@ -74,14 +78,16 @@ textarea {
 .btn-custom.active,
 .open .dropdown-toggle.btn-custom {
   color: #333333;
-  background-color: #8EF05F;
+  /*background-color: #8EF05F;*/
+  background-color: #ebebeb;
   border-color: #adadad;
 }
 
 .btn-default:hover,
 .btn-default:focus,
 .btn-default:active{
-    background-color: #8EF05F;
+    /*background-color: #8EF05F;*/
+    font-size: 15px;
 }
 
 .footer-custom{
@@ -126,13 +132,14 @@ textarea {
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
   /*color: #8EF05F;*/
-  background-color:  #8EF05F;
-  font-size: 18px;
+  /*background-color:  #8EF05F;*/
+  background-color: #adadad;
+  font-size: 19px;
 }
 
 .navbar-brand {
-  float: left;
-  padding: 15px 15px;
+  float:left;
+  padding: 15px 30px;
   font-size: 18px;
   line-height: 20px;
   background-color: #D60000;
@@ -150,5 +157,12 @@ textarea {
 
 .navbar {
   border: 0px solid transparent;
+}
+
+#url-string{
+ padding: 5px 5px;
+ font-family:'Arial Unicode MS';
+ background-color: whitesmoke;
+ height: 26px;
 }
 

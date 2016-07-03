@@ -10,7 +10,7 @@
 {
     @Html.AntiForgeryToken()
    
-    <h3>Add a new @(Model.CourseId==null?"teacher":"student into course " + (Model.CourseId) ) </h3>
+    <h3> Lägg till en ny @(Model.CourseId==null?"Lärare":"elev till kursen " ) </h3>
     <hr />
 
     @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -48,13 +48,13 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Add" />
+            <input type="submit" class="btn btn-default" value="Lägg till" />
         </div>
     </div>
 }
-
+<br /><hr />
 <div>
-    @Html.ActionLink("Back to previous page", null, null, null, new { href = Request.UrlReferrer })
+    @Html.ActionLink("Tillbaka till föregående sida", null, null, null, new { href = Request.UrlReferrer, @class = "link-text" })
 </div>
 
 @section Scripts {

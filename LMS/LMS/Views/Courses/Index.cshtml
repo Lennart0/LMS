@@ -11,25 +11,24 @@
     })
 
 </script>
- 
 
 <br />
 <div class="col-md-4">
-    <h3>Course register</h3>
+    <h2>Kurslista</h2>
 </div>
 
 <div class="col-md-2">
     <br />
-    @Html.ActionLink("Add a New Course", "Create", null, new { @class = "btn btn-default" })
+    @Html.ActionLink("Lägg till ny kurs", "Create", null, new { @class = "btn btn-default" })
 </div>
 
 <div class="col-md-2">
     <br />
-    @Html.ActionLink(linkText: "Add a New Teacher", actionName: "Register", controllerName: "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink(linkText: "Lägg till ny lärare", actionName: "Register", controllerName: "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-default" })
 </div>
 
 <br /><br /><br /><br />
-<table class="table">
+<table class="table table-striped">
 
     <tr>
         <th id="tableCol1">
@@ -56,7 +55,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td id="tableCell">
+            <td id="table-description1">
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
@@ -67,9 +66,9 @@
             </td>
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-custom" })
-                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-custom" })
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-custom" })
+                @Html.ActionLink("Redigera", "Edit", new { id = item.Id }, new { @class = "btn btn-custom" })
+                @Html.ActionLink("Detaljer", "Details", new { id = item.Id }, new { @class = "btn btn-custom" })
+                @Html.ActionLink("Ta bort", "Delete", new { id = item.Id }, new { @class = "btn btn-custom" })
             </td>
         </tr>
     }

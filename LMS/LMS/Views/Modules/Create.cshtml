@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h3> Add Module</h3>
+<h3> Lägg till modul @ViewBag.CourseName</h3>
 
 
 @using (Html.BeginForm()) 
@@ -20,7 +20,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @autofocus = "autofocus" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -61,14 +61,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Add Module" class="btn btn-default" />
+                <input type="submit" value="Lägg till" class="btn btn-default" />
             </div>
         </div>
   </div>  
 }
 <br /><hr /><br />
 <div>
-    @Html.ActionLink("Back to previous page", null, null, null, new { href = Request.UrlReferrer })
+    @Html.ActionLink("Tillbaka till föregående sida", null, null, null, new { href = Request.UrlReferrer })
 </div>
 
 @section Scripts {

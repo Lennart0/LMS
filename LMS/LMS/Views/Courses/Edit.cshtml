@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Edit";
 }
-<h2>Edit Course <strong>@ViewBag.CourseName</strong></h2>
+<h2>Redigera kurs <strong>@ViewBag.CourseName</strong></h2>
 
 @using (Html.BeginForm())
 {
@@ -49,15 +49,15 @@
       
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Spara" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
-<hr />
-<div id="BackToList">
-    @Html.ActionLink("Back to Course Register", "Index")
+<br /><hr />
+<div>
+    @Html.ActionLink("Tillbaka till kurslistan", "Index", null, null, new { @class = "link-text" })
 </div>
 
 @section Scripts {

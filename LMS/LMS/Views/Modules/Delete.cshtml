@@ -4,9 +4,9 @@
     ViewBag.Title = "Delete";
 }
 
-<h3>Remove Module "@ViewBag.DeleteModule"</h3>
-
-<h4>Are you sure you want to delete modul "@ViewBag.DeleteModule"?</h4>
+<h3>Ta bort modul "@ViewBag.DeleteModule"</h3>
+<br />
+<h4>Vill du verkligen ta bort modul "@ViewBag.DeleteModule"?</h4>
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -49,7 +49,7 @@
                 @Html.AntiForgeryToken()
 
                 <div class="form-actions no-color">
-                    <input type="submit" value="Delete" class="btn btn-default" />
+                    <input type="submit" value="Ta bort" class="btn btn-default" />
                 </div>
             }
         </dd>
@@ -57,8 +57,7 @@
     </dl>   
 </div>
 
-<br />
-<hr />
+<br /><hr />
 <div>
-    @Html.ActionLink("Back to previous view", null, null, null, new { href = Request.UrlReferrer })
+    @Html.ActionLink("Tillbaka till föregående sida", null, null, null, new { href = Request.UrlReferrer, @class = "link-text" })
 </div>

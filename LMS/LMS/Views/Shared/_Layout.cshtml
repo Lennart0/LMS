@@ -24,7 +24,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Hem", "Index", "Home")</li>
                     @if ( User.Identity.IsAuthenticated && User.IsInRole( LMS.Helpers.Constants.TeacherRole ) ) {
-                        <li>@Html.ActionLink( "Kurser", "Index", "Courses" )</li>
+                        <li>@Html.ActionLink( "Kurser", "Index", "Courses/Index" )</li>
                     }
                     @if ( User.Identity.IsAuthenticated && !User.IsInRole( LMS.Helpers.Constants.TeacherRole ) ) {
                         <li>@Html.ActionLink( "Kursinformation", "CourseInfoAndStudents", "Courses" )</li>
@@ -36,9 +36,12 @@
         </div>
     </div>
     <div class="container body-content">
+        <div id="url-string">
+            @HttpContext.Current.Request.Url.AbsolutePath  
+        </div>
         @RenderBody()
+        
 
-        @*<hr />*@
 
         <br /><br /><br /><br />
         <footer class="footer-custom">
