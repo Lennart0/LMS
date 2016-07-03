@@ -163,7 +163,7 @@ namespace LMS.Controllers
                     Email = model.Email,
                     UserName = model.Email, //model.UserName,
                     FullName = model.FullName,
-                    CourseId = model.CourseId.HasValue ? model.CourseId.Value : (Guid?)null };
+                    CourseId = model.CourseId };
 
                 var result = await UserManager.CreateAsync( user, model.Password );
 

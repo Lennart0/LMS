@@ -16,19 +16,24 @@ namespace LMS.Controllers {
             List<DocumentItem> items = new List<DocumentItem>();
             var entityName = "";
             switch (entityType) {
-                case Models.DocumentTargetEntity.User:
-                    entityName = db.Users.FirstOrDefault(n => n.Id == EntityId.ToString()).UserName;
-                    items = 
-                        userPrivlageFileter(
-                            db.Documents.Where(n => n.User.Id == EntityId.ToString()) , user)
-                            .Select(n => new DocumentItem() {
-                                URL = n.Url,
-                                RequiresUpload =false,
-                                SelectionMechanic = DocumentSelectionMechanic.Url,
-                                Owner = n.User.FullName,
-                                Status = DocumentStatus.Yellow,
-                                StatusText ="test" }).ToList();
-                    break;
+                //case Models.DocumentTargetEntity.User:
+                //    entityName = db.Users.FirstOrDefault(n => n.Id == EntityId.ToString()).UserName;
+                //    items = 
+                //        userPrivlageFileter(
+                //            db.Documents.Where(n => n.User.Id == EntityId.ToString()) , user)
+                //            .Select(n => new DocumentItem() {
+                //                URL = n.Url,
+                //                RequiresUpload =false,
+                //                SelectionMechanic = DocumentSelectionMechanic.Url,
+                //                Owner = n.User.UserName,
+                //                Status = DocumentStatus.Yellow,
+                //                StatusText ="",
+                //             PublishDate= DateTime.Now,
+                //             Feedback="",
+                //             DeadLine=null,
+                //             HasDeadline=false,
+                //             DocumentDbId = n.Id}).ToList();
+                //    break;
                 case Models.DocumentTargetEntity.Activity:
                     entityName = db.Activies.FirstOrDefault(n => n.Id == EntityId).Name;
                     items =
@@ -38,9 +43,14 @@ namespace LMS.Controllers {
                              URL = n.Url,
                              RequiresUpload = false,
                              SelectionMechanic = DocumentSelectionMechanic.Url,
-                             Owner = n.User.FullName,
+                             Owner = n.User.UserName,
                              Status = DocumentStatus.Yellow,
-                             StatusText = "test"
+                             StatusText = "",
+                             PublishDate = DateTime.Now,
+                             Feedback = "",
+                             DeadLine = null,
+                             HasDeadline = false,
+                             DocumentDbId = n.Id
                          }).ToList();
                     break;
                 case Models.DocumentTargetEntity.Module:
@@ -52,9 +62,14 @@ namespace LMS.Controllers {
                              URL = n.Url,
                              RequiresUpload = false,
                              SelectionMechanic = DocumentSelectionMechanic.Url,
-                             Owner = n.User.FullName,
+                             Owner = n.User.UserName,
                              Status = DocumentStatus.Yellow,
-                             StatusText = "test"
+                             StatusText = "",
+                             PublishDate = DateTime.Now,
+                             Feedback = "",
+                             DeadLine = null,
+                             HasDeadline = false,
+                             DocumentDbId = n.Id
                          }).ToList();
                     break;
                 case Models.DocumentTargetEntity.Course:
@@ -66,9 +81,14 @@ namespace LMS.Controllers {
                              URL = n.Url,
                              RequiresUpload = false,
                              SelectionMechanic = DocumentSelectionMechanic.Url,
-                             Owner = n.User.FullName,
+                             Owner = n.User.UserName,
                              Status = DocumentStatus.Yellow,
-                             StatusText = "test"
+                             StatusText = "",
+                             PublishDate = DateTime.Now,
+                             Feedback = "",
+                             DeadLine = null,
+                             HasDeadline = false,
+                             DocumentDbId = n.Id
                          }).ToList();
                     break;
                 default:
@@ -130,11 +150,12 @@ namespace LMS.Controllers {
             return View(model);
         }
 
-        private void ForEachUrl(DocumentItem item, AddDocumentsViewModel model, ApplicationUser user) {
+        private bool ForEachUrl(DocumentItem item, AddDocumentsViewModel model, ApplicationUser user) {
 
             Activity activity = null;
             Module module = null;
             Course course = null;
+            Document preexisting = db.Documents.FirstOrDefault(n => n.Id == item.DocumentDbId);
 
             //hmmmmm.... only seam to be important to do activity here one sided ralationship here i think..
             switch (model.EntityType) {
@@ -142,46 +163,79 @@ namespace LMS.Controllers {
                     activity = db.Activies.FirstOrDefault(n => n.Id == model.EntityId);
                     break;
                 case DocumentTargetEntity.Module:
-                    module = db.Modules.FirstOrDefault(n => n.Id == model.EntityId);                
+                    module = db.Modules.FirstOrDefault(n => n.Id == model.EntityId);
                     break;
                 case DocumentTargetEntity.Course:
                     course = db.Courses.FirstOrDefault(n => n.Id == model.EntityId);
                     break;
             }
 
+            if (preexisting == null) {
 
-            db.Documents.Add(new Document {
-                Id = Guid.NewGuid(),
-                IsLocal = false,
-                Activity = activity,
-                 Course = course,
-                  Module = module,
-                  
-                User = user,
-                Url = item.URL,
-                UploadDate = DateTime.Now,
-                PublishDate = DateTime.Now //tempoarary we need to rethink document... i think it should be a IEntity
+                if (item.PublishDate.HasValue) {
 
-            });
-            db.SaveChanges();
+                    if (item.DeadLine != null) {
+                        db.Documents.Add(new TimeSensetiveDocument {
+                            Id = Guid.NewGuid(),
+                            IsLocal = false,
+                            Activity = activity,
+                            Course = course,
+                            Module = module,
+                            DeadLine = item.DeadLine.Value,
+                            User = user,
+                            Url = item.URL,
+                            UploadDate = DateTime.Now,
+                            PublishDate = item.PublishDate.Value
+                        });
+                    } else {
+
+                        db.Documents.Add(new Document {
+                            Id = Guid.NewGuid(),
+                            IsLocal = false,
+                            Activity = activity,
+                            Course = course,
+                            Module = module,
+
+                            User = user,
+                            Url = item.URL,
+                            UploadDate = DateTime.Now,
+                            PublishDate = item.PublishDate.Value
+                        });
+                    }
+                    db.SaveChanges();
+                    return true;
+                } else {
+                    //return false means this should be removed and not saved
+                    return false; }
+            } 
+            else {
+                preexisting.Module = module;
+                preexisting.Course = course;
+                preexisting.Activity = activity;
+                preexisting.Url  = item.URL;
+                preexisting.PublishDate = item.PublishDate;
+                  db.SaveChanges();
+                return true;
+            }
+      
         }
 
-        private void ForEachUrlLocal(DocumentItem item, AddDocumentsViewModel model, ApplicationUser user) {
+        private bool ForEachUrlLocal(DocumentItem item, AddDocumentsViewModel model, ApplicationUser user) {
 
-            ForEachUrl(item, model, user);
+        return    ForEachUrl(item, model, user);
         }
 
-        private void ForEachFile(DocumentItem item, AddDocumentsViewModel model, ApplicationUser user) {
+        private bool ForEachFile(DocumentItem item, AddDocumentsViewModel model, ApplicationUser user) {
             var filePath = $"Documents\\{model.EntityType}\\{item.File.FileName}";
             if (System.IO.File.Exists(filePath)) {
                  filePath = $"Documents\\{model.EntityType}\\{Guid.NewGuid()}_{item.File.FileName}";
                 item.File.SaveAs(filePath);
                 item.URL = filePath;
-                ForEachUrl(item, model, user);
+               return ForEachUrl(item, model, user);
             } else {
                 item.File.SaveAs(filePath);
                 item.URL = filePath;
-                ForEachUrl(item, model, user);
+               return ForEachUrl(item, model, user);
             }
         }
 

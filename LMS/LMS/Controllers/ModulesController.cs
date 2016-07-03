@@ -11,6 +11,7 @@ using LMS.Models;
 
 namespace LMS.Controllers
 {
+    [Authorize]
     public class ModulesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -47,6 +48,12 @@ namespace LMS.Controllers
             {
                 return View(new Module() { Course = db.Courses.FirstOrDefault(n=> n.Id== id) });
             }
+            if ( id == null ) {
+                return new HttpStatusCodeResult( HttpStatusCode.BadRequest );
+            }
+
+            return View( new Module() { CourseId = id /*Course = db.Courses.FirstOrDefault(n=> n.Id== id)*/ } );
+        }
 
             return View();
         }
@@ -56,12 +63,11 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,Name,Start,End,CourseId")] Module module)
+        public ActionResult Create([Bind(Include = "Name,Description,Start,End,CourseId")] Module module)
         { 
             if (ModelState.IsValid)
             {
-                module.Course = db.Courses.FirstOrDefault(n => n.Id == module.Course.Id);
-
+                //module.Course = db.Courses.FirstOrDefault(n => n.Id == module.Course.Id);
                 module.Id = Guid.NewGuid();
                 db.Modules.Add(module);
                 db.SaveChanges();
