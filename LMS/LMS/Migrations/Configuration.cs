@@ -19,8 +19,31 @@ namespace LMS.Migrations
 
         protected override void Seed( LMS.DataAccessLayer.ApplicationDbContext context )
         {
-            ApplicationUser user = null;
             string userId = "679a290d-8b3b-4488-8ffb-7dea7a44efca";
+
+
+            #region From DefaultUserAndRoleStartupHelper
+            //if and only if role is empty add roll
+            if ( context.Roles.Count( n => n.Name == Helpers.Constants.TeacherRole ) == 0 ) {
+                context.Roles.Add( new IdentityRole( Helpers.Constants.TeacherRole ) );
+                context.SaveChanges();
+            }
+            var userManager = new UserManager<ApplicationUser>( new UserStore<ApplicationUser>( context ) );
+        
+            var defaultTeacher = new ApplicationUser() {
+                Email = "Larar@lararson.se",
+                UserName = "Larar@lararson.se",
+                Id = userId
+            };
+            //if and only if default user is missing add user
+            if ( context.Users.SingleOrDefault( n => n.Id == defaultTeacher.Id ) == null ) {
+                var result = userManager.Create( defaultTeacher, "@ackN0w" );
+                if ( defaultTeacher?.Roles.Count == 0 && result.Succeeded == true ) {
+                    userManager.AddToRole( defaultTeacher.Id, Helpers.Constants.TeacherRole );
+                }
+            }
+            #endregion
+
 
             //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...
             Guid newCourseId1 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef01" );
@@ -121,7 +144,7 @@ namespace LMS.Migrations
         Guid newDocId3 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44bfb6" );
         Guid newDocId4 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44bfb7" );
 
-        user = context.Users.FirstOrDefault( n => n.Id == "679a290d-8b3b-4488-8ffb-7dea7a44efca" );
+        //user = context.Users.FirstOrDefault( n => n.Id == "679a290d-8b3b-4488-8ffb-7dea7a44efca" );
 
             context.Documents.AddOrUpdate( d => d.Id,
                 new TimeSensetiveDocument {
@@ -133,7 +156,8 @@ namespace LMS.Migrations
                     DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
                     IsLocal = false,
-                    User = user
+                    UserId = userId,
+                    //User = user
                 },
                 new TimeSensetiveDocument {
                     Id = newDocId2,
@@ -144,7 +168,8 @@ namespace LMS.Migrations
                     DeadLine = (DateTime.Now + new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
                     IsLocal = false,
-                    User = user
+                    UserId = userId,
+                    //User = user
                 },
                 new TimeSensetiveDocument {
                     Id = newDocId3,
@@ -155,7 +180,8 @@ namespace LMS.Migrations
                     DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
                     IsLocal = false,
-                    User = user
+                    UserId = userId,
+                    //User = user
                 },
                 new TimeSensetiveDocument {
                     Id = newDocId4,
@@ -166,7 +192,8 @@ namespace LMS.Migrations
                     DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
                     IsLocal = false,
-                    User = user
+                    UserId = userId,
+                    //User = user
                 }
             );
 
@@ -258,7 +285,7 @@ namespace LMS.Migrations
                 //context.SaveChanges();
                 course1.Modules = new List<Module> { module1, module2, module3, module4 };
 
-                user = context.Users.FirstOrDefault( n => n.Id == "679a290d-8b3b-4488-8ffb-7dea7a44efca" );
+                //user = context.Users.FirstOrDefault( n => n.Id == "679a290d-8b3b-4488-8ffb-7dea7a44efca" );
 
 
                 LMS.Helpers.DefaultUserAndRoleStartupHelper.Create();
