@@ -24,6 +24,11 @@ namespace LMS.Models {
  
 
     public class DocumentItem {
+
+ 
+
+
+
         public Guid DocumentDbId { get; set; }
         public DocumentSelectionMechanic SelectionMechanic { get; set; }
         public bool RequiresUpload { get; set; } //if it has already been uploaded this is also compared with selection machanic
@@ -33,14 +38,13 @@ namespace LMS.Models {
         public string URL {
             get; set;
         }
-        public string FileName{ get{
-                return URL;
-               //Regex rex = new Regex("/[^/]*");
 
-               // var index = URL.LastIndexOf("/");
-               // return URL.Substring(index);
-            }
-          }
+       static Regex rexA = new Regex(@".*\/([^\/]*)");
+       static Regex rexB = new Regex(@".*\/([^\/]*)\/");
+        public string ShortName{ get {
+                return Helpers.URLHelper.Shorten(this.URL);
+            } 
+        }
         public HttpPostedFileBase File { get; set; }//not used in sprint 1
         public DocumentStatus Status {get;set;}
         public string StatusText { get; set; }
@@ -54,8 +58,13 @@ namespace LMS.Models {
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true, NullDisplayText = "")]
         public DateTime? DeadLine { get; set; }
+
+
+        public bool IsAssigment { get; set; }
+        public Guid? AssignmentId { get; set; }
+
         public string Feedback { get; set; }
-  
+
         public bool IsOwner { get; set; }
     }
 
@@ -74,6 +83,8 @@ namespace LMS.Models {
     }
 
     public class AddDocumentsViewModel {
+        public List<System.Web.Mvc.SelectListItem> AssigmentsList { get; set; }
+
         public string Error { get; set; }
         public DocumentTargetEntity EntityType { get; set; }
         public Guid EntityId { get; set; }
@@ -83,6 +94,6 @@ namespace LMS.Models {
         public bool Done { get; set; }
         public DocumentSelectionMechanic? SelectionMechanic { get; set; }
         public List<SelectListItem> ComboItems { get; set; }
- 
+   
     }
 }

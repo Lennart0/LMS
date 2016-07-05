@@ -184,6 +184,7 @@
     </Compile>
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\DocHelper.cs" />
+    <Compile Include="Helpers\URLHelper.cs" />
     <Compile Include="Migrations\201607051154460_FromScratch_Again.cs" />
     <Compile Include="Migrations\201607051154460_FromScratch_Again.Designer.cs">
       <DependentUpon>201607051154460_FromScratch_Again.cs</DependentUpon>
