@@ -166,3 +166,21 @@ textarea {
  height: 26px;
 }
 
+.modal-Iframe {
+width:100%; margin-bottom: -5px;
+min-height: 200px;
+}
+
+.modal-body,.modal-dialog {
+padding:0;
+width:100%
+}
+.modal-header {
+padding:5px;
+}
+
+.modal-footer {
+padding:5px;
+margin-top:0;
+}
+

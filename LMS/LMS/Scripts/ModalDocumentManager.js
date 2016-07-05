@@ -22,9 +22,11 @@
         //    // ...
         //}
     };
-    ModalDocumentManager.Delete = function(sender,nr){
+    ModalDocumentManager.Delete = function (sender, nr) {
+        if (confirm("Är du säker att du vill ta bort dokumentet?")) {
         document.getElementById("row_"+nr).style.display = "none";
         document.getElementById("Items_"+nr+"__PublishDate").remove(); //want this as null on server side i.e unpublish or remove if not saved to database...
+        }
     }
     return ModalDocumentManager;
 })();

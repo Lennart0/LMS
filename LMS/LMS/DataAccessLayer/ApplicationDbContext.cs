@@ -22,9 +22,12 @@ namespace LMS.DataAccessLayer
         public DbSet<Course> Courses { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<Activity> Activies { get; set; }
+
+        public DbSet<PlainDocument> PlainDocuments { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<TimeSensetiveDocument> TimeSensetiveDocuments { get; set; }
-
+        public DbSet<AssignmentSubmission> AssignmentSubmissions { get; set; }
+    
         protected override void OnModelCreating( DbModelBuilder modelBuilder )
         {
             base.OnModelCreating( modelBuilder );
@@ -34,6 +37,7 @@ namespace LMS.DataAccessLayer
             modelBuilder.Entity<Document>().ToTable( "Document" );
             modelBuilder.Entity<TimeSensetiveDocument>().ToTable( "TimeSensetiveDocument" );
             modelBuilder.Entity<AssignmentSubmission>().ToTable( "AssignmentSubmission" );
+            modelBuilder.Entity<PlainDocument>().ToTable("PlainDocuments");
 
 
 

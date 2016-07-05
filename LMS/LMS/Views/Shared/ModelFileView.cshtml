@@ -13,7 +13,7 @@
                 <h4 class="modal-title" id="myModalLabel">@Model.Title</h4>
             </div>
             <div class="modal-body DocumentManager">           
-                <iframe  style="width:100%" name="DocumentManager" class="modal-dialog" id="test" frameBorder="0" src="@Url.Content($"/Document/Add/?EntityId={Model.Id}&entityType={Model.Type}")">
+                <iframe    name="DocumentManager" class="modal-dialog modal-Iframe" id="test" frameBorder="0" src="@Url.Content($"/Document/Add/?EntityId={Model.Id}&entityType={Model.Type}")">
                     Laddar...
                 </iframe>
   

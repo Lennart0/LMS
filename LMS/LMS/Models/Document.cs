@@ -8,7 +8,7 @@ namespace LMS.Models {
         Info, Upgift,Annan //?? lite osäker på om vi alla hade samma åsikt här vi får diskutera så att vi inte har samma förväntningar tror jag
     }
     
-    public class Document {
+    public abstract class Document {
         public Guid Id { get; set; }
         public DocumentType Type { get; set; }
         public Guid? CourseId { get; set; }
@@ -35,5 +35,9 @@ namespace LMS.Models {
     //    public Guid? CourseId { get; internal set; }
      //   public Guid? ModuleId { get; internal set; }
       //  public Guid? ActivityId { get; internal set; }
+    }
+
+    public class PlainDocument : Document {
+
     }
 }

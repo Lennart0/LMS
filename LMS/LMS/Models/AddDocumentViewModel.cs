@@ -13,7 +13,7 @@ namespace LMS.Models {
 
     //very abstract status... its up to the controller to add the proper text for the status
     public enum DocumentStatus {
-        Red,Yellow,Green
+       None,Red,Yellow,Green
     }
 
     public enum DocumentSelectionMechanic {
@@ -35,17 +35,19 @@ namespace LMS.Models {
         public HttpPostedFileBase File { get; set; }//not used in sprint 1
         public DocumentStatus Status {get;set;}
         public string StatusText { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, NullDisplayText = "Ej publiserad")]
+ 
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true, NullDisplayText = "Ej publiserad")]
         public DateTime? PublishDate { get; set; }
         public bool HasDeadline { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, NullDisplayText = "Ej publiserad")]
+ 
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true, NullDisplayText = "")]
         public DateTime? DeadLine { get; set; }
         public string Feedback { get; set; }
   
+        public bool IsOwner { get; set; }
     }
 
     public class ComboBoxListItemHelper {

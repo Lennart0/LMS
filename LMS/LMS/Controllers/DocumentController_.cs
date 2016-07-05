@@ -8,167 +8,21 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 
 namespace LMS.Controllers {
-
     [Authorize]
     public class DocumentController : Controller {
 
-
-
         public DocumentController() : base() {
 
-            mappings = new Dictionary<DocumentTargetEntity, Func<ApplicationUser, Guid, List<Document>>>() {
-                {
-                    DocumentTargetEntity.Activity, (user,entityId) => { 
-
-                                               List<PlainDocument> allplainDocs = db.PlainDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).ToList();
-                        List<TimeSensetiveDocument> allAsignments = db.TimeSensetiveDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).Include(n=> n.submissions).ToList();
-                        List<AssignmentSubmission> allSubmisions = db.AssignmentSubmissions.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).Include(n=> n.assignment).ToList();
-                        var result = new List<Document>();
-                        result.AddRange(allplainDocs);
-                        result.AddRange(allAsignments);
-                        result.AddRange(allSubmisions);
-                       return userPrivlageFileter(result , user);
-                        }
-                        },
-                 {
-                    DocumentTargetEntity.Module, (user,entityId) =>
-                    {  
-                        List<PlainDocument> allplainDocs = db.PlainDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ModuleId == entityId).ToList();
-                        List<TimeSensetiveDocument> allAsignments = db.TimeSensetiveDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ModuleId == entityId).Include(n=> n.submissions).ToList();
-                        List<AssignmentSubmission> allSubmisions = db.AssignmentSubmissions.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ModuleId == entityId).Include(n=> n.assignment).ToList();
-                        var result = new List<Document>();
-                        result.AddRange(allplainDocs);
-                        result.AddRange(allAsignments);
-                        result.AddRange(allSubmisions);
-                       return userPrivlageFileter(result , user);
-
-                        }
-                },
-                {
-                    DocumentTargetEntity.Course, (user,entityId) =>
-                    {
-                        List<PlainDocument> allplainDocs = db.PlainDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.CourseId == entityId).ToList();
-                        List<TimeSensetiveDocument> allAsignments = db.TimeSensetiveDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.CourseId == entityId).Include(n=> n.submissions).ToList();
-                        List<AssignmentSubmission> allSubmisions = db.AssignmentSubmissions.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.CourseId == entityId).Include(n=> n.assignment).ToList();
-                        var result = new List<Document>();
-                        result.AddRange(allplainDocs);
-                        result.AddRange(allAsignments);
-                        result.AddRange(allSubmisions);
-                       return userPrivlageFileter(result , user);
-                    }
-
-                }
-             };
-
+            
 
         }
-
-        private Dictionary<DocumentTargetEntity, Func<ApplicationUser, Guid, List<Document>>> mappings;
-
-
-
+        
+ 
 
 
         private DataAccessLayer.ApplicationDbContext db = new DataAccessLayer.ApplicationDbContext();
 
-        private void setStatus(Document n, DocumentItem item) {
-            if (User.IsInRole(Helpers.Constants.TeacherRole)) {
-
-
-                item.IsOwner = true;
-
-                Course course = null;
-                if (n.ActivityId != null) {
-                    course = n.Activity.Module.Course;
-                } else if (n.ModuleId != null) {
-                    course = n.Module.Course;
-                } else if (n.CourseId != null) {
-                    course = n.Course;
-                }
-
-                if ((n as TimeSensetiveDocument).submissions.Select(c => c.UserId).Distinct().Count() == course.Students.Count) {
-                    item.Status = DocumentStatus.Green;
-                    item.StatusText = "Allt inlämnat";
-                } else {
-
-                    if (DateTime.Now >= ((TimeSensetiveDocument)n)?.DeadLine) {
-                        item.Status = DocumentStatus.Red;
-                        var y = course.Students.Count();
-                        var x = (n as TimeSensetiveDocument).submissions.Select(c => c.UserId).Distinct().Count();
-                        item.StatusText = $"Försenad inlämning, {x} av {y} inlämnat";
-                    } else {
-                        item.Status = DocumentStatus.Yellow;
-                        var y = course.Students.Count();
-                        var x = (n as TimeSensetiveDocument).submissions.Select(c => c.UserId).Distinct().Count();
-
-                        item.StatusText = $"{x} av {y} inlämnad";
-                    }
-                }
-            } else {
-
-  
-                item.IsOwner = n.User.Email == User.Identity.Name;
-
-                if (((TimeSensetiveDocument)n).submissions.Count(u => u.User.UserName == User.Identity.Name) > 0) {
-                    item.Status = DocumentStatus.Green;
-                    item.StatusText = "Inlämnad";
-                } else {
-
-                    if (DateTime.Now >= ((TimeSensetiveDocument)n)?.DeadLine) {
-                        item.Status = DocumentStatus.Red;
-                        item.StatusText = "Sen inlämning";
-                    } else {
-                        item.Status = DocumentStatus.Yellow;
-                        item.StatusText = "ej inlämning";
-                    }
-                }
-            }
-        }
-
-        public List<DocumentItem> CreateViewModelFromDbItem(DocumentTargetEntity target, ApplicationUser user, Guid id) {
-            var result = mappings[target].Invoke(user, id).Select(n => {
-                var item = new DocumentItem();
-
-
-                if (ObjectContext.GetObjectType(n.GetType()) == typeof(Models.TimeSensetiveDocument)) {
-                    item.URL = n.Url;
-                    item.RequiresUpload = false;
-                    item.SelectionMechanic = DocumentSelectionMechanic.Url;
-                    item.Owner = n.User.UserName;
-                    setStatus(n, item);
-                    item.PublishDate = n.PublishDate;
-
-                    item.DeadLine = (n as TimeSensetiveDocument)?.DeadLine;
-                    item.HasDeadline = true;
-                    item.DocumentDbId = n.Id;
-                } else
-                if (ObjectContext.GetObjectType(n.GetType()) == typeof(Models.AssignmentSubmission)) {
-                    var x = n as AssignmentSubmission;
-
-                    item.Feedback = x?.FeedBack;
-                    item.URL = n.Url;
-                    item.RequiresUpload = false;
-                    item.SelectionMechanic = DocumentSelectionMechanic.Url;
-                    item.Owner = n.User.UserName;
-                    item.PublishDate = n.PublishDate; ;
-                    item.HasDeadline = true;
-                    item.DocumentDbId = n.Id;
-                } else
-                if (ObjectContext.GetObjectType(n.GetType()) == typeof(Models.PlainDocument)) {
-                    item.URL = n.Url;
-                    item.RequiresUpload = false;
-                    item.SelectionMechanic = DocumentSelectionMechanic.Url;
-                    item.Owner = n.User.UserName;
-                    item.PublishDate = n.PublishDate; ;
-                    item.HasDeadline = true;
-                    item.DocumentDbId = n.Id;
-                }
-                return item;
-            }).ToList();
-
-
-            return result;
-        }
+     
 
 
         // GET: Document
@@ -277,8 +131,34 @@ namespace LMS.Controllers {
             });
         }
 
-        private List<Document> userPrivlageFileter(List<Document> queryable, ApplicationUser user) {
-            return queryable;
+        public IEnumerable<Document> Get(DocumentTargetEntity entityType, Guid entityId) {
+            switch (entityType) {
+                case DocumentTargetEntity.Activity:
+                    return db.Documents.Where(n => n.ActivityId == entityId);
+                    break;
+                case DocumentTargetEntity.Module:
+                    return db.Documents.Where(n => n.ModuleId == entityId);
+                    break;
+                case DocumentTargetEntity.Course:
+                    return db.Documents.Where(n => n.CourseId == entityId);
+                    break;
+                default:
+                    return null;
+                    break;
+            }
+        }
+
+
+        private List<DocumentItem> CreateViewModelFromDbItem(DocumentTargetEntity entityType, ApplicationUser user, Guid entityId) {
+            var teacher = db.Roles.First(n => n.Name == Helpers.Constants.TeacherRole);
+
+            var x = Get(entityType, entityId).Where(n => ObjectContext.GetObjectType(n.GetType()) == typeof(Document) && n.User.Roles.Count(r=> r.RoleId == teacher.Id)== 1);
+            var y = Get(entityType, entityId).Where(n => ObjectContext.GetObjectType(n.GetType()) == typeof(AssignmentSubmission) &&  (User.IsInRole(Helpers.Constants.TeacherRole) || n.User.UserName == User.Identity.Name));
+            var z = Get(entityType, entityId).Where(n => ObjectContext.GetObjectType(n.GetType()) == typeof(TimeSensetiveDocument));
+
+
+    
+            return null;
         }
 
         [HttpPost]
@@ -353,7 +233,7 @@ namespace LMS.Controllers {
                         });
                     } else {
 
-                        db.Documents.Add(new PlainDocument {
+                        db.Documents.Add(new Document {
                             Id = Guid.NewGuid(),
                             IsLocal = false,
                             Activity = activity,
