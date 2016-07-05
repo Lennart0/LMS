@@ -147,13 +147,13 @@ namespace LMS.Migrations
         //user = context.Users.FirstOrDefault( n => n.Id == "679a290d-8b3b-4488-8ffb-7dea7a44efca" );
 
             context.Documents.AddOrUpdate( d => d.Id,
-                new TimeSensetiveDocument {
+                new PlainDocument {
                     Id = newDocId1,
                     Type = DocumentType.Upgift,
                     //Activity = act1,
                     ActivityId = newActivityId1,
                     PublishDate = DateTime.Now - new TimeSpan(1,0,0,0),
-                    DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
+                    Url="http://www.filelocation.com/somefile.pdf",
                     UploadDate = new DateTime( 2016, 1, 1 ),
                     IsLocal = false,
                     UserId = userId,
@@ -163,7 +163,8 @@ namespace LMS.Migrations
                     Id = newDocId2,
                     Type = DocumentType.Upgift,
                     //Activity = act2,
-                    ActivityId = newActivityId2,
+                    ActivityId = newActivityId1,
+                    Url = "http://www.filelocation.com/SomeTrainingExcersize.pdf",
                     PublishDate = DateTime.Now + new TimeSpan( 1, 0, 0, 0 ),
                     DeadLine = (DateTime.Now + new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
                     UploadDate = new DateTime( 2016, 1, 1 ),
@@ -171,25 +172,27 @@ namespace LMS.Migrations
                     UserId = userId,
                     //User = user
                 },
-                new TimeSensetiveDocument {
+                new AssignmentSubmission {
                     Id = newDocId3,
                     Type = DocumentType.Upgift,
                     //Activity = act3,
-                    ActivityId = newActivityId3,
+                    Url = "http://www.filelocation.com/PersonX_Answer.zip",
+                    ActivityId = newActivityId1,
                     PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
-                    DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
+                    assignmentId=newDocId2,
                     UploadDate = new DateTime( 2016, 1, 1 ),
                     IsLocal = false,
                     UserId = userId,
+                     
                     //User = user
                 },
-                new TimeSensetiveDocument {
+                new PlainDocument {
                     Id = newDocId4,
                     Type = DocumentType.Upgift,
                     //Activity = act4,
-                    ActivityId = newActivityId4,
+                    ActivityId = newActivityId1,
                     PublishDate = DateTime.Now - new TimeSpan( 1, 0, 0, 0 ),
-                    DeadLine = (DateTime.Now - new TimeSpan( 1, 0, 0, 0 )).Date + new TimeSpan( 5, 0, 0, 0 ),
+                   
                     UploadDate = new DateTime( 2016, 1, 1 ),
                     IsLocal = false,
                     UserId = userId,
@@ -292,7 +295,7 @@ namespace LMS.Migrations
 
 
 
-                var doc1 = new Document {
+                var doc1 = new PlainDocument {
                     Id = new Guid( "f6128c63-d52c-4b70-a1a1-f7ca9040a044" ),
                     Type = DocumentType.Info,
                     IsLocal = false,

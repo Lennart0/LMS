@@ -112,7 +112,7 @@ cursor:pointer;
 
 
                         <td>
-                            @Html.DisplayFor(n => n.Items[i].URL)
+                            <a target="_blank" href="@Model.Items[i].URL">@Html.DisplayFor(n => n.Items[i].URL)</a> 
                         </td>
                         <td>@Html.DisplayFor(n => n.Items[i].Owner)</td>
                         <td style ="background-color:@Model.Items[i].Status;">
@@ -156,15 +156,10 @@ cursor:pointer;
                 }
             }
         </tbody>
-        <tfoot>
-            <tr>
-                <td>@Html.DropDownListFor(n => n.SelectionMechanic, Model.ComboItems)</td>
-                <td><input type="submit" value="Nytt fält" /></td>
-            </tr>
-        </tfoot>
     </table>
 
-
+    @Html.DropDownListFor(n => n.SelectionMechanic, Model.ComboItems)
+    <input type="submit" value="Nytt fält" />
     @Html.HiddenFor(n => n.Done, new { id = "done" })
 
     <input type="submit" onclick="__Done()" value="Klart" />
