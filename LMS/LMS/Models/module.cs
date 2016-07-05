@@ -18,18 +18,17 @@ namespace LMS.Models {
         public string Name { get; set; }
 
         [Display(Name = "Beskrivning")]
-        public string Description { get; set; }        
+        public string Description { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [DataType( DataType.Date )]
+        [DisplayFormat( ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}" )]
         [Display(Name = "Start-datum")]
         public DateTime  Start { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat( ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         [Display(Name = "Slut-datum")]
         public DateTime End { get; set; }
-
         
         public Guid? CourseId { get; set; }
 
