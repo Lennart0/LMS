@@ -76,7 +76,7 @@
             <th id="tableCol1"></th>
         </tr>
 
-        @foreach (var item in Model.Modules)
+        @foreach (var item in Model.Modules.OrderBy(m => m.Start))
         {
             <tr>
                 <td>

@@ -57,10 +57,13 @@
             <th>
                 @Html.DisplayNameFor( x => aActivity.Start )
             </th>
+            <th>
+                @Html.DisplayNameFor( x => aActivity.End )
+            </th>
             <th></th>
         </tr>
 
-        @foreach ( var item in Model.Activities ) {
+        @foreach ( var item in Model.Activities.OrderBy(a => a.Start) ) {
             <tr>
                 <td>
                     <abbr title="@item.Description">@item.Name</abbr>  @*Html.DisplayFor( x => item.Name )*@
@@ -69,8 +72,11 @@
                     @Html.DisplayFor( x => item.Start )
                 </td>
                 <td>
+                    @Html.DisplayFor( x => item.End )
+                </td>
+                <td>
                     @Html.ActionLink( "Edit", "Edit", "Activities", new { id = item.Id, returnUrl = "/Modules/Details/" + Model.Id }, null ) |
-                    @Html.ActionLink("Details", "Details", "Activities", new { id = item.Id }, null ) |
+                    @Html.ActionLink( "Details", "Details", "Activities", new { id = item.Id }, null ) |
                     @Html.ActionLink( "Delete", "Delete", "Activities", new { id = item.Id }, null )
                 </td>
             </tr>
@@ -78,10 +84,39 @@
 
     </table>
 
+    <h4>Dokument</h4>
+
+    @Html.Partial( "~/Views/Shared/ModelFileView.cshtml",
+    new LMS.Models.FileModalPartialViewModel {
+        Id = Model.Id,
+        Type = LMS.Models.DocumentTargetEntity.Module,
+        Title = Model.Name,
+        PostBackChange = "location.reload()"
+    } )
+
+    <ul>
+        @foreach ( var doc in Model.Documents ) {
+            if ( string.IsNullOrWhiteSpace( doc.Url ) ) {
+                continue;
+            }
+            <li>
+                @{
+                    string url = doc.Url;
+                    int ix = url != null ? url.LastIndexOf( '/' ) : -1;
+                    string name = url;
+                    if ( ix >= 0 ) {
+                        name = name.Substring( ix + 1 );
+                    }
+                    else {
+                        url = "~/Documents/Course/" + url;
+                    }
+                }
+                <a href="@url" download>@name</a>
+            </li>
+        }
+    </ul>
+
 </div>
-
-
-
 
 
 <p>

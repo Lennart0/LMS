@@ -19,18 +19,18 @@
 
 
         <div class="form-group">
-            @Html.LabelFor( model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" } )
-            <div class="col-md-10">
-                @Html.EditorFor( model => model.Description, new { htmlAttributes = new { @class = "form-control" } } )
-                @Html.ValidationMessageFor( model => model.Description, "", new { @class = "text-danger" } )
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor( model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" } )
             <div class="col-md-10">
                 @Html.EditorFor( model => model.Name, new { htmlAttributes = new { @class = "form-control" } } )
                 @Html.ValidationMessageFor( model => model.Name, "", new { @class = "text-danger" } )
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor( model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" } )
+            <div class="col-md-10">
+                @Html.EditorFor( model => model.Description, new { htmlAttributes = new { @class = "form-control" } } )
+                @Html.ValidationMessageFor( model => model.Description, "", new { @class = "text-danger" } )
             </div>
         </div>
 
@@ -57,6 +57,42 @@
         </div>
     </div>
 }
+
+<hr />
+
+<h4>Dokument</h4>
+
+@Html.Partial( "~/Views/Shared/ModelFileView.cshtml",
+    new LMS.Models.FileModalPartialViewModel {
+        Id = Model.Id,
+        Type = LMS.Models.DocumentTargetEntity.Activity,
+        Title = Model.Name,
+        PostBackChange = "location.reload()"
+    } )
+
+<ul>
+    @foreach ( var doc in Model.Documents ) {
+        if ( string.IsNullOrWhiteSpace( doc.Url ) ) {
+            continue;
+        }
+        <li>
+            @{
+                string url = doc.Url;
+                int ix = url != null ? url.LastIndexOf( '/' ) : -1;
+                string name = url;
+                if ( ix >= 0 ) {
+                    name = name.Substring( ix + 1 );
+                }
+                else {
+                    url = "~/Documents/Course/" + url;
+                }
+            }
+            <a href="@url" download>@name</a>
+        </li>
+    }
+</ul>
+
+<hr />
 
 <div>
     @Html.ActionLink( "Tillbaka till föregående sida", null, null, null, new { href = Request.UrlReferrer, @class = "link-text" } )
