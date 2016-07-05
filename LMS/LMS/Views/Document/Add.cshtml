@@ -84,13 +84,32 @@ cursor:pointer;
 
                             }
                         </td>
+
+                        <td>
+                            @if (Model.Items[i].IsAssigment) {
+                                @Html.DropDownListFor(n => n.Items[i].AssignmentId, Model.AssigmentsList)
+                                @Html.HiddenFor(n => n.Items[i].IsAssigment)
+                            } else {
+                                <div style="display:initial;">
+                                    @Html.CheckBoxFor(n => n.Items[i].IsAssigment, new { onchange = $"ModalDocumentManager.ShowAssigmentOptions({i})" }) Inlämning
+                                </div>
+                                <div style="display:none;">
+                                    @Html.DropDownListFor(n => n.Items[i].AssignmentId, Model.AssigmentsList)
+                                </div>
+
+                            }
+                        </td>
+
                         <td></td>
 
                         if (Model.Items[i].IsOwner && Model.Items[i].PublishDate!= null) {
                             <td><p class="JsActionLink" onclick="ModalDocumentManager.Delete(this,@i)">Delete</p></td>} else {<td></td>}
 
+                       
+                   
 
-                          @Html.HiddenFor(n => n.Items[i].RequiresUpload)
+
+                        @Html.HiddenFor(n => n.Items[i].RequiresUpload)
                         @Html.HiddenFor(n => n.Items[i].SelectionMechanic)
                         @Html.HiddenFor(n => n.Items[i].Status)
                         @Html.HiddenFor(n => n.Items[i].StatusText)
@@ -112,7 +131,7 @@ cursor:pointer;
 
 
                         <td>
-                            <a target="_blank" href="@Model.Items[i].URL">@Html.DisplayFor(n => n.Items[i].URL)</a> 
+                            <a target="_blank" href="@Model.Items[i].URL">@Html.DisplayFor(n => n.Items[i].ShortName)</a> 
                         </td>
                         <td>@Html.DisplayFor(n => n.Items[i].Owner)</td>
                         <td style ="background-color:@Model.Items[i].Status;">
@@ -136,6 +155,7 @@ cursor:pointer;
                         } else {
                             <td></td>
                         }
+             
                     }
 
 

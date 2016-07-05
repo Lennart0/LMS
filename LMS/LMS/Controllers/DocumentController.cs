@@ -265,16 +265,44 @@ namespace LMS.Controllers {
                 items = new List<DocumentItem>();
             }
 
+            
+
 
             return View(new Models.AddDocumentsViewModel {
                 EntityId = EntityId,
                 EntityName = entityName,
                 EntityType = entityType,
                 Done = false,
+                AssigmentsList = GetDropDownForAssignments(entityType, EntityId),
                 ComboItems = LMS.Models.ComboBoxListItemHelper.GetOptions(typeof(Models.DocumentSelectionMechanic)),
                 Items = items
 
             });
+        }
+        private List<SelectListItem> GetDropDownForAssignments(AddDocumentsViewModel model) {
+
+          return   model.Items.Where(n=> n.DeadLine != null).Select(n => new System.Web.Mvc.SelectListItem() { Value = n.DocumentDbId.ToString(), Text = Helpers.URLHelper.Shorten(n.URL) }).ToList();
+      
+                   
+        }
+
+        private List<System.Web.Mvc.SelectListItem> GetDropDownForAssignments(DocumentTargetEntity entityType, Guid EntityId) {
+            List<System.Web.Mvc.SelectListItem> dropDownItems = null;
+            switch (entityType) {
+                case DocumentTargetEntity.Course:
+                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.CourseId == EntityId).ToList()
+                    .Select(n => new System.Web.Mvc.SelectListItem() { Value = n.Id.ToString(), Text = Helpers.URLHelper.Shorten(n.Url) }).ToList();
+                    break;
+                case DocumentTargetEntity.Module:
+                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.ModuleId == EntityId).ToList()
+                    .Select(n => new System.Web.Mvc.SelectListItem() { Value = n.Id.ToString(), Text = Helpers.URLHelper.Shorten(n.Url) }).ToList();
+                    break;
+                case DocumentTargetEntity.Activity:
+                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.ActivityId == EntityId).ToList()
+                    .Select(n => new System.Web.Mvc.SelectListItem() { Value = n.Id.ToString(), Text = Helpers.URLHelper.Shorten(n.Url) }).ToList();
+                    break;
+            }
+            return dropDownItems;
         }
 
         private List<Document> userPrivlageFileter(List<Document> queryable, ApplicationUser user) {
@@ -309,10 +337,11 @@ namespace LMS.Controllers {
 
                 }
             }
-
+            model.AssigmentsList = GetDropDownForAssignments(model);
             model.ComboItems = LMS.Models.ComboBoxListItemHelper.GetOptions(typeof(Models.DocumentSelectionMechanic));
             return View(model);
         }
+
 
         private bool ForEachUrl(DocumentItem item, AddDocumentsViewModel model, ApplicationUser user) {
 
@@ -338,6 +367,21 @@ namespace LMS.Controllers {
 
                 if (item.PublishDate.HasValue) {
 
+                    if (item.AssignmentId != null) {
+                        db.Documents.Add(new AssignmentSubmission {
+                            Id = Guid.NewGuid(),
+                            IsLocal = false,
+                            Activity = activity,
+                            Course = course,
+                            Module = module,
+                                 assignmentId = item.AssignmentId,
+                            User = user,
+                            Url = item.URL,
+                            UploadDate = DateTime.Now,
+                            PublishDate = item.PublishDate.Value
+                        });
+
+                    } else
                     if (item.DeadLine != null) {
                         db.Documents.Add(new TimeSensetiveDocument {
                             Id = Guid.NewGuid(),

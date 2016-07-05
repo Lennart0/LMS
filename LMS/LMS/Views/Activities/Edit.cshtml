@@ -76,7 +76,7 @@
             continue;
         }
         <li>
-            @{
+            @{//UGLY! this is a bloody tempalte not a place to liberaly sprinkle with logic not realted to the template itself! DAMN IT!
                 string url = doc.Url;
                 int ix = url != null ? url.LastIndexOf( '/' ) : -1;
                 string name = url;

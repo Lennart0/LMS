@@ -6,9 +6,32 @@
         var checkbox = document.getElementById("Items_" + id + "__HasDeadline");
         var Input = document.getElementById("Items_" + id + "__DeadLine");
       
+        var Othercheckbox = document.getElementById("Items_" + id + "__IsAssigment");
+        var OtherInput = document.getElementById("Items_" + id + "__AssignmentId");
+        Othercheckbox.parentElement.style.display = "none";
+        OtherInput.parentElement.style.display = "none";
+
         checkbox.parentElement.style.display = "none";
         Input.parentElement.style.display = "initial";
     }
+
+
+    ModalDocumentManager.ShowAssigmentOptions = function (id) {
+
+        Items_2__DeadLine
+        var checkbox = document.getElementById("Items_" + id + "__IsAssigment");
+        var Input = document.getElementById("Items_" + id + "__AssignmentId");
+
+        var Othercheckbox = document.getElementById("Items_" + id + "__HasDeadline");
+        var OtherInput = document.getElementById("Items_" + id + "__DeadLine")
+        Othercheckbox.parentElement.style.display = "none";
+        OtherInput.parentElement.style.display = "none";
+
+        checkbox.parentElement.style.display = "none";
+        Input.parentElement.style.display = "initial";
+    }
+
+
     ModalDocumentManager.Save = function (callback) {
         callback();
         //window.postMessage("Save", "DocumentManager");
