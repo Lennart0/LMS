@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -32,6 +33,14 @@ namespace LMS.Models {
         public string URL {
             get; set;
         }
+        public string FileName{ get{
+                return URL;
+               //Regex rex = new Regex("/[^/]*");
+
+               // var index = URL.LastIndexOf("/");
+               // return URL.Substring(index);
+            }
+          }
         public HttpPostedFileBase File { get; set; }//not used in sprint 1
         public DocumentStatus Status {get;set;}
         public string StatusText { get; set; }
@@ -69,6 +78,7 @@ namespace LMS.Models {
         public DocumentTargetEntity EntityType { get; set; }
         public Guid EntityId { get; set; }
         public string EntityName { get; set; }
+
         public List<DocumentItem> Items { get; set; }
         public bool Done { get; set; }
         public DocumentSelectionMechanic? SelectionMechanic { get; set; }

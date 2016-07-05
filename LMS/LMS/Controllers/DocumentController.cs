@@ -292,7 +292,7 @@ namespace LMS.Controllers {
 
 
             if (!model.Done) {
-                model.Items.Add(new Models.DocumentItem { SelectionMechanic = model.SelectionMechanic.Value, RequiresUpload = true });
+                model.Items.Add(new Models.DocumentItem { SelectionMechanic = model.SelectionMechanic.Value, RequiresUpload = true, PublishDate=DateTime.Now });
             } else {
                 foreach (var item in model.Items) {
                     switch (item.SelectionMechanic) {
