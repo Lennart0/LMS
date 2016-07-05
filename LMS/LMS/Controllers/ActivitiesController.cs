@@ -22,7 +22,7 @@ namespace LMS.Controllers
         }
 
         // GET: Activities/Details/5
-        public ActionResult Details(Guid? id)
+        public ActionResult Details(Guid? id, string returnUrl)
         {
             if (id == null)
             {
@@ -38,10 +38,13 @@ namespace LMS.Controllers
 
         // GET: Activities/Create
         private const string ModuleIdKey = "moduleid";
-        public ActionResult Create( Guid? id = null /* ModuleId*/)
+        private const string ActivityCreateReturnUrlKey = "actcrereturnurl";
+        public ActionResult Create( Guid? id = null /* ModuleId*/, string returnUrl = null )
         {
-            if ( id != null )
+            //if ( id != null )
                 HttpContext.Session.Contents[ModuleIdKey] = id;
+
+            HttpContext.Session.Contents[ActivityCreateReturnUrlKey] = returnUrl;
 
             return View();
         }
@@ -64,6 +67,10 @@ namespace LMS.Controllers
                 db.Activies.Add(activity);
                 db.SaveChanges();
 
+                string returnUrl = (string)HttpContext.Session.Contents[ActivityCreateReturnUrlKey];
+                if ( !string.IsNullOrEmpty( returnUrl ) )
+                    return Redirect( returnUrl );
+
                 return RedirectToAction( "Details", "Modules", new { id = moduleId.Value } );
                 //return RedirectToAction("Index");
             }
@@ -85,7 +92,7 @@ namespace LMS.Controllers
                 return HttpNotFound();
             }
 
-            if ( returnUrl != null )
+            //if ( returnUrl != null )
                 HttpContext.Session.Contents[ActivityEditReturnUrlKey] = returnUrl;
 
             return View(activity);
@@ -96,7 +103,7 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,Name,Start,End")] Activity activity)
+        public ActionResult Edit([Bind(Include = "Id,Description,Name,Start,End,ModuleId")] Activity activity)
         {
             if (ModelState.IsValid)
             {
@@ -113,7 +120,8 @@ namespace LMS.Controllers
         }
 
         // GET: Activities/Delete/5
-        public ActionResult Delete(Guid? id)
+        private const string ActivityDeleteReturnUrlKey = "actdelreturnurl";
+        public ActionResult Delete(Guid? id, string returnUrl)
         {
             if (id == null)
             {
@@ -124,6 +132,9 @@ namespace LMS.Controllers
             {
                 return HttpNotFound();
             }
+
+            HttpContext.Session.Contents[ActivityDeleteReturnUrlKey] = returnUrl;
+
             return View(activity);
         }
 
@@ -135,6 +146,11 @@ namespace LMS.Controllers
             Activity activity = db.Activies.Find(id);
             db.Activies.Remove(activity);
             db.SaveChanges();
+
+            string returnUrl = (string)HttpContext.Session.Contents[ActivityDeleteReturnUrlKey];
+            if ( !string.IsNullOrEmpty( returnUrl ) )
+                return Redirect( returnUrl );
+
             return RedirectToAction("Index");
         }
 

@@ -79,7 +79,7 @@ namespace LMS.Controllers
         
         public ActionResult Edit(Guid? id, string returnUrl)
         {
-            if (returnUrl != null)
+            //if (returnUrl != null)
                 HttpContext.Session.Contents[ModuleEditReturnUrlKey] = returnUrl;
 
             if (id == null)
@@ -102,7 +102,7 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,Start,End")] Module module)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,Start,End,CourseId" )] Module module)
         {
             if (ModelState.IsValid)
             {
