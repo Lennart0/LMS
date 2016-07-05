@@ -6,183 +6,170 @@
 <br />
 <h2>Kursens detajer: <strong>@ViewBag.CourseName</strong></h2>
 
-    <hr />
+<hr />
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor( model => model.Name )
+    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+    <dd>
+        @Html.DisplayFor( model => model.Name )
+    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+    <dt>
+        @Html.DisplayNameFor( model => model.Description )
+    </dt>
 
-        <dd>
-            <p id="table-description3">
-                @Html.DisplayFor(model => model.Description)
-            </p>
-        </dd>
+    <dd>
+        <p id="table-description3">
+            @Html.DisplayFor( model => model.Description )
+        </p>
+    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Start)
-        </dt>
+    <dt>
+        @Html.DisplayNameFor( model => model.Start )
+    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Start)
-        </dd>
+    <dd>
+        @Html.DisplayFor( model => model.Start )
+    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.End)
-        </dt>
+    <dt>
+        @Html.DisplayNameFor( model => model.End )
+    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.End)
-        </dd>
+    <dd>
+        @Html.DisplayFor( model => model.End )
+    </dd>
 
-        <dt>
-        </dt>
-    </dl>
+    <dt>
+    </dt>
+</dl>
 
-    <br /><hr /><br /> 
-    <div class="row">
-        <div class="col-md-3">
-            <h4>Moduler - kurs @ViewBag.CourseName</h4>
-        </div>
-
-        <div class="col-md-2">
-            @Html.ActionLink(linkText: "Lägg till ny modul", actionName: "Create", controllerName: "Modules", routeValues: new { id = Model.Id, returnUrl = "/Courses/Details/" + Model.Id }, htmlAttributes: new { @class = "btn btn-default" })
-        </div>
-    </div> 
-    <table class="table table-responsive table-striped">
-        <tr>
-            <th id="tableCol1">
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-
-            <th id="tableCol1">
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-
-            <th id="tableCol1">
-                @Html.DisplayNameFor(model => model.Start)
-            </th>
-            <th id="tableCol1">
-                @Html.DisplayNameFor(model => model.End)
-            </th>
-            <th id="tableCol1"></th>
-        </tr>
-
-        @foreach (var item in Model.Modules.OrderBy(m => m.Start))
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-
-                <td id="table-description1">
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Start)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.End)
-                </td>
-                <td>
-                    @Html.ActionLink("Redigera", "Edit", "Modules", new { id = item.Id, returnUrl = "/Courses/Details/" + Model.Id }, new { @class = "btn btn-custom" }) &nbsp; 
-                    @*@Html.ActionLink("Edit", "Edit", "Modules", new { id = item.Id, returnUrl = Request.UrlReferrer }, null) |*@
-                    @Html.ActionLink("Ta bort", "Delete", "Modules", new { id = item.Id, returnUrl = "/Courses/Details/" + Model.Id }, new { @class = "btn btn-custom" })
-                    
-         
-                </td>
-            </tr>
-        }
-    </table>
-
-    <br /><hr /><br />
-    <div class="row">
-        <div class="col-md-3">
-            <h4>Elever - kurs @ViewBag.CourseName</h4>
-        </div>
-        <div class="col-md-2">
-            @Html.ActionLink(linkText: "Lägg till ny elev", actionName: "Register", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-default" })
-        </div>
+<br /><hr /><br />
+<div class="row">
+    <div class="col-md-3">
+        <h4>Moduler - kurs @ViewBag.CourseName</h4>
     </div>
 
-    <table class="table table-responsive table-striped table-width">
-        <tr>
-            <th id="tableCol2">
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th id="tableCol2">
-                @Html.DisplayNameFor(model => model.Students.First().Email)
-            </th>
-        </tr>
+    <div class="col-md-2">
+        @Html.ActionLink( linkText: "Lägg till ny modul", actionName: "Create", controllerName: "Modules", routeValues: new { id = Model.Id, returnUrl = "/Courses/Details/" + Model.Id }, htmlAttributes: new { @class = "btn btn-default" } )
+    </div>
+</div>
+<table class="table table-responsive table-striped">
+    <tr>
+        <th id="tableCol1">
+            @Html.DisplayNameFor( model => model.Name )
+        </th>
 
-        @foreach (var item in Model.Students)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                @*<td>
+        <th id="tableCol1">
+            @Html.DisplayNameFor( model => model.Description )
+        </th>
+
+        <th id="tableCol1">
+            @Html.DisplayNameFor( model => model.Start )
+        </th>
+        <th id="tableCol1">
+            @Html.DisplayNameFor( model => model.End )
+        </th>
+        <th id="tableCol1"></th>
+    </tr>
+
+    @foreach ( var item in Model.Modules.OrderBy( m => m.Start ) ) {
+        <tr>
+            <td>
+                @Html.DisplayFor( modelItem => item.Name )
+            </td>
+
+            <td id="table-description1">
+                @Html.DisplayFor( modelItem => item.Description )
+            </td>
+
+            <td>
+                @Html.DisplayFor( modelItem => item.Start )
+            </td>
+            <td>
+                @Html.DisplayFor( modelItem => item.End )
+            </td>
+            <td>
+                @Html.ActionLink( "Redigera", "Edit", "Modules", new { id = item.Id, returnUrl = "/Courses/Details/" + Model.Id }, new { @class = "btn btn-custom" } ) &nbsp;
+                @*@Html.ActionLink("Edit", "Edit", "Modules", new { id = item.Id, returnUrl = Request.UrlReferrer }, null) |*@
+                @Html.ActionLink( "Ta bort", "Delete", "Modules", new { id = item.Id, returnUrl = "/Courses/Details/" + Model.Id }, new { @class = "btn btn-custom" } )
+
+
+            </td>
+        </tr>
+    }
+</table>
+
+<br /><hr /><br />
+<div class="row">
+    <div class="col-md-3">
+        <h4>Elever - kurs @ViewBag.CourseName</h4>
+    </div>
+    <div class="col-md-2">
+        @Html.ActionLink( linkText: "Lägg till ny elev", actionName: "Register", controllerName: "Account", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-default" } )
+    </div>
+</div>
+
+<table class="table table-responsive table-striped table-width">
+    <tr>
+        <th id="tableCol2">
+            @Html.DisplayNameFor( model => model.Name )
+        </th>
+        <th id="tableCol2">
+            @Html.DisplayNameFor( model => model.Students.First().Email )
+        </th>
+    </tr>
+
+    @foreach ( var item in Model.Students ) {
+        <tr>
+            <td>
+                @Html.DisplayFor( modelItem => item.FullName )
+            </td>
+            <td>
+                @Html.DisplayFor( modelItem => item.Email )
+            </td>
+            @*<td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>*@
-            </tr>
-        }
+        </tr>
+    }
 
-    </table>
+</table>
 
-    <br /><hr /><br />
+<br /><hr /><br />
 
-    <h4>Dokument - kurs @ViewBag.CourseName</h4>
+<h4>Dokument - kurs @ViewBag.CourseName</h4>
 
-    @Html.Partial("~/Views/Shared/ModelFileView.cshtml",
-    new LMS.Models.FileModalPartialViewModel
-    {
+@Html.Partial( "~/Views/Shared/ModelFileView.cshtml",
+    new LMS.Models.FileModalPartialViewModel {
         Id = Model.Id,
         Type = LMS.Models.DocumentTargetEntity.Course,
         Title = Model.Name,
         PostBackChange = "location.reload()"
-    })
-
-    <ul>
-        @foreach (var doc in Model.Documents)
-        {
-            if (string.IsNullOrWhiteSpace(doc.Url))
-            {
-                continue;
-            }
-            <li>
-                @{
-                    string url = doc.Url;
-                    int ix = url != null ? url.LastIndexOf('/') : -1;
-                    string name = url;
-                    if (ix >= 0)
-                    {
-                        name = name.Substring(ix + 1);
-                    }
-                    else
-                    {
-                        url = "~/Documents/Course/" + url;
-                    }
-                }
-                <a href="@url" download>@name</a>
-            </li>
-                    }
-    </ul>
+    } )
 
 
-    <br /><hr />
-    <div>
-        @Html.ActionLink("Tillbaka till kurslistan", "Index", null, null, new { @class = "link-text" })
-    </div>
+<ul>
+    @foreach ( var doc in ViewBag.AssocUrls as List<LMS.Models.Document> ) {
+        <li>
+            <a href="@doc.Url" target="_blank">@doc.Url</a>
+        </li>
+    }
+</ul>
+
+<ul>
+    @foreach ( var doc in ViewBag.AssocDocs as List<LMS.Models.Document> ) {
+        <li>
+            <a href="" download>@doc.ToString()</a>
+        </li>
+    }
+</ul>
+
+<br /><hr />
+<div>
+    @Html.ActionLink( "Tillbaka till kurslistan", "Index", null, null, new { @class = "link-text" } )
+</div>

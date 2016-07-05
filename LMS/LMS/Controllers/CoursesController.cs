@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using LMS.DataAccessLayer;
 using LMS.Models;
 using Microsoft.AspNet.Identity;
+using LMS.Helpers;
 
 namespace LMS.Controllers
 {
@@ -31,13 +32,16 @@ namespace LMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Course course = db.Courses.Find(id);
-            ViewBag.CourseName = course.Name;
-            ViewBag.CourseId   = course.Id;
 
             if (course == null)
             {
                 return HttpNotFound();
             }
+
+            ViewBag.CourseName = course.Name;
+            ViewBag.CourseId = course.Id;
+            DocHelper.AssocDocsToViewBag( course.Documents, ViewBag );
+
             return View(course);
         }
 

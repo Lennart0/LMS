@@ -99,7 +99,7 @@
             </td>
             <td>
                 @Html.ActionLink( "Edit", "Edit", "Activities", new { id = item.Id, returnUrl = "/Modules/Edit/" + Model.Id }, null ) |
-                @Html.ActionLink( "Details", "Details", "Activities", new { id = item.Id, returnUrl = "/Modules/Edit/" + Model.Id }, null ) |
+                @*@Html.ActionLink( "Details", "Details", "Activities", new { id = item.Id, returnUrl = "/Modules/Edit/" + Model.Id }, null ) |*@
                 @Html.ActionLink( "Delete", "Delete", "Activities", new { id = item.Id, returnUrl = "/Modules/Edit/" + Model.Id }, null )
             </td>
         </tr>
@@ -120,23 +120,17 @@
     } )
 
 <ul>
-    @foreach ( var doc in Model.Documents ) {
-        if ( string.IsNullOrWhiteSpace( doc.Url ) ) {
-            continue;
-        }
+    @foreach ( var doc in ViewBag.AssocUrls as List<LMS.Models.Document> ) {
         <li>
-            @{
-                string url = doc.Url;
-                int ix = url != null ? url.LastIndexOf( '/' ) : -1;
-                string name = url;
-                if ( ix >= 0 ) {
-                    name = name.Substring( ix + 1 );
-                }
-                else {
-                    url = "~/Documents/Course/" + url;
-                }
-            }
-            <a href="@url" download>@name</a>
+            <a href="@doc.Url" target="_blank">@doc.Url</a>
+        </li>
+    }
+</ul>
+
+<ul>
+    @foreach ( var doc in ViewBag.AssocDocs as List<LMS.Models.Document> ) {
+        <li>
+            <a href="" download>@doc.ToString()</a>
         </li>
     }
 </ul>

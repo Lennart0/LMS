@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using LMS.DataAccessLayer;
 using LMS.Models;
+using LMS.Helpers;
 
 namespace LMS.Controllers
 {
@@ -34,6 +35,9 @@ namespace LMS.Controllers
             {
                 return HttpNotFound();
             }
+
+            DocHelper.AssocDocsToViewBag( module.Documents, ViewBag );
+
             return View(module);
         }
 
@@ -94,6 +98,9 @@ namespace LMS.Controllers
             {
                 return HttpNotFound();
             }
+
+            DocHelper.AssocDocsToViewBag( module.Documents, ViewBag );
+
             return View(module);
         }
 

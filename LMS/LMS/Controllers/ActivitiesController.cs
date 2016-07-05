@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using LMS.DataAccessLayer;
 using LMS.Models;
+using LMS.Helpers;
 
 namespace LMS.Controllers
 {
@@ -33,6 +34,9 @@ namespace LMS.Controllers
             {
                 return HttpNotFound();
             }
+
+            DocHelper.AssocDocsToViewBag( activity.Documents, ViewBag );
+
             return View(activity);
         }
 
@@ -94,6 +98,8 @@ namespace LMS.Controllers
 
             //if ( returnUrl != null )
                 HttpContext.Session.Contents[ActivityEditReturnUrlKey] = returnUrl;
+
+            DocHelper.AssocDocsToViewBag( activity.Documents, ViewBag );
 
             return View(activity);
         }
