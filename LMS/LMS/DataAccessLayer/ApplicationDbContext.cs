@@ -27,7 +27,9 @@ namespace LMS.DataAccessLayer
         public DbSet<Document> Documents { get; set; }
         public DbSet<TimeSensetiveDocument> TimeSensetiveDocuments { get; set; }
         public DbSet<AssignmentSubmission> AssignmentSubmissions { get; set; }
-    
+
+        public DbSet<Event> Events { get; set; }
+
         protected override void OnModelCreating( DbModelBuilder modelBuilder )
         {
             base.OnModelCreating( modelBuilder );

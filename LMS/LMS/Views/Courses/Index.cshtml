@@ -12,22 +12,24 @@
 
 </script>
 
-<br />
-<div class="col-md-4">
-    <h2>Kurslista</h2>
-</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <h2>Kurslista</h2>
+    </div>
 
-<div class="col-md-2">
-    <br />
-    @Html.ActionLink("Lägg till ny kurs", "Create", null, new { @class = "btn btn-default" })
-</div>
+    <div class="col-md-2">
+        <br />
+        @Html.ActionLink("Lägg till ny kurs", "Create", null, new { @class = "btn btn-default" })
+    </div>
 
-<div class="col-md-2">
-    <br />
-    @Html.ActionLink(linkText: "Lägg till ny lärare", actionName: "Register", controllerName: "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-default" })
+    <div class="col-md-2">
+        <br />
+        @Html.ActionLink(linkText: "Lägg till ny lärare", actionName: "Register", controllerName: "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-default" })
+    </div>
 </div>
+<hr />
 
-<br /><br /><br /><br />
 <table class="table table-striped">
 
     <tr>
