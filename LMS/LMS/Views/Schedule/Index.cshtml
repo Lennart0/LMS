@@ -84,9 +84,26 @@
                     @Html.DisplayFor( x => activity.Description )
                 </td>
             </tr>
+            if (activity.Documents.Where(d => d.Type==LMS.Models.DocumentType.Upgift).Count() > 0) {
+                <tr><td>
+    @Html.Partial( "~/Views/Shared/ModelFileView.cshtml",
+    new LMS.Models.FileModalPartialViewModel {
+        Id = activity.Id,
+        Type = LMS.Models.DocumentTargetEntity.Activity,
+        Title = "Lösning på inlämningsuppgift",
+        PostBackChange = "location.reload()"
+    } )
+                </td></tr>
+            }
+
+            foreach ( var doc in activity.Documents.Where(d => !string.IsNullOrWhiteSpace(d.Url)).ToList() ) {
+                <tr>
+                    <td colspan="4"><a href="@doc.Url" target="_blank">@doc.Url</a></td>
+                </tr>
+            }
+
         }
     }
     <tr><td></td></tr>
-    <tr><td></td></tr>
-    <tr><td></td></tr>
 </table>
+

@@ -13,7 +13,7 @@ namespace LMS.Helpers
             var otherDocs = new List<Document>();
             foreach ( var doc in docs ) {
                 if ( string.IsNullOrWhiteSpace( doc.Url ) )
-                    otherDocs.Add( doc );
+                    ; // otherDocs.Add( doc );
                 else
                     urls.Add( doc );
             }
