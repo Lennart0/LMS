@@ -84,7 +84,7 @@
                     @Html.DisplayFor( x => activity.Description )
                 </td>
             </tr>
-            if (activity.Documents.Where(d => d.Type==LMS.Models.DocumentType.Upgift).Count() > 0) {
+            if (activity.Documents.Where(d => d is LMS.Models.TimeSensetiveDocument).Count() > 0) {
                 <tr><td>
     @Html.Partial( "~/Views/Shared/ModelFileView.cshtml",
     new LMS.Models.FileModalPartialViewModel {
@@ -95,13 +95,13 @@
     } )
                 </td></tr>
             }
-
+            /*
             foreach ( var doc in activity.Documents.Where(d => !string.IsNullOrWhiteSpace(d.Url)).ToList() ) {
                 <tr>
                     <td colspan="4"><a href="@doc.Url" target="_blank">@doc.Url</a></td>
                 </tr>
             }
-
+            */
         }
     }
     <tr><td></td></tr>
