@@ -72,8 +72,33 @@ namespace LMS.Migrations
                 }
             );
 
+            ///////////////// Under uppbyggnad, tack! /////////////////////////////
+            #region
+            var event10 = new List<Event>
+            {
+            new Event { Id = 1,
+                Descriptipn = "Demo Sprint",
+                StartDate   = new DateTime(2016, 7, 6, 8, 30, 0),
+                EndDate     = new DateTime(2016, 7, 6, 12, 0, 0),
+            },
+            new Event{Id = 5,
+                Descriptipn = "Lunch, yeah, yeah!!!",
+                StartDate   = new DateTime(2016, 7, 6, 12, 0, 0),
+                EndDate     = new DateTime(2016, 7, 6, 13, 0, 0),
+                },
+            new Event{Id = 6,
+                Descriptipn = "Slut Projekt",
+                StartDate   = new DateTime(2016, 7, 6, 13, 0, 0),
+                EndDate     = new DateTime(2016, 7, 6, 17, 0, 0),
+                }
+            };
+            event10.ForEach(e => context.Events.AddOrUpdate(e));
+            context.SaveChanges();
+            ////////////////////////////////////////////////////////////
+            #endregion
 
-        context.Modules.AddOrUpdate( m => m.Name,
+
+            context.Modules.AddOrUpdate( m => m.Name,
             module10 = new Module {
                 Id = newModuleId1,
                 Name = "Testmodul1",

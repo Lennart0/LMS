@@ -9,7 +9,7 @@ namespace LMS.Helpers
     public static class DocHelper
     {
         static public void AssocDocsToViewBag(IEnumerable<Document> docs, dynamic viewBag) {
-            var urls = new List<Document>();
+            var urls      = new List<Document>();
             var otherDocs = new List<Document>();
             foreach ( var doc in docs ) {
                 if ( string.IsNullOrWhiteSpace( doc.Url ) )
