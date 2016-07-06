@@ -281,7 +281,7 @@ namespace LMS.Controllers {
         }
         private List<SelectListItem> GetDropDownForAssignments(AddDocumentsViewModel model) {
 
-          return   model.Items.Where(n=> n.DeadLine != null).Select(n => new System.Web.Mvc.SelectListItem() { Value = n.DocumentDbId.ToString(), Text = Helpers.URLHelper.Shorten(n.URL) }).ToList();
+          return   model.Items.Where(n=> n.DeadLine != null && n.PublishDate != null).Select(n => new System.Web.Mvc.SelectListItem() { Value = n.DocumentDbId.ToString(), Text = Helpers.URLHelper.Shorten(n.URL) }).ToList();
       
                    
         }
@@ -290,15 +290,15 @@ namespace LMS.Controllers {
             List<System.Web.Mvc.SelectListItem> dropDownItems = null;
             switch (entityType) {
                 case DocumentTargetEntity.Course:
-                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.CourseId == EntityId).ToList()
+                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.CourseId == EntityId && n.PublishDate != null).ToList()
                     .Select(n => new System.Web.Mvc.SelectListItem() { Value = n.Id.ToString(), Text = Helpers.URLHelper.Shorten(n.Url) }).ToList();
                     break;
                 case DocumentTargetEntity.Module:
-                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.ModuleId == EntityId).ToList()
+                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.ModuleId == EntityId && n.PublishDate != null).ToList()
                     .Select(n => new System.Web.Mvc.SelectListItem() { Value = n.Id.ToString(), Text = Helpers.URLHelper.Shorten(n.Url) }).ToList();
                     break;
                 case DocumentTargetEntity.Activity:
-                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.ActivityId == EntityId).ToList()
+                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.ActivityId == EntityId && n.PublishDate != null).ToList()
                     .Select(n => new System.Web.Mvc.SelectListItem() { Value = n.Id.ToString(), Text = Helpers.URLHelper.Shorten(n.Url) }).ToList();
                     break;
             }
@@ -306,7 +306,7 @@ namespace LMS.Controllers {
         }
 
         private List<Document> userPrivlageFileter(List<Document> queryable, ApplicationUser user) {
-            return queryable;
+            return queryable; // think this kind of got redundant.... remove later
         }
 
         [HttpPost]
@@ -321,7 +321,9 @@ namespace LMS.Controllers {
 
             if (!model.Done) {
                 model.Items.Add(new Models.DocumentItem { SelectionMechanic = model.SelectionMechanic.Value, RequiresUpload = true, PublishDate=DateTime.Now });
+               
             } else {
+                model.Done = false;
                 foreach (var item in model.Items) {
                     switch (item.SelectionMechanic) {
                         case DocumentSelectionMechanic.File:

@@ -182,7 +182,7 @@ cursor:pointer;
     <input type="submit" value="Nytt fält" />
     @Html.HiddenFor(n => n.Done, new { id = "done" })
 
-    <input type="submit" onclick="__Done()" value="Klart" />
+    <input type="submit" id="DoneSubmit" style="display:none" onclick="__Done()" value="Klart" />
         <script>
             function __Done() {
                 var done = document.getElementById("done");

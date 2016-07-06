@@ -2,7 +2,7 @@
     function ModalDocumentManager() { }
     ModalDocumentManager.DeadLine = function (id) {
 
-        Items_2__DeadLine
+   
         var checkbox = document.getElementById("Items_" + id + "__HasDeadline");
         var Input = document.getElementById("Items_" + id + "__DeadLine");
       
@@ -17,8 +17,7 @@
 
 
     ModalDocumentManager.ShowAssigmentOptions = function (id) {
-
-        Items_2__DeadLine
+ 
         var checkbox = document.getElementById("Items_" + id + "__IsAssigment");
         var Input = document.getElementById("Items_" + id + "__AssignmentId");
 
@@ -32,18 +31,52 @@
     }
 
 
+    ModalDocumentManager.ReciveViaIframe = function () {
+        /*
+
+        window.addEventListener("Load", function () {
+
+            window.postMessage("Save", "DocumentManager");
+            window.addEventListener("message", receiveMessage, false);
+            function receiveMessage(event) {
+                var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
+                if (origin !== "http://localhost:49859/")
+                    return;
+                callback();
+                window.removeEventListener("message", receiveMessage, false);
+            }
+
+
+        });
+        */
+    };
+
     ModalDocumentManager.Save = function (callback) {
-        callback();
-        //window.postMessage("Save", "DocumentManager");
-        //window.addEventListener("message", receiveMessage, false);
+      /*
+        window.postMessage("Save", "DocumentManager");       
+        window.addEventListener("message", receiveMessage, false);
+        function receiveMessage(event) {
+            var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
+            if (origin !== "http://localhost:49859/")
+                return;
+            callback();
+            window.removeEventListener("message", receiveMessage, false);
+        }*/
 
-        //function receiveMessage(event) {
-        //    var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
-        //    if (origin !== "http://example.org:8080")
-        //        return;
+   
+        var iframe = document.getElementById("DocumentManagerIframe");
+        var iframeContent = iframe.contentWindow;
+        var iframedoc = iframeContent.document;
+       
+        var done = iframedoc.getElementById("done");
+        done.value = "true";
 
-        //    // ...
-        //}
+
+        setTimeout(function () { callback();   }, 3000);//todo make this work better... surely there must be a way of getting this to trigger on reload....
+        iframedoc.forms[0].submit();
+    
+  
+  
     };
     ModalDocumentManager.Delete = function (sender, nr) {
         if (confirm("Är du säker att du vill ta bort dokumentet?")) {
