@@ -14,7 +14,7 @@ namespace LMS.Models {
 
     //very abstract status... its up to the controller to add the proper text for the status
     public enum DocumentStatus {
-       None,Red,Yellow,Green
+       None=0, Green=1, Yellow=2, Red=3
     }
 
     public enum DocumentSelectionMechanic {

@@ -1,7 +1,10 @@
 ﻿@model LMS.Models.FileModalPartialViewModel
 
 <a data-toggle="modal" data-target="#myModal" class ="link-text">
-    Editera filer
+
+    @Html.Action("Status", "Document", new {
+    EntityId = Model.Id,
+    entityType = LMS.Models.DocumentTargetEntity.Course})
 </a>
 
 <!-- Modal -->
