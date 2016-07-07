@@ -123,7 +123,7 @@ namespace LMS.Migrations
         Activity act1 = null;
         Activity act2 = null;
         Activity act3 = null;
-        Activity act4 = null;
+        //Activity act4 = null;
         context.Activies.AddOrUpdate( a => a.Id,
             act1 = new Activity {
                 Id = newActivityId1,
@@ -152,7 +152,7 @@ namespace LMS.Migrations
                 //Module = module10,
                 ModuleId = newModuleId1
             },
-            act4 = new Activity {
+            new Activity {
                 Id = newActivityId4,
                 Name = "Test-aktivitet4",
                 Description = "Beskrivning av test-aktivitet 4...",
@@ -163,6 +163,20 @@ namespace LMS.Migrations
             }
         );
 
+        string guidBase = "679a290d-8b3b-4488-8ffb-7dcd7a44ef0";
+
+        for ( int i = 0; i < 0x10; i++ ) {
+            context.Activies.AddOrUpdate( a => a.Id,
+                new Activity {
+                    Id = new Guid( guidBase + i.ToString( "x" ) ),
+                    Name = "Test-aktivitet" + i,
+                    Description = "Beskrivning av test-aktivitet " + i,
+                    Start = new DateTime( 2016, 7, i+2, 8, 30, 0 ),
+                    End = new DateTime( 2016, 7, i+2, 17, 0, 0 ),
+                    ModuleId = newModuleId2
+                }
+            );
+        }
 
         Guid newDocId1 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44bfb4" );
         Guid newDocId2 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44bfb5" );
