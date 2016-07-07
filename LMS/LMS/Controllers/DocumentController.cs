@@ -436,15 +436,24 @@ namespace LMS.Controllers {
         }
 
         private bool ForEachFile(DocumentItem item, AddDocumentsViewModel model, ApplicationUser user) {
-            var filePath = $"Documents\\{model.EntityType}\\{item.File.FileName}";
+            var index = model.Items.Where(n=> n.SelectionMechanic== DocumentSelectionMechanic.File).ToList().IndexOf(item);
+
+            var binDir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.RelativeSearchPath);
+       
+            var url = Url.Content($"~//Documents//{model.EntityType}//{item.File.FileName}");
+        
+
+            var filePath = $"{binDir.Parent.FullName}\\Documents\\{model.EntityType}\\{item.File.FileName}";
             if (System.IO.File.Exists(filePath)) {
-                filePath = $"Documents\\{model.EntityType}\\{Guid.NewGuid()}_{item.File.FileName}";
+                filePath = $"{binDir.Parent.FullName}\\Documents\\{model.EntityType}\\{Guid.NewGuid()}_{item.File.FileName}";
+                url = Url.Content($"~//Documents//{model.EntityType}//{Guid.NewGuid()}_{item.File.FileName}");
+
                 item.File.SaveAs(filePath);
-                item.URL = filePath;
+                item.URL = url;
                 return ForEachUrl(item, model, user);
             } else {
                 item.File.SaveAs(filePath);
-                item.URL = filePath;
+                item.URL = url;
                 return ForEachUrl(item, model, user);
             }
         }

@@ -189,6 +189,7 @@
     </Compile>
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\DocHelper.cs" />
+    <Compile Include="Helpers\MultipartFormHelper.cs" />
     <Compile Include="Helpers\URLHelper.cs" />
     <Compile Include="Migrations\201607051154460_FromScratch_Again.cs" />
     <Compile Include="Migrations\201607051154460_FromScratch_Again.Designer.cs">
@@ -213,6 +214,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ModalDocumentManager.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
