@@ -1,188 +1,163 @@
 ﻿@model LMS.Models.AddDocumentsViewModel
-<style type="text/css">
-    .JsActionLink {
-color:blue;
-user-select:none;
-cursor:pointer;
-}
-        .JsActionLink:hover {
-        text-decoration:underline;
-        }
-    .DocumentManager th {
-        text-align: left;
-    }
+@using LMS.Helpers
 
-</style>
 @{
     ViewBag.Title = "Add";
     Layout = null;
 }
- 
-@Scripts.Render("~/Scripts/ModalDocumentManager.js")
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+    </style>
+    <link  type="text/css" rel="stylesheet" href="@Url.Content("~/content/ModalDocumentManager.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ModalDocumentManager.js")"></script>
+</head>
+<body>
+    @using (Html.BeginMultipartForm()) {
+        @Html.HiddenFor(n => n.EntityId)
+        @Html.HiddenFor(n => n.EntityName)
+        @Html.HiddenFor(n => n.EntityType)
+        <table class="DocumentManager">
+            <thead>
+                <tr>
+                    <th>URL</th>
+                    <th>Ägare</th>
+                    <th>Status</th>
+                    <th>Publiseringsdatum</th>
+                    <th>Deadline</th>
+                    <th>Feedback</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < Model.Items.Count; i++) {
+                    if (Model.Items[i].IsOwner || Model.Items[i].PublishDate != null) {
 
- 
-@using (Html.BeginForm()) {
-    @Html.HiddenFor(n => n.EntityId)
-    @Html.HiddenFor(n => n.EntityName)
-    @Html.HiddenFor(n => n.EntityType)
-
-    <table class="DocumentManager">
-        <thead>
-            <tr>
-                <th>URL</th>
-                <th>Ägare</th>
-                <th>Status</th>
-                <th>Publiseringsdatum</th>
-                <th>Deadline</th>
-                <th>Feedback</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-
-           
-            
-            @for (var i = 0; i < Model.Items.Count; i++) {
-                if (Model.Items[i].IsOwner || Model.Items[i].PublishDate != null) {
-
-                @Html.HiddenFor(n => n.Items[i].DocumentDbId)
-                <tr id="row_@i"   >
-                    @if (Model.Items[i].RequiresUpload) {
-                        <td>
-                            @switch (Model.Items[i].SelectionMechanic) {
+                        @Html.HiddenFor(n => n.Items[i].DocumentDbId)
+                        <tr id="row_@i">
+                            @if (Model.Items[i].RequiresUpload) {
+                                <td>
+                                    @switch (Model.Items[i].SelectionMechanic) {
                                 case LMS.Models.DocumentSelectionMechanic.File:
-                                    @Html.TextBoxFor(n => n.Items[i].File, new { type = "file" })
-                                    break;
-                                case LMS.Models.DocumentSelectionMechanic.InternalUrlLookup:
-                                    @Html.EditorFor(n => n.Items[i].URL) <a href="#">Lookup</a>
-                                    break;
-                                case LMS.Models.DocumentSelectionMechanic.Url:
-                                    @Html.EditorFor(n => n.Items[i].URL)
-                                    break;
-                            }
-                        </td>
-                        <td>@Html.DisplayFor(n => n.Items[i].Owner)</td>
-                        <td style="color:@Model.Items[i].Status;" >
-              
-                            @Html.DisplayFor(n => n.Items[i].StatusText)
-                       
-                        </td>
-                        <td>
-                            @Html.EditorFor(n => n.Items[i].PublishDate)
-                        </td>
-                        <td >
-                            @if (Model.Items[i].HasDeadline) {
-                                @Html.EditorFor(n => n.Items[i].DeadLine)
+                                            @Html.TextBoxFor(n => n.Items[i].File, new { type = "file" })
+                                            break;
+                                        case LMS.Models.DocumentSelectionMechanic.InternalUrlLookup:
+                                            @Html.EditorFor(n => n.Items[i].URL) <a href="#">Lookup</a>
+                                            break;
+                                        case LMS.Models.DocumentSelectionMechanic.Url:
+                                            @Html.EditorFor(n => n.Items[i].URL)
+                                            break;
+                                    }
+                                </td>
+                                <td>@Html.DisplayFor(n => n.Items[i].Owner)</td>
+                                <td style="color:@Model.Items[i].Status;">
+
+                                    @Html.DisplayFor(n => n.Items[i].StatusText)
+
+                                </td>
+                                <td>
+                                    @Html.EditorFor(n => n.Items[i].PublishDate)
+                                </td>
+                                <td>
+                                    @if (Model.Items[i].HasDeadline) {
+                                        @Html.EditorFor(n => n.Items[i].DeadLine)
+                                        @Html.HiddenFor(n => n.Items[i].HasDeadline)
+                                    } else {
+                                        <div style="display:initial;">
+                                            @Html.CheckBoxFor(n => n.Items[i].HasDeadline, new { onchange = $"ModalDocumentManager.DeadLine({i})" }) Inlämningsuppgift
+                                        </div>
+                                        <div style="display:none;">
+                                            @Html.EditorFor(n => n.Items[i].DeadLine)
+                                        </div>
+
+                                    }
+                                </td>
+                                <td>
+                                    @if (Model.Items[i].IsAssigment) {
+                                        @Html.DropDownListFor(n => n.Items[i].AssignmentId, Model.AssigmentsList)
+                                        @Html.HiddenFor(n => n.Items[i].IsAssigment)
+                                    } else {
+                                        <div style="display:initial;">
+                                            @Html.CheckBoxFor(n => n.Items[i].IsAssigment, new { onchange = $"ModalDocumentManager.ShowAssigmentOptions({i})" }) Inlämning
+                                        </div>
+                                        <div style="display:none;">
+                                            @Html.DropDownListFor(n => n.Items[i].AssignmentId, Model.AssigmentsList)
+                                        </div>
+
+                                    }
+                                </td>
+                                <td></td>
+                                if (Model.Items[i].IsOwner && Model.Items[i].PublishDate != null) {
+                                    <td><p class="JsActionLink" onclick="ModalDocumentManager.Delete(this,@i)">Delete</p></td>} else {
+                                    <td></td>}
+                                @Html.HiddenFor(n => n.Items[i].RequiresUpload)
+                                @Html.HiddenFor(n => n.Items[i].SelectionMechanic)
+                                @Html.HiddenFor(n => n.Items[i].Status)
+                                @Html.HiddenFor(n => n.Items[i].StatusText)
+                                @Html.HiddenFor(n => n.Items[i].Owner)
+                            } else {
+                                @Html.HiddenFor(n => n.Items[i].RequiresUpload)
+                                @Html.HiddenFor(n => n.Items[i].SelectionMechanic)
+                                @Html.HiddenFor(n => n.Items[i].Status)
+                                @Html.HiddenFor(n => n.Items[i].StatusText)
+                                @Html.HiddenFor(n => n.Items[i].URL)
+                                @Html.HiddenFor(n => n.Items[i].Owner)
+                                @Html.HiddenFor(n => n.Items[i].DeadLine)
                                 @Html.HiddenFor(n => n.Items[i].HasDeadline)
-                            } else {
-                                <div style="display:initial;">
-                                    @Html.CheckBoxFor(n => n.Items[i].HasDeadline, new { onchange = $"ModalDocumentManager.DeadLine({i})" }) Inlämningsuppgift
-                                </div>
-                                <div style="display:none;">
-                                    @Html.EditorFor(n => n.Items[i].DeadLine)
-                                </div>
+                                @Html.HiddenFor(n => n.Items[i].Feedback)
+                                @Html.HiddenFor(n => n.Items[i].PublishDate)
+                                <td>
+                                    <a target="_blank" href="@Model.Items[i].URL">@Html.DisplayFor(n => n.Items[i].ShortName)</a>
+                                </td>
+                                <td>@Html.DisplayFor(n => n.Items[i].Owner)</td>
+                                <td style="background-color:@Model.Items[i].Status;">
+                                    @Html.DisplayFor(n => n.Items[i].StatusText)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(n => n.Items[i].PublishDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(n => n.Items[i].DeadLine)                                                                    </td>
+                                <td>
+                                    @Html.DisplayFor(n => n.Items[i].Feedback)
+                                </td>
+                                if (Model.Items[i].IsOwner && Model.Items[i].PublishDate != null) {
+                                    <td>
+                                        <p class="JsActionLink" onclick="ModalDocumentManager.Delete(this,@i)">Delete</p>
+                                    </td>
+                                } else {
+                                    <td></td>
+                                }
 
                             }
-                        </td>
-
-                        <td>
-                            @if (Model.Items[i].IsAssigment) {
-                                @Html.DropDownListFor(n => n.Items[i].AssignmentId, Model.AssigmentsList)
-                                @Html.HiddenFor(n => n.Items[i].IsAssigment)
-                            } else {
-                                <div style="display:initial;">
-                                    @Html.CheckBoxFor(n => n.Items[i].IsAssigment, new { onchange = $"ModalDocumentManager.ShowAssigmentOptions({i})" }) Inlämning
-                                </div>
-                                <div style="display:none;">
-                                    @Html.DropDownListFor(n => n.Items[i].AssignmentId, Model.AssigmentsList)
-                                </div>
-
-                            }
-                        </td>
-
-                        <td></td>
-
-                        if (Model.Items[i].IsOwner && Model.Items[i].PublishDate!= null) {
-                            <td><p class="JsActionLink" onclick="ModalDocumentManager.Delete(this,@i)">Delete</p></td>} else {<td></td>}
-
-                       
-                   
 
 
-                        @Html.HiddenFor(n => n.Items[i].RequiresUpload)
-                        @Html.HiddenFor(n => n.Items[i].SelectionMechanic)
-                        @Html.HiddenFor(n => n.Items[i].Status)
-                        @Html.HiddenFor(n => n.Items[i].StatusText)
-                        @Html.HiddenFor(n => n.Items[i].Owner)
-
-
+                        </tr>
                     } else {
+                        @Html.HiddenFor(n => n.Items[i].DeadLine)
+                        @Html.HiddenFor(n => n.Items[i].DocumentDbId)
+                        @Html.HiddenFor(n => n.Items[i].Feedback)
+                        @Html.HiddenFor(n => n.Items[i].HasDeadline)
+                        @Html.HiddenFor(n => n.Items[i].IsOwner)
+                        @Html.HiddenFor(n => n.Items[i].Owner)
+                        @Html.HiddenFor(n => n.Items[i].PublishDate)
                         @Html.HiddenFor(n => n.Items[i].RequiresUpload)
                         @Html.HiddenFor(n => n.Items[i].SelectionMechanic)
                         @Html.HiddenFor(n => n.Items[i].Status)
                         @Html.HiddenFor(n => n.Items[i].StatusText)
                         @Html.HiddenFor(n => n.Items[i].URL)
-                        @Html.HiddenFor(n => n.Items[i].Owner)
-
-                        @Html.HiddenFor(n => n.Items[i].DeadLine)
-                        @Html.HiddenFor(n => n.Items[i].HasDeadline)
-                        @Html.HiddenFor(n => n.Items[i].Feedback)
-                        @Html.HiddenFor(n => n.Items[i].PublishDate)
-
-
-                        <td>
-                            <a target="_blank" href="@Model.Items[i].URL">@Html.DisplayFor(n => n.Items[i].ShortName)</a> 
-                        </td>
-                        <td>@Html.DisplayFor(n => n.Items[i].Owner)</td>
-                        <td style ="background-color:@Model.Items[i].Status;">
-                            @Html.DisplayFor(n => n.Items[i].StatusText)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(n => n.Items[i].PublishDate)
-                        </td>
-                        <td>
-                         
-                                @Html.DisplayFor(n => n.Items[i].DeadLine)
-
-                        </td>
-                        <td>
-                            @Html.DisplayFor(n => n.Items[i].Feedback)
-                        </td>
-                        if (Model.Items[i].IsOwner && Model.Items[i].PublishDate != null) {
-                        <td>
-                            <p class="JsActionLink" onclick="ModalDocumentManager.Delete(this,@i)">Delete</p>
-                        </td>
-                        } else {
-                            <td></td>
-                        }
-             
                     }
-
-
-                </tr>
-                } else {
-                    @Html.HiddenFor(n => n.Items[i].DeadLine)
-                    @Html.HiddenFor(n => n.Items[i].DocumentDbId)
-                    @Html.HiddenFor(n => n.Items[i].Feedback)
-                    @Html.HiddenFor(n => n.Items[i].HasDeadline)
-                    @Html.HiddenFor(n => n.Items[i].IsOwner)
-                    @Html.HiddenFor(n => n.Items[i].Owner)
-                    @Html.HiddenFor(n => n.Items[i].PublishDate)
-                    @Html.HiddenFor(n => n.Items[i].RequiresUpload)
-                    @Html.HiddenFor(n => n.Items[i].SelectionMechanic)
-                    @Html.HiddenFor(n => n.Items[i].Status)
-                    @Html.HiddenFor(n => n.Items[i].StatusText)
-                    @Html.HiddenFor(n => n.Items[i].URL)
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    @Html.DropDownListFor(n => n.SelectionMechanic, Model.ComboItems)
-    <input type="submit" value="Nytt fält" />
-    @Html.HiddenFor(n => n.Done, new { id = "done" })
+        @Html.DropDownListFor(n => n.SelectionMechanic, Model.ComboItems)
+        <input type="submit" value="Nytt fält" />
+        @Html.HiddenFor(n => n.Done, new { id = "done" })
 
-    <input type="submit" id="DoneSubmit" style="display:none" onclick="__Done()" value="Klart" />
+        <input type="submit" id="DoneSubmit" style="display:none" onclick="__Done()" value="Klart" />
         <script>
             function __Done() {
                 var done = document.getElementById("done");
@@ -190,4 +165,6 @@ cursor:pointer;
                 return true;
             }
         </script>
-}
+    }
+</body>
+</html> 

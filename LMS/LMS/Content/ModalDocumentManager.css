@@ -1,0 +1,11 @@
+﻿        .JsActionLink {
+            color: blue;
+            user-select: none;
+            cursor: pointer;
+        }
+        .JsActionLink:hover {
+                text-decoration: underline;
+            }
+        .DocumentManager th {
+            text-align: left;
+        }
