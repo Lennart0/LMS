@@ -58,11 +58,14 @@
         DateTime activityDate = new DateTime( 0 );
         foreach ( var activity in item.Activities.OrderBy(a=>a.Start) ) {
             if( activity.Start.Date != activityDate.Date ) {
-                activityDate = activity.Start;
-                <tr><td colspan="4" >  <!-- class="@**@(DateTime.Now.Date==activityDate.Date?"today":"")"  <span @**@(activityDate.Date==today?"style=\"font-weight: bold\"":"")> --> 
+                activityDate = activity.Start.Date;
+                <tr>
+                <td colspan="4" >  <!-- class="@**@(DateTime.Now.Date==activityDate.Date?"today":"")"  <span @**@(activityDate.Date==today?"style=\"font-weight: bold\"":"")> --> 
+                        @if ( activityDate == today ) { <a id="today"></a> }
                         <span style="@(DateTime.Now.Date==activityDate.Date?"font-weight: bold":"")">@activity.Start.ToString( "dddd d MMMM" )</span>
                     @*Html.DisplayFor( x => activity.Start.Date )*@
-                </td></tr>
+                </td>
+                </tr>
             }
             <tr>
                 <td>
@@ -106,4 +109,9 @@
     }
     <tr><td></td></tr>
 </table>
-
+<script>
+    window.addEventListener("load", function () {
+        if (window.location.toString().indexOf('#') < 0 )
+            window.location += "#today"
+    });
+</script>
