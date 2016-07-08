@@ -12,103 +12,85 @@
 @foreach ( var item in Model ) {
     <span><a href="#@item.Id" >@item.Name</a> </span>
 }
-<table class="table">
-    <!--tr>
-        <th>
-            @*Html.DisplayNameFor(model => model.Description)*@
-        </th>
-        <th>
-            @*Html.DisplayNameFor(model => model.Name)*@
-        </th>
-        <th>
-            @*Html.DisplayNameFor(model => model.Start)*@
-        </th>
-        <th>
-            @*Html.DisplayNameFor(model => model.End)*@
-        </th>
-        <th></th>
-    </tr-->
 
-    @{DateTime today = DateTime.Now.Date;}
+@{
+    DateTime dateToday = DateTime.Now.Date;
+    DateTime yesterday = dateToday - new TimeSpan( 1, 0, 0, 0 );
+}
+
     @foreach ( var item in Model ) {
-        
-        <tr>
-            <td colspan="2">
+        <div>
+            <p>
                 <a id="@item.Id"></a>
-                <span style="font-weight: bold">@Html.DisplayFor( modelItem => item.Name )</span>
-            </td>
-            <!--td>
-                @*Html.DisplayFor( modelItem => item.Description )*@
-            </td-->
-            <td>
+            </p>
+            <p class="lms-schedule-module" style="font-weight: bold">
+                @Html.DisplayFor( modelItem => item.Name )
+                <!--class="pull-right"-->
+                <span>&nbsp;&nbsp;&nbsp;@(item.Start.ToString( "d MMMM" ) + " - " + item.End.ToString( "d MMMM" ))</span>
+            </p>
 
-                @(item.Start.ToString("d MMMM") + " - " + item.End.ToString("d MMMM"))
-                @*Html.DisplayFor( modelItem => item.Start )*@
-            </td>
-            <!--td>
-                @*Html.DisplayFor( modelItem => item.End )*@
-            </td-->
-            <td>
-                @*Html.ActionLink("Ändra", "Edit", new { id=item.Id }) |*@
-                @Html.ActionLink( "Info", "Details", new { id = item.Id } )
-                @*Html.ActionLink("Ta bort", "Delete", new { id=item.Id })*@
-            </td>
-        </tr>
+            @{
+                DateTime activityDate = new DateTime( 0 );
+                List<LMS.Models.Activity> activities = item.Activities.OrderBy( a => a.Start ).ToList();
+            }
 
-        DateTime activityDate = new DateTime( 0 );
-        foreach ( var activity in item.Activities.OrderBy(a=>a.Start) ) {
-            if( activity.Start.Date != activityDate.Date ) {
-                activityDate = activity.Start.Date;
-                <tr>
-                <td colspan="4" >  <!-- class="@**@(DateTime.Now.Date==activityDate.Date?"today":"")"  <span @**@(activityDate.Date==today?"style=\"font-weight: bold\"":"")> --> 
-                        @if ( activityDate == today ) { <a id="today"></a> }
-                        <span style="@(DateTime.Now.Date==activityDate.Date?"font-weight: bold":"")">@activity.Start.ToString( "dddd d MMMM" )</span>
-                    @*Html.DisplayFor( x => activity.Start.Date )*@
-                </td>
-                </tr>
-            }
-            <tr>
-                <td>
-                    @(activity.Start.ToString( "HH:mm" ) + " - " + activity.End.ToString( "HH:mm" ))
-                    @*Html.DisplayFor( x => activity.Start.TimeOfDay )*@
-                </td>
-                <!--td>
-                    @*Html.DisplayFor( x => activity.End.TimeOfDay )*@
-                </td-->
-                <td colspan="3">
-                    @Html.DisplayFor( x => activity.Name )
-                </td>
-                <td>
-                    @Html.ActionLink( "Info", "Details", "Activities", new { id = activity.Id }, null )
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4">
-                    @Html.DisplayFor( x => activity.Description )
-                </td>
-            </tr>
-            if (activity.Documents.Where(d => d is LMS.Models.TimeSensetiveDocument).Count() > 0) {
-                <tr><td>
-    @Html.Partial( "~/Views/Shared/ModelFileView.cshtml",
-    new LMS.Models.FileModalPartialViewModel {
-        Id = activity.Id,
-        Type = LMS.Models.DocumentTargetEntity.Activity,
-        Title = "Lösning på inlämningsuppgift",
-        PostBackChange = "location.reload()"
-    } )
-                </td></tr>
-            }
-            /*
-            foreach ( var doc in activity.Documents.Where(d => !string.IsNullOrWhiteSpace(d.Url)).ToList() ) {
-                <tr>
-                    <td colspan="4"><a href="@doc.Url" target="_blank">@doc.Url</a></td>
-                </tr>
-            }
-            */
-        }
-    }
-    <tr><td></td></tr>
-</table>
+
+
+                @for ( int i=0; i < activities.Count; i++ ) {
+                    var activity = activities[i];
+                    if ( activity.Start.Date != activityDate.Date ) {
+                        activityDate = activity.Start.Date;
+                        if ( activityDate >= yesterday ) { yesterday = new DateTime( 9000, 1, 1 ); <a id="today"></a> }
+                        <div class="lms-schedule-date  @(dateToday == activityDate.Date ? "lms-schedule-today" : "")">
+                            <!-- style=" (dateToday == activityDate.Date ? "font-weight: bold" : "")" -->
+                            <span>@activity.Start.ToString( "dddd d MMMM" )&nbsp;</span>
+                            
+                            @*Html.DisplayFor( x => activity.Start.Date )*@
+                        </div>
+                    }
+
+
+                    <div>
+
+                        @(activity.Start.ToString( "HH:mm" ) + " - " + activity.End.ToString( "HH:mm" ))
+                        @*Html.DisplayFor( x => activity.Start.TimeOfDay )*@
+
+                        @Html.DisplayFor( x => activity.Name )
+                        @*@Html.ActionLink( "Info", "Details", "Activities", new { id = activity.Id }, null )*@
+
+                        <span style="font-size: large">
+                            <a data-toggle="collapse" href="#actdesc_@activity.Id">...</a>
+                            <!--button data-toggle="collapse" data-target="#actdesc_@activity.Id">v&nbsp;</!--button-->
+                        </span>
+
+                        @if ( activity.Documents.Where( d => d is LMS.Models.TimeSensetiveDocument ).Count() > 0 ) {
+                        <span class="pull-right">
+                            @Html.Partial( "~/Views/Shared/ModelFileView.cshtml",
+                                 new LMS.Models.FileModalPartialViewModel {
+                                     Id = activity.Id,
+                                     Type = LMS.Models.DocumentTargetEntity.Activity,
+                                     Title = "Lösning på inlämningsuppgift",
+                                     PostBackChange = "location.reload()"
+                                 } )
+                        </span>
+                        }
+                    </div > 
+
+                    
+                    <div id="actdesc_@activity.Id" class="collapse">
+                        @activity.Description
+                    </div>
+
+                    if (i == activities.Count-1 || activities[i+1].Start.Date == activityDate) {
+                        <hr />
+                    }
+                }
+
+
+        </div >
+   }
+
+
 <script>
     window.addEventListener("load", function () {
         if (window.location.toString().indexOf('#') < 0 )
