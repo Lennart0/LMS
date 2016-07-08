@@ -12,15 +12,13 @@ namespace LMS.Controllers {
     [Authorize]
     public class DocumentController : Controller {
 
-
-
         public DocumentController() : base() {
 
             mappings = new Dictionary<DocumentTargetEntity, Func<ApplicationUser, Guid, List<Document>>>() {
                 {
                     DocumentTargetEntity.Activity, (user,entityId) => { 
 
-                                               List<PlainDocument> allplainDocs = db.PlainDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).ToList();
+                        List<PlainDocument> allplainDocs = db.PlainDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).ToList();
                         List<TimeSensetiveDocument> allAsignments = db.TimeSensetiveDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).Include(n=> n.submissions).ToList();
                         List<AssignmentSubmission> allSubmisions = db.AssignmentSubmissions.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).Include(n=> n.assignment).ToList();
                         var result = new List<Document>();
@@ -65,19 +63,34 @@ namespace LMS.Controllers {
 
         private Dictionary<DocumentTargetEntity, Func<ApplicationUser, Guid, List<Document>>> mappings;
 
-
-
-
-
         private DataAccessLayer.ApplicationDbContext db = new DataAccessLayer.ApplicationDbContext();
 
-        private void setStatus(Document n, DocumentItem item) {
+        [ChildActionOnly]
+        public ActionResult Status(Guid EntityId, Models.DocumentTargetEntity entityType) {
+            var user = db.Users.First(n => n.Email == User.Identity.Name);
+            var documents = mappings[entityType](user, EntityId);
+            int WorstStatus = 0;
+                      
+            documents.ForEach(n => {
+                DocumentStatus status;
+                string statusText;
+                bool IsOwner;
+                setStatus(n, out status, out statusText, out IsOwner);
+                int statusint = (int)status;
+                if (statusint > WorstStatus) {
+                    WorstStatus = statusint; 
+                }
+            });
+            return View( new StatusViewModel {  EntityId = EntityId,  EntityType = entityType,   Status = (DocumentStatus)WorstStatus });
+        }
+
+        private void setStatus(Document n, out DocumentStatus Status, out string StatusText,out  bool IsOwner) {
             if (User.IsInRole(Helpers.Constants.TeacherRole)) {
 
 
-                item.IsOwner = true;
+                IsOwner = true;// teachers are all powerfull and are considerd owner of all documents!
 
-                Course course = null;
+                Course course = null; //Get Course reguardless of what entity its from
                 if (n.ActivityId != null) {
                     course = n.Activity.Module.Course;
                 } else if (n.ModuleId != null) {
@@ -85,44 +98,70 @@ namespace LMS.Controllers {
                 } else if (n.CourseId != null) {
                     course = n.Course;
                 }
+                if (n is TimeSensetiveDocument) {
 
-                if ((n as TimeSensetiveDocument).submissions.Select(c => c.UserId).Distinct().Count() == course.Students.Count) {
-                    item.Status = DocumentStatus.Green;
-                    item.StatusText = "Allt inlämnat";
-                } else {
+                    var timeSensetive = (n as TimeSensetiveDocument);
 
-                    if (DateTime.Now >= ((TimeSensetiveDocument)n)?.DeadLine) {
-                        item.Status = DocumentStatus.Red;
-                        var y = course.Students.Count();
-                        var x = (n as TimeSensetiveDocument).submissions.Select(c => c.UserId).Distinct().Count();
-                        item.StatusText = $"Försenad inlämning, {x} av {y} inlämnat";
+                    if (timeSensetive.submissions.Select(c => c.UserId).Distinct().Count() == course.Students.Count) {
+                        Status = DocumentStatus.Green;
+                        StatusText = "Allt inlämnat";
                     } else {
-                        item.Status = DocumentStatus.Yellow;
-                        var y = course.Students.Count();
-                        var x = (n as TimeSensetiveDocument).submissions.Select(c => c.UserId).Distinct().Count();
 
-                        item.StatusText = $"{x} av {y} inlämnad";
+                        if (DateTime.Now >= timeSensetive.DeadLine) {
+                            Status = DocumentStatus.Red;
+                            var y = course.Students.Count();
+                            var x = timeSensetive.submissions.Select(c => c.UserId).Distinct().Count();
+                            StatusText = $"Försenad inlämning, {x} av {y} inlämnat";
+                        } else {
+                            Status = DocumentStatus.Yellow;
+                            var y = course.Students.Count();
+                            var x = timeSensetive.submissions.Select(c => c.UserId).Distinct().Count();
+                            StatusText = $"{x} av {y} inlämnad";
+                        }
+
                     }
+                } else {
+                    Status = DocumentStatus.None;
+                    StatusText = "";
                 }
+                //End of Teacher scope
             } else {
+                //start of student scope
 
-  
-                item.IsOwner = n.User.Email == User.Identity.Name;
+                IsOwner = n.User.Email == User.Identity.Name;
+                if (n is TimeSensetiveDocument) {
+                    var timeSensetive = (n as TimeSensetiveDocument);
 
-                if (((TimeSensetiveDocument)n).submissions.Count(u => u.User.UserName == User.Identity.Name) > 0) {
-                    item.Status = DocumentStatus.Green;
-                    item.StatusText = "Inlämnad";
-                } else {
-
-                    if (DateTime.Now >= ((TimeSensetiveDocument)n)?.DeadLine) {
-                        item.Status = DocumentStatus.Red;
-                        item.StatusText = "Sen inlämning";
+                    if (timeSensetive.submissions.Count(u => u.User.UserName == User.Identity.Name) > 0) {
+                        Status = DocumentStatus.Green;
+                        StatusText = "Inlämnad";
                     } else {
-                        item.Status = DocumentStatus.Yellow;
-                        item.StatusText = "ej inlämning";
+
+                        if (DateTime.Now >= ((TimeSensetiveDocument)n)?.DeadLine) {
+                            Status = DocumentStatus.Red;
+                            StatusText = "Sen inlämning";
+                        } else {
+                            Status = DocumentStatus.Yellow;
+                            StatusText = "ej inlämning";
+                        }
                     }
+                } else {
+                    Status = DocumentStatus.None;
+                    StatusText = "";
                 }
+            
+                //end of student scope
             }
+        }
+
+        private void setStatus(Document n, DocumentItem item) {
+            DocumentStatus status;
+            string statusText;
+            bool IsOwner;
+            setStatus(n, out status, out statusText, out IsOwner);
+            item.IsOwner = IsOwner;
+            item.StatusText = statusText;
+            item.Status = status;
         }
 
         public List<DocumentItem> CreateViewModelFromDbItem(DocumentTargetEntity target, ApplicationUser user, Guid id) {
@@ -130,37 +169,39 @@ namespace LMS.Controllers {
                 var item = new DocumentItem();
 
 
-                if (ObjectContext.GetObjectType(n.GetType()) == typeof(Models.TimeSensetiveDocument)) {
+                if (n is Models.TimeSensetiveDocument) {
                     item.URL = n.Url;
                     item.RequiresUpload = false;
                     item.SelectionMechanic = DocumentSelectionMechanic.Url;
                     item.Owner = n.User.UserName;
                     setStatus(n, item);
                     item.PublishDate = n.PublishDate;
-
+              
                     item.DeadLine = (n as TimeSensetiveDocument)?.DeadLine;
                     item.HasDeadline = true;
                     item.DocumentDbId = n.Id;
                 } else
-                if (ObjectContext.GetObjectType(n.GetType()) == typeof(Models.AssignmentSubmission)) {
+                if (n is Models.AssignmentSubmission) {
                     var x = n as AssignmentSubmission;
 
                     item.Feedback = x?.FeedBack;
-                    item.URL = n.Url;
+                    item.URL = x.Url;
                     item.RequiresUpload = false;
                     item.SelectionMechanic = DocumentSelectionMechanic.Url;
-                    item.Owner = n.User.UserName;
-                    item.PublishDate = n.PublishDate; ;
-                    item.HasDeadline = true;
-                    item.DocumentDbId = n.Id;
+                    item.Owner = x.User.UserName;
+                    item.PublishDate = x.PublishDate; ;
+                    item.HasDeadline = false;
+                    item.IsAssigmentSubmission = true;
+                    item.DocumentDbId = x.Id;
+                    item.AssignmentId = x.assignmentId;
                 } else
-                if (ObjectContext.GetObjectType(n.GetType()) == typeof(Models.PlainDocument)) {
+                if (n is Models.PlainDocument) {
                     item.URL = n.Url;
                     item.RequiresUpload = false;
                     item.SelectionMechanic = DocumentSelectionMechanic.Url;
                     item.Owner = n.User.UserName;
                     item.PublishDate = n.PublishDate; ;
-                    item.HasDeadline = true;
+                    item.HasDeadline = false;
                     item.DocumentDbId = n.Id;
                 }
                 return item;
@@ -169,7 +210,6 @@ namespace LMS.Controllers {
 
             return result;
         }
-
 
         // GET: Document
         public ActionResult Add(Guid EntityId, Models.DocumentTargetEntity entityType) {
@@ -279,6 +319,7 @@ namespace LMS.Controllers {
 
             });
         }
+
         private List<SelectListItem> GetDropDownForAssignments(AddDocumentsViewModel model) {
 
           return   model.Items.Where(n=> n.DeadLine != null && n.PublishDate != null).Select(n => new System.Web.Mvc.SelectListItem() { Value = n.DocumentDbId.ToString(), Text = Helpers.URLHelper.Shorten(n.URL) }).ToList();
@@ -343,8 +384,7 @@ namespace LMS.Controllers {
             model.ComboItems = LMS.Models.ComboBoxListItemHelper.GetOptions(typeof(Models.DocumentSelectionMechanic));
             return View(model);
         }
-
-
+   
         private bool ForEachUrl(DocumentItem item, AddDocumentsViewModel model, ApplicationUser user) {
 
             Activity activity = null;
@@ -369,14 +409,14 @@ namespace LMS.Controllers {
 
                 if (item.PublishDate.HasValue) {
 
-                    if (item.AssignmentId != null) {
+                    if (item.IsAssigmentSubmission) {
                         db.Documents.Add(new AssignmentSubmission {
                             Id = Guid.NewGuid(),
                             IsLocal = false,
                             Activity = activity,
                             Course = course,
                             Module = module,
-                                 assignmentId = item.AssignmentId,
+                            assignmentId = item.AssignmentId,
                             User = user,
                             Url = item.URL,
                             UploadDate = DateTime.Now,
@@ -384,7 +424,7 @@ namespace LMS.Controllers {
                         });
 
                     } else
-                    if (item.DeadLine != null) {
+                    if (item.HasDeadline) {
                         db.Documents.Add(new TimeSensetiveDocument {
                             Id = Guid.NewGuid(),
                             IsLocal = false,
@@ -458,10 +498,10 @@ namespace LMS.Controllers {
             }
         }
 
-
-
         protected override void Dispose(bool disposing) {
             base.Dispose(disposing);
         }
+
     }
+
 }

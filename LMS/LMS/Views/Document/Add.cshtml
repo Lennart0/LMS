@@ -11,7 +11,7 @@
     <title></title>
     <style type="text/css">
     </style>
-    <link  type="text/css" rel="stylesheet" href="@Url.Content("~/content/ModalDocumentManager.css")" />
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/content/ModalDocumentManager.css")" />
     <script type="text/javascript" src="@Url.Content("~/Scripts/ModalDocumentManager.js")"></script>
 </head>
 <body>
@@ -26,8 +26,13 @@
                     <th>Ägare</th>
                     <th>Status</th>
                     <th>Publiseringsdatum</th>
-                    <th>Deadline</th>
+
+
+           
+                    <th>Deadline/Inlämnings</th>
+                 
                     <th>Feedback</th>
+                    <th>Typ</th>
                     <th></th>
                 </tr>
             </thead>
@@ -60,29 +65,49 @@
                                 <td>
                                     @Html.EditorFor(n => n.Items[i].PublishDate)
                                 </td>
+                           
+
                                 <td>
                                     @if (Model.Items[i].HasDeadline) {
+
                                         @Html.EditorFor(n => n.Items[i].DeadLine)
                                         @Html.HiddenFor(n => n.Items[i].HasDeadline)
+
                                     } else {
-                                        <div style="display:initial;">
-                                            @Html.CheckBoxFor(n => n.Items[i].HasDeadline, new { onchange = $"ModalDocumentManager.DeadLine({i})" }) Inlämningsuppgift
-                                        </div>
-                                        <div style="display:none;">
+
+
+                                        if (User.IsInRole(Constants.TeacherRole)) {
+                                            <div id="@Html.Raw($"Items_{i}_Div_HasDeadline")" style="display:initial;">
+                                                @Html.CheckBoxFor(n => n.Items[i].HasDeadline, new { onchange = $"ModalDocumentManager.DeadLine({i})" }) Inlämningsuppgift
+                                            </div>
+                                        } else {
+                                            <div id="@Html.Raw($"Items_{i}_Div_HasDeadline")" style="display:none;">
+                                                @Html.CheckBoxFor(n => n.Items[i].HasDeadline, new { onchange = $"ModalDocumentManager.DeadLine({i})" }) Inlämningsuppgift
+                                            </div>
+                                        }
+
+                                        <div id="@Html.Raw($"Items_{i}_Div_DeadLine")" style="display:none;">
                                             @Html.EditorFor(n => n.Items[i].DeadLine)
                                         </div>
 
                                     }
-                                </td>
-                                <td>
-                                    @if (Model.Items[i].IsAssigment) {
+                          
+                                    @if (Model.Items[i].IsAssigmentSubmission) {
                                         @Html.DropDownListFor(n => n.Items[i].AssignmentId, Model.AssigmentsList)
-                                        @Html.HiddenFor(n => n.Items[i].IsAssigment)
+                                        @Html.HiddenFor(n => n.Items[i].IsAssigmentSubmission)
                                     } else {
-                                        <div style="display:initial;">
-                                            @Html.CheckBoxFor(n => n.Items[i].IsAssigment, new { onchange = $"ModalDocumentManager.ShowAssigmentOptions({i})" }) Inlämning
-                                        </div>
-                                        <div style="display:none;">
+
+                                        if (User.IsInRole(Constants.TeacherRole)) {
+                                            <div id="@Html.Raw($"Items_{i}_Div_IsAssigmentSubmission")" style="display:none;">
+                                                @Html.CheckBoxFor(n => n.Items[i].IsAssigmentSubmission, new { onchange = $"ModalDocumentManager.ShowAssigmentOptions({i})" }) Inlämning
+                                            </div>
+                                        } else {
+                                            <div id="@Html.Raw($"Items_{i}_Div_IsAssigmentSubmission")" style="display:initial;">
+                                                @Html.CheckBoxFor(n => n.Items[i].IsAssigmentSubmission, new { onchange = $"ModalDocumentManager.ShowAssigmentOptions({i})" }) Inlämning
+                                            </div>
+                                        }
+
+                                        <div id="@Html.Raw($"Items_{i}_Div_AssignmentId")" style="display:none;">
                                             @Html.DropDownListFor(n => n.Items[i].AssignmentId, Model.AssigmentsList)
                                         </div>
 
@@ -90,6 +115,7 @@
                                 </td>
                                 <td></td>
                                 if (Model.Items[i].IsOwner && Model.Items[i].PublishDate != null) {
+
                                     <td><p class="JsActionLink" onclick="ModalDocumentManager.Delete(this,@i)">Delete</p></td>} else {
                                     <td></td>}
                                 @Html.HiddenFor(n => n.Items[i].RequiresUpload)
@@ -119,10 +145,28 @@
                                     @Html.DisplayFor(n => n.Items[i].PublishDate)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(n => n.Items[i].DeadLine)                                                                    </td>
-                                <td>
-                                    @Html.DisplayFor(n => n.Items[i].Feedback)
+                                    @Html.DisplayFor(n => n.Items[i].DeadLine)
                                 </td>
+                                    <td>
+                                        @Html.DisplayFor(n => n.Items[i].Feedback)
+                                    </td>
+                                    <td>
+                                        @if (!Model.Items[i].HasDeadline && !Model.Items[i].IsAssigmentSubmission) {
+
+                                            <span>Dokument</span>
+
+                                        } else if (Model.Items[i].HasDeadline && !Model.Items[i].IsAssigmentSubmission) {
+
+                                            <span>Uppgift</span>
+
+                                        } else if (!Model.Items[i].HasDeadline && Model.Items[i].IsAssigmentSubmission) {
+                                            if (Model.Items[i].AssignmentId != null) {
+                                                <span>Svar ( @Model.AssigmentsList.FirstOrDefault(n => n.Value == Model.Items[i].AssignmentId?.ToString()).Text )</span>
+                                            } else {
+                                                <span>Svar</span>
+                                            }
+                                        }
+                                    </td>
                                 if (Model.Items[i].IsOwner && Model.Items[i].PublishDate != null) {
                                     <td>
                                         <p class="JsActionLink" onclick="ModalDocumentManager.Delete(this,@i)">Delete</p>
