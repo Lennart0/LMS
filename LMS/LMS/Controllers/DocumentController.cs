@@ -12,8 +12,6 @@ namespace LMS.Controllers {
     [Authorize]
     public class DocumentController : Controller {
 
-
-
         public DocumentController() : base() {
 
             mappings = new Dictionary<DocumentTargetEntity, Func<ApplicationUser, Guid, List<Document>>>() {
@@ -65,12 +63,7 @@ namespace LMS.Controllers {
 
         private Dictionary<DocumentTargetEntity, Func<ApplicationUser, Guid, List<Document>>> mappings;
 
-
-
-
-
         private DataAccessLayer.ApplicationDbContext db = new DataAccessLayer.ApplicationDbContext();
-
 
         [ChildActionOnly]
         public ActionResult Status(Guid EntityId, Models.DocumentTargetEntity entityType) {
@@ -90,6 +83,7 @@ namespace LMS.Controllers {
             });
             return View( new StatusViewModel {  EntityId = EntityId,  EntityType = entityType,   Status = (DocumentStatus)WorstStatus });
         }
+
         private void setStatus(Document n, out DocumentStatus Status, out string StatusText,out  bool IsOwner) {
             if (User.IsInRole(Helpers.Constants.TeacherRole)) {
 
@@ -175,37 +169,39 @@ namespace LMS.Controllers {
                 var item = new DocumentItem();
 
 
-                if (ObjectContext.GetObjectType(n.GetType()) == typeof(Models.TimeSensetiveDocument)) {
+                if (n is Models.TimeSensetiveDocument) {
                     item.URL = n.Url;
                     item.RequiresUpload = false;
                     item.SelectionMechanic = DocumentSelectionMechanic.Url;
                     item.Owner = n.User.UserName;
                     setStatus(n, item);
                     item.PublishDate = n.PublishDate;
-
+              
                     item.DeadLine = (n as TimeSensetiveDocument)?.DeadLine;
                     item.HasDeadline = true;
                     item.DocumentDbId = n.Id;
                 } else
-                if (ObjectContext.GetObjectType(n.GetType()) == typeof(Models.AssignmentSubmission)) {
+                if (n is Models.AssignmentSubmission) {
                     var x = n as AssignmentSubmission;
 
                     item.Feedback = x?.FeedBack;
-                    item.URL = n.Url;
+                    item.URL = x.Url;
                     item.RequiresUpload = false;
                     item.SelectionMechanic = DocumentSelectionMechanic.Url;
-                    item.Owner = n.User.UserName;
-                    item.PublishDate = n.PublishDate; ;
-                    item.HasDeadline = true;
-                    item.DocumentDbId = n.Id;
+                    item.Owner = x.User.UserName;
+                    item.PublishDate = x.PublishDate; ;
+                    item.HasDeadline = false;
+                    item.IsAssigmentSubmission = true;
+                    item.DocumentDbId = x.Id;
+                    item.AssignmentId = x.assignmentId;
                 } else
-                if (ObjectContext.GetObjectType(n.GetType()) == typeof(Models.PlainDocument)) {
+                if (n is Models.PlainDocument) {
                     item.URL = n.Url;
                     item.RequiresUpload = false;
                     item.SelectionMechanic = DocumentSelectionMechanic.Url;
                     item.Owner = n.User.UserName;
                     item.PublishDate = n.PublishDate; ;
-                    item.HasDeadline = true;
+                    item.HasDeadline = false;
                     item.DocumentDbId = n.Id;
                 }
                 return item;
@@ -214,7 +210,6 @@ namespace LMS.Controllers {
 
             return result;
         }
-
 
         // GET: Document
         public ActionResult Add(Guid EntityId, Models.DocumentTargetEntity entityType) {
@@ -324,6 +319,7 @@ namespace LMS.Controllers {
 
             });
         }
+
         private List<SelectListItem> GetDropDownForAssignments(AddDocumentsViewModel model) {
 
           return   model.Items.Where(n=> n.DeadLine != null && n.PublishDate != null).Select(n => new System.Web.Mvc.SelectListItem() { Value = n.DocumentDbId.ToString(), Text = Helpers.URLHelper.Shorten(n.URL) }).ToList();
@@ -388,7 +384,6 @@ namespace LMS.Controllers {
             model.ComboItems = LMS.Models.ComboBoxListItemHelper.GetOptions(typeof(Models.DocumentSelectionMechanic));
             return View(model);
         }
-
    
         private bool ForEachUrl(DocumentItem item, AddDocumentsViewModel model, ApplicationUser user) {
 
@@ -414,14 +409,14 @@ namespace LMS.Controllers {
 
                 if (item.PublishDate.HasValue) {
 
-                    if (item.AssignmentId != null) {
+                    if (item.IsAssigmentSubmission) {
                         db.Documents.Add(new AssignmentSubmission {
                             Id = Guid.NewGuid(),
                             IsLocal = false,
                             Activity = activity,
                             Course = course,
                             Module = module,
-                                 assignmentId = item.AssignmentId,
+                            assignmentId = item.AssignmentId,
                             User = user,
                             Url = item.URL,
                             UploadDate = DateTime.Now,
@@ -429,7 +424,7 @@ namespace LMS.Controllers {
                         });
 
                     } else
-                    if (item.DeadLine != null) {
+                    if (item.HasDeadline) {
                         db.Documents.Add(new TimeSensetiveDocument {
                             Id = Guid.NewGuid(),
                             IsLocal = false,
@@ -503,10 +498,10 @@ namespace LMS.Controllers {
             }
         }
 
-
-
         protected override void Dispose(bool disposing) {
             base.Dispose(disposing);
         }
+
     }
+
 }

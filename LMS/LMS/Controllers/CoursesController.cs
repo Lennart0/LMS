@@ -40,7 +40,7 @@ namespace LMS.Controllers
 
             ViewBag.CourseName = course.Name;
             ViewBag.CourseId = course.Id;
-            DocHelper.AssocDocsToViewBag( course.Documents, ViewBag );
+            DocHelper.AssocDocsToViewBag( course.Documents.Where(n=> n.PublishDate != null), ViewBag );
 
             return View(course);
         }

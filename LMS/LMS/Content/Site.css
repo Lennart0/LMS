@@ -3,9 +3,29 @@
     src: url('heydings_icons.ttf') format('truetype');
 }
 
-.DownLoadStatus {
- font-family: Icons;
- font-size:xx-large
+
+.status {
+         font-family: Icons;
+ font-size:xx-large;
+ padding:2px;
+}
+
+.status:hover {
+ background-color:none;
+
+}
+
+.status-None {
+    color:darkslategray;
+}
+ .status-Green  {
+     color:green;
+}
+ .status-Yellow  {
+     color:gold;
+}
+ .status-Red {
+     color:red;
 }
 
 body {

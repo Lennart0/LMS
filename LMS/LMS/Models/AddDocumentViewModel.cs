@@ -28,7 +28,7 @@ namespace LMS.Models {
  
 
 
-
+   
         public Guid DocumentDbId { get; set; }
         public DocumentSelectionMechanic SelectionMechanic { get; set; }
         public bool RequiresUpload { get; set; } //if it has already been uploaded this is also compared with selection machanic
@@ -60,7 +60,7 @@ namespace LMS.Models {
         public DateTime? DeadLine { get; set; }
 
 
-        public bool IsAssigment { get; set; }
+        public bool IsAssigmentSubmission { get; set; }
         public Guid? AssignmentId { get; set; }
 
         public string Feedback { get; set; }
