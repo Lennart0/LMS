@@ -20,7 +20,7 @@ namespace LMS.Controllers {
                 {
                     DocumentTargetEntity.Activity, (user,entityId) => { 
 
-                                               List<PlainDocument> allplainDocs = db.PlainDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).ToList();
+                        List<PlainDocument> allplainDocs = db.PlainDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).ToList();
                         List<TimeSensetiveDocument> allAsignments = db.TimeSensetiveDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).Include(n=> n.submissions).ToList();
                         List<AssignmentSubmission> allSubmisions = db.AssignmentSubmissions.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).Include(n=> n.assignment).ToList();
                         var result = new List<Document>();
@@ -71,13 +71,32 @@ namespace LMS.Controllers {
 
         private DataAccessLayer.ApplicationDbContext db = new DataAccessLayer.ApplicationDbContext();
 
-        private void setStatus(Document n, DocumentItem item) {
+
+        [ChildActionOnly]
+        public ActionResult Status(Guid EntityId, Models.DocumentTargetEntity entityType) {
+            var user = db.Users.First(n => n.Email == User.Identity.Name);
+            var documents = mappings[entityType](user, EntityId);
+            int WorstStatus = 0;
+                      
+            documents.ForEach(n => {
+                DocumentStatus status;
+                string statusText;
+                bool IsOwner;
+                setStatus(n, out status, out statusText, out IsOwner);
+                int statusint = (int)status;
+                if (statusint > WorstStatus) {
+                    WorstStatus = statusint; 
+                }
+            });
+            return View( new StatusViewModel {  EntityId = EntityId,  EntityType = entityType,   Status = (DocumentStatus)WorstStatus });
+        }
+        private void setStatus(Document n, out DocumentStatus Status, out string StatusText,out  bool IsOwner) {
             if (User.IsInRole(Helpers.Constants.TeacherRole)) {
 
 
-                item.IsOwner = true;
+                IsOwner = true;// teachers are all powerfull and are considerd owner of all documents!
 
-                Course course = null;
+                Course course = null; //Get Course reguardless of what entity its from
                 if (n.ActivityId != null) {
                     course = n.Activity.Module.Course;
                 } else if (n.ModuleId != null) {
@@ -85,44 +104,70 @@ namespace LMS.Controllers {
                 } else if (n.CourseId != null) {
                     course = n.Course;
                 }
+                if (n is TimeSensetiveDocument) {
 
-                if ((n as TimeSensetiveDocument).submissions.Select(c => c.UserId).Distinct().Count() == course.Students.Count) {
-                    item.Status = DocumentStatus.Green;
-                    item.StatusText = "Allt inlämnat";
-                } else {
+                    var timeSensetive = (n as TimeSensetiveDocument);
 
-                    if (DateTime.Now >= ((TimeSensetiveDocument)n)?.DeadLine) {
-                        item.Status = DocumentStatus.Red;
-                        var y = course.Students.Count();
-                        var x = (n as TimeSensetiveDocument).submissions.Select(c => c.UserId).Distinct().Count();
-                        item.StatusText = $"Försenad inlämning, {x} av {y} inlämnat";
+                    if (timeSensetive.submissions.Select(c => c.UserId).Distinct().Count() == course.Students.Count) {
+                        Status = DocumentStatus.Green;
+                        StatusText = "Allt inlämnat";
                     } else {
-                        item.Status = DocumentStatus.Yellow;
-                        var y = course.Students.Count();
-                        var x = (n as TimeSensetiveDocument).submissions.Select(c => c.UserId).Distinct().Count();
 
-                        item.StatusText = $"{x} av {y} inlämnad";
+                        if (DateTime.Now >= timeSensetive.DeadLine) {
+                            Status = DocumentStatus.Red;
+                            var y = course.Students.Count();
+                            var x = timeSensetive.submissions.Select(c => c.UserId).Distinct().Count();
+                            StatusText = $"Försenad inlämning, {x} av {y} inlämnat";
+                        } else {
+                            Status = DocumentStatus.Yellow;
+                            var y = course.Students.Count();
+                            var x = timeSensetive.submissions.Select(c => c.UserId).Distinct().Count();
+                            StatusText = $"{x} av {y} inlämnad";
+                        }
+
                     }
+                } else {
+                    Status = DocumentStatus.None;
+                    StatusText = "";
                 }
+                //End of Teacher scope
             } else {
+                //start of student scope
 
-  
-                item.IsOwner = n.User.Email == User.Identity.Name;
+                IsOwner = n.User.Email == User.Identity.Name;
+                if (n is TimeSensetiveDocument) {
+                    var timeSensetive = (n as TimeSensetiveDocument);
 
-                if (((TimeSensetiveDocument)n).submissions.Count(u => u.User.UserName == User.Identity.Name) > 0) {
-                    item.Status = DocumentStatus.Green;
-                    item.StatusText = "Inlämnad";
-                } else {
-
-                    if (DateTime.Now >= ((TimeSensetiveDocument)n)?.DeadLine) {
-                        item.Status = DocumentStatus.Red;
-                        item.StatusText = "Sen inlämning";
+                    if (timeSensetive.submissions.Count(u => u.User.UserName == User.Identity.Name) > 0) {
+                        Status = DocumentStatus.Green;
+                        StatusText = "Inlämnad";
                     } else {
-                        item.Status = DocumentStatus.Yellow;
-                        item.StatusText = "ej inlämning";
+
+                        if (DateTime.Now >= ((TimeSensetiveDocument)n)?.DeadLine) {
+                            Status = DocumentStatus.Red;
+                            StatusText = "Sen inlämning";
+                        } else {
+                            Status = DocumentStatus.Yellow;
+                            StatusText = "ej inlämning";
+                        }
                     }
+                } else {
+                    Status = DocumentStatus.None;
+                    StatusText = "";
                 }
+            
+                //end of student scope
             }
+        }
+
+        private void setStatus(Document n, DocumentItem item) {
+            DocumentStatus status;
+            string statusText;
+            bool IsOwner;
+            setStatus(n, out status, out statusText, out IsOwner);
+            item.IsOwner = IsOwner;
+            item.StatusText = statusText;
+            item.Status = status;
         }
 
         public List<DocumentItem> CreateViewModelFromDbItem(DocumentTargetEntity target, ApplicationUser user, Guid id) {
@@ -281,7 +326,7 @@ namespace LMS.Controllers {
         }
         private List<SelectListItem> GetDropDownForAssignments(AddDocumentsViewModel model) {
 
-          return   model.Items.Where(n=> n.DeadLine != null).Select(n => new System.Web.Mvc.SelectListItem() { Value = n.DocumentDbId.ToString(), Text = Helpers.URLHelper.Shorten(n.URL) }).ToList();
+          return   model.Items.Where(n=> n.DeadLine != null && n.PublishDate != null).Select(n => new System.Web.Mvc.SelectListItem() { Value = n.DocumentDbId.ToString(), Text = Helpers.URLHelper.Shorten(n.URL) }).ToList();
       
                    
         }
@@ -290,15 +335,15 @@ namespace LMS.Controllers {
             List<System.Web.Mvc.SelectListItem> dropDownItems = null;
             switch (entityType) {
                 case DocumentTargetEntity.Course:
-                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.CourseId == EntityId).ToList()
+                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.CourseId == EntityId && n.PublishDate != null).ToList()
                     .Select(n => new System.Web.Mvc.SelectListItem() { Value = n.Id.ToString(), Text = Helpers.URLHelper.Shorten(n.Url) }).ToList();
                     break;
                 case DocumentTargetEntity.Module:
-                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.ModuleId == EntityId).ToList()
+                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.ModuleId == EntityId && n.PublishDate != null).ToList()
                     .Select(n => new System.Web.Mvc.SelectListItem() { Value = n.Id.ToString(), Text = Helpers.URLHelper.Shorten(n.Url) }).ToList();
                     break;
                 case DocumentTargetEntity.Activity:
-                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.ActivityId == EntityId).ToList()
+                    dropDownItems = db.TimeSensetiveDocuments.Where(n => n.ActivityId == EntityId && n.PublishDate != null).ToList()
                     .Select(n => new System.Web.Mvc.SelectListItem() { Value = n.Id.ToString(), Text = Helpers.URLHelper.Shorten(n.Url) }).ToList();
                     break;
             }
@@ -306,7 +351,7 @@ namespace LMS.Controllers {
         }
 
         private List<Document> userPrivlageFileter(List<Document> queryable, ApplicationUser user) {
-            return queryable;
+            return queryable; // think this kind of got redundant.... remove later
         }
 
         [HttpPost]
@@ -321,7 +366,9 @@ namespace LMS.Controllers {
 
             if (!model.Done) {
                 model.Items.Add(new Models.DocumentItem { SelectionMechanic = model.SelectionMechanic.Value, RequiresUpload = true, PublishDate=DateTime.Now });
+               
             } else {
+                model.Done = false;
                 foreach (var item in model.Items) {
                     switch (item.SelectionMechanic) {
                         case DocumentSelectionMechanic.File:
@@ -342,7 +389,7 @@ namespace LMS.Controllers {
             return View(model);
         }
 
-
+   
         private bool ForEachUrl(DocumentItem item, AddDocumentsViewModel model, ApplicationUser user) {
 
             Activity activity = null;
@@ -434,15 +481,24 @@ namespace LMS.Controllers {
         }
 
         private bool ForEachFile(DocumentItem item, AddDocumentsViewModel model, ApplicationUser user) {
-            var filePath = $"Documents\\{model.EntityType}\\{item.File.FileName}";
+            var index = model.Items.Where(n=> n.SelectionMechanic== DocumentSelectionMechanic.File).ToList().IndexOf(item);
+
+            var binDir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.RelativeSearchPath);
+       
+            var url = Url.Content($"~//Documents//{model.EntityType}//{item.File.FileName}");
+        
+
+            var filePath = $"{binDir.Parent.FullName}\\Documents\\{model.EntityType}\\{item.File.FileName}";
             if (System.IO.File.Exists(filePath)) {
-                filePath = $"Documents\\{model.EntityType}\\{Guid.NewGuid()}_{item.File.FileName}";
+                filePath = $"{binDir.Parent.FullName}\\Documents\\{model.EntityType}\\{Guid.NewGuid()}_{item.File.FileName}";
+                url = Url.Content($"~//Documents//{model.EntityType}//{Guid.NewGuid()}_{item.File.FileName}");
+
                 item.File.SaveAs(filePath);
-                item.URL = filePath;
+                item.URL = url;
                 return ForEachUrl(item, model, user);
             } else {
                 item.File.SaveAs(filePath);
-                item.URL = filePath;
+                item.URL = url;
                 return ForEachUrl(item, model, user);
             }
         }

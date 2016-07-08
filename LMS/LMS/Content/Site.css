@@ -1,4 +1,14 @@
-﻿body {
+﻿@font-face {
+    font-family: 'Icons';
+    src: url('heydings_icons.ttf') format('truetype');
+}
+
+.DownLoadStatus {
+ font-family: Icons;
+ font-size:xx-large
+}
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
