@@ -476,6 +476,7 @@
     <Content Include="Views\Shared\ModelFileView.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
     <Content Include="Views\Document\Status.cshtml" />
+    <Content Include="Views\Shared\IFrameLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

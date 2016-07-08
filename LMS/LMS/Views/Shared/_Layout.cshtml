@@ -8,12 +8,10 @@
     <script src="~/Scripts/dhtmlxScheduler/dhtmlxscheduler.js" type="text/javascript"></script>
     <link rel="stylesheet" href="~/Scripts/dhtmlxScheduler/dhtmlxscheduler.css" type="text/css">
 
-    <script src="~/Scripts/dhtmlxScheduler/locale/locale_sv.js"  type="text/javascript"></script>
+    <script src="~/Scripts/dhtmlxScheduler/locale/locale_sv.js" type="text/javascript"></script>
     <script src="~/Scripts/dhtmlxScheduler/locale/recurring/locale_recurring_sv.js"></script>
-
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top navbar-custom">
@@ -29,16 +27,14 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-
-                    <li>@Html.ActionLink("Hem", "Index", "Home")</li>
-                    
-                    @if ( User.Identity.IsAuthenticated && User.IsInRole( LMS.Helpers.Constants.TeacherRole ) ) {
-                        <li>@Html.ActionLink( "Kurser", "Index", "Courses/Index" )</li>
-                        <li>@Html.ActionLink("Schema", "Index", "Event")</li>
-                    }
-                    @if ( User.Identity.IsAuthenticated && !User.IsInRole( LMS.Helpers.Constants.TeacherRole ) ) {
-                        <li>@Html.ActionLink( "Kursinformation", "CourseInfoAndStudents", "Courses" )</li>
-                        <li>@Html.ActionLink( "Inlämningsuppgifter", "Index", "Assignments" )</li>
+                    @if (User.Identity.IsAuthenticated) {
+                        if (User.IsInRole(LMS.Helpers.Constants.TeacherRole)) {
+                            <li> @Html.ActionLink("Kurser", "Index", "Courses/Index") </li>
+                        } else {
+                            <li> @Html.ActionLink("Schema", "Index", "Home") </li>
+                            <li> @Html.ActionLink("Kursinformation", "CourseInfoAndStudents", "Courses") </li>
+                            <li> @Html.ActionLink("Inlämningsuppgifter", "Index", "Assignments") </li>
+                        }
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -47,12 +43,9 @@
     </div>
     <div class="container body-content">
         <div id="url-string">
-            @HttpContext.Current.Request.Url.AbsolutePath  
+            @HttpContext.Current.Request.Url.AbsolutePath
         </div>
         @RenderBody()
-        
-
-
         <br /><br /><br /><br />
         <footer class="footer-custom">
             <div class="container">
