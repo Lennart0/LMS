@@ -19,10 +19,9 @@ namespace LMS.Migrations
 
         protected override void Seed( LMS.DataAccessLayer.ApplicationDbContext context )
         {
+            #region From DefaultUserAndRoleStartupHelper
             string userId = "679a290d-8b3b-4488-8ffb-7dea7a44efca";
 
-
-            #region From DefaultUserAndRoleStartupHelper
             //if and only if role is empty add roll
             if ( context.Roles.Count( n => n.Name == Helpers.Constants.TeacherRole ) == 0 ) {
                 context.Roles.Add( new IdentityRole( Helpers.Constants.TeacherRole ) );
@@ -71,6 +70,8 @@ namespace LMS.Migrations
                     LunchEnd = new DateTime( 2016, 6, 1, 13, 0, 0 ),
                 }
             );
+
+
 
             ///////////////// Under uppbyggnad, tack! /////////////////////////////
             #region
