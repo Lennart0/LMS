@@ -42,7 +42,7 @@
                     var activity = activities[i];
                     if ( activity.Start.Date != activityDate.Date ) {
                         activityDate = activity.Start.Date;
-                        if ( activityDate >= yesterday ) { yesterday = new DateTime( 9000, 1, 1 ); <a id="today"></a> }
+                        if ( activityDate >= yesterday ) { yesterday = DateTime.MaxValue; <a id="today"></a> }
             <div class="lms-schedule-date  @(dateToday == activityDate.Date ? "lms-schedule-today" : "")">
                 <!-- style=" (dateToday == activityDate.Date ? "font-weight: bold" : "")" -->
                 <span>@activity.Start.ToString( "dddd d MMMM" )&nbsp;</span>
@@ -81,6 +81,9 @@
 
             <div id="actdesc_@activity.Id" class="collapse">
                 <p>@activity.Description</p>
+                @foreach ( var doc in activity.Documents.Where( d => d.PublishDate != null && d.PublishDate.Value.Date <= dateToday ) ) {
+                    <p><a href="@doc.Url" target="_blank">@doc.Url</a></p>
+                }
             </div>
 
                     if (i == activities.Count-1 || activities[i+1].Start.Date == activityDate) {
