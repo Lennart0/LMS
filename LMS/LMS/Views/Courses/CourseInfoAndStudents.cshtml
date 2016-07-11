@@ -39,3 +39,24 @@
         }
     }
 </table>
+
+<br /><hr /><br />
+
+<h4>Dokument - kurs @ViewBag.CourseName</h4>
+
+<ul>
+    @foreach ( var doc in ViewBag.AssocUrls as List<LMS.Models.Document> ) {
+        <li>
+            <a href="@doc.Url" target="_blank">@doc.Url</a>
+        </li>
+    }
+</ul>
+
+<ul>
+    @foreach ( var doc in ViewBag.AssocDocs as List<LMS.Models.Document> ) {
+        <li>
+            <a href="" download>@doc.ToString()</a>
+        </li>
+    }
+</ul>
+
