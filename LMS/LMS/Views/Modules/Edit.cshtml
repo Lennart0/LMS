@@ -122,7 +122,7 @@
 <ul>
     @foreach ( var doc in ViewBag.AssocUrls as List<LMS.Models.Document> ) {
         <li>
-            <a href="@doc.Url" target="_blank">@doc.Url</a>
+            <a href="@doc.Url" target="_blank">@doc.PresentationName</a>
         </li>
     }
 </ul>
@@ -130,7 +130,7 @@
 <ul>
     @foreach ( var doc in ViewBag.AssocDocs as List<LMS.Models.Document> ) {
         <li>
-            <a href="" download>@doc.ToString()</a>
+            <a href="@doc.Url" download>@doc.PresentationName</a>
         </li>
     }
 </ul>
