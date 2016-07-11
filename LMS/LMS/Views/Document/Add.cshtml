@@ -3,18 +3,15 @@
 
 @{
     ViewBag.Title = "Add";
-    Layout = null;
+    Layout = "~/Views/Shared/IFrameLayout.cshtml";
 }
-<!DOCTYPE html>
-<html>
-<head>
     <title></title>
     <style type="text/css">
     </style>
-    <link type="text/css" rel="stylesheet" href="@Url.Content("~/content/ModalDocumentManager.css")" />
-    <script type="text/javascript" src="@Url.Content("~/Scripts/ModalDocumentManager.js")"></script>
-</head>
-<body>
+    @Styles.Render("~/content/ModalDocumentManager.css")
+    @Scripts.Render("~/Scripts/ModalDocumentManager.js")
+    
+ 
     @using (Html.BeginMultipartForm()) {
         @Html.HiddenFor(n => n.EntityId)
         @Html.HiddenFor(n => n.EntityName)
@@ -210,5 +207,4 @@
             }
         </script>
     }
-</body>
-</html> 
+ 
