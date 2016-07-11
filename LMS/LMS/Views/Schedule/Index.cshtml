@@ -16,6 +16,7 @@
 @{
     DateTime dateToday = DateTime.Now.Date;
     DateTime yesterday = dateToday - new TimeSpan( 1, 0, 0, 0 );
+    //ViewDataDictionary fileIconViewbag = new ViewDataDictionary { { "iconsize", "lms-fileicon-size-small" } };
 }
 
     @foreach ( var item in Model ) {
@@ -71,7 +72,8 @@
                                      Type = LMS.Models.DocumentTargetEntity.Activity,
                                      Title = "Lösning på inlämningsuppgift",
                                      PostBackChange = "location.reload()"
-                                 } )
+                                 }/*,
+                                 fileIconViewbag*/ )
                         </span>
                         }
                     </div > 
