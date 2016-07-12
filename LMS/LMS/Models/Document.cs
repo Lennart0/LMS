@@ -32,9 +32,18 @@ namespace LMS.Models {
         public ApplicationUser User { get; set; }
         public DateTime UploadDate { get; set; }
         public DateTime? PublishDate { get; set; }
-    //    public Guid? CourseId { get; internal set; }
-     //   public Guid? ModuleId { get; internal set; }
-      //  public Guid? ActivityId { get; internal set; }
+
+        public string PresentationName {
+            get {
+                string name = Url != null ? Url : "";
+                if (Url != null && !Url.StartsWith("http", StringComparison.CurrentCultureIgnoreCase ) ) {
+                    int ix = Url.LastIndexOf( '/' );
+                    if ( ix >= 0 )
+                        name = Url.Substring( ix + 1 );
+                }
+                return name;
+            }
+        }
     }
 
     public class PlainDocument : Document {

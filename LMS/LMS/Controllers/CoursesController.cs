@@ -40,7 +40,7 @@ namespace LMS.Controllers
 
             ViewBag.CourseName = course.Name;
             ViewBag.CourseId = course.Id;
-            DocHelper.AssocDocsToViewBag( course.Documents, ViewBag );
+            DocHelper.AssocDocsToViewBag( course.Documents.Where(n=> n.PublishDate != null), ViewBag );
 
             return View(course);
         }
@@ -176,10 +176,30 @@ namespace LMS.Controllers
             ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
 
             Course course = currentUser.CourseId != null ? db.Courses.Find(currentUser.CourseId.Value) : null;
+
+            if ( course == null ) {
+                return new HttpStatusCodeResult( HttpStatusCode.BadRequest );
+            }
+
+
             ViewBag.CourseName = course.Name;
             ViewBag.CourseDescription = course.Description;
 
             var studentList = course?.Students.ToList();
+
+            List<Document> docs =
+                course.Documents.Where( n => n.PublishDate != null && n.PublishDate.Value.Date <= DateTime.Now.Date ).ToList();
+
+            docs.AddRange( course.Modules.SelectMany( m => m.Documents ).Where( n => n.PublishDate != null && n.PublishDate.Value.Date <= DateTime.Now.Date ).ToList() );
+
+            docs.AddRange( course.Modules.SelectMany( m => m.Activities ).SelectMany( a => a.Documents ).Where( n => n.PublishDate != null && n.PublishDate.Value.Date <= DateTime.Now.Date ).ToList() );
+
+            if ( !User.IsInRole( Helpers.Constants.TeacherRole ) ) {
+                docs.AddRange( db.Documents.Where( d => d.UserId == currentUserId ).ToList() );
+            }
+
+
+            DocHelper.AssocDocsToViewBag( docs, ViewBag );
 
             return View(studentList);
         }

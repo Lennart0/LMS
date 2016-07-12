@@ -29,6 +29,8 @@ namespace LMS.Controllers
             }
 
             ViewBag.CourseName = course.Name;
+            ViewBag.CourseId = course.Id;
+
 
             return View( course.Modules.OrderBy( m => m.Start ) );
         }

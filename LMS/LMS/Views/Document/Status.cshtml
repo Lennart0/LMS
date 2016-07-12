@@ -2,4 +2,17 @@
 @{
     Layout = null;
 }
-<span class="DownLoadStatus" style="color:@Model.Status;">F</span>
+@switch (Model.Status) {
+        case LMS.Models.DocumentStatus.None:
+        <span class="status status-None">F</span>
+        break;
+    case LMS.Models.DocumentStatus.Green:
+        <span class="status status-Green">F</span>
+        break;
+    case LMS.Models.DocumentStatus.Yellow:
+        <span class="status status-Yellow">F</span>
+        break;
+    case LMS.Models.DocumentStatus.Red:
+        <span class="status status-Red">F</span>
+        break;
+}

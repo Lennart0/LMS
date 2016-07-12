@@ -1,11 +1,44 @@
-﻿@font-face {
+﻿/*IframeEditorBits for schedule --->*/
+
+.Schedule_Content {
+float:left;
+/*background-color:blue;*/
+}
+.Schedule_Editor_Wraper {
+ float:left;
+  /* background-color:lime;*/
+}
+
+/*<---IframeEditorBits for schedule*/
+
+@font-face {
     font-family: 'Icons';
     src: url('heydings_icons.ttf') format('truetype');
 }
 
-.DownLoadStatus {
- font-family: Icons;
- font-size:xx-large
+
+.status {
+         font-family: Icons;
+ font-size:xx-large;
+ padding:2px;
+}
+
+.status:hover {
+ background-color:none;
+
+}
+
+.status-None {
+    color:darkslategray;
+}
+ .status-Green  {
+     color:green;
+}
+ .status-Yellow  {
+     color:gold;
+}
+ .status-Red {
+     color:red;
 }
 
 body {
@@ -205,3 +238,59 @@ margin-top:0;
     color: red;
 }
 
+.lms-schedule-today {
+    font-weight: bold;
+}
+
+.lms-schedule-module {
+
+    /*padding-top: 0;
+    border-top: 1px solid black;*/
+}
+
+.lms-schedule-date {
+    text-align: left;
+    /*margin-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0;*/
+    padding-top: 10px;
+    margin-bottom: 10px;
+
+    display: block;
+    overflow: hidden;
+    white-space: nowrap; 
+    vertical-align: bottom;
+    /*border-bottom: 1px solid #bbb;
+    border-top: 1px solid #ebebeb;*/
+}
+
+
+.lms-schedule-date > span {
+    font-style: italic;
+    /*font-weight: bold;*/
+    font-size: small;
+    position: relative;
+    /*display: inline-block;*/
+}
+
+.lms-schedule-date > span:before,
+.lms-schedule-date > span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 1500px;
+    height: 1px;
+    background: black;
+}
+.lms-schedule-date > span:before {
+    right: 100%;
+    margin: 15px;
+}
+.lms-schedule-date > span:before {
+    left: 100%;
+    margin: 15px;
+}
+
+.lms-schedule-activity {
+    border-bottom: 1px solid #bbb;
+}

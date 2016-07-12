@@ -8,16 +8,22 @@ namespace LMS.Helpers
 {
     public static class DocHelper
     {
+        static public bool IsLink(Document doc) {
+            return doc != null && doc.Url != null && doc.Url.TrimStart().StartsWith( "http", StringComparison.CurrentCultureIgnoreCase );
+        }
+
         static public void AssocDocsToViewBag(IEnumerable<Document> docs, dynamic viewBag) {
-            var urls      = new List<Document>();
+            var links = new List<Document>();
             var otherDocs = new List<Document>();
             foreach ( var doc in docs ) {
-                if ( string.IsNullOrWhiteSpace( doc.Url ) )
-                    ; // otherDocs.Add( doc );
+                if ( doc.Url == null )
+                    continue;
+                if (doc.Url.TrimStart().StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
+                    links.Add( doc );
                 else
-                    urls.Add( doc );
+                    otherDocs.Add( doc );
             }
-            viewBag.AssocUrls = urls;
+            viewBag.AssocUrls = links;
             viewBag.AssocDocs = otherDocs;
         }
     }
