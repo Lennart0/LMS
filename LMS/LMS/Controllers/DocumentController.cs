@@ -65,6 +65,18 @@ namespace LMS.Controllers {
 
         private DataAccessLayer.ApplicationDbContext db = new DataAccessLayer.ApplicationDbContext();
 
+        public class NoCache : ActionFilterAttribute {
+            public override void OnResultExecuting(ResultExecutingContext filterContext) {
+                filterContext.HttpContext.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(-1));
+                filterContext.HttpContext.Response.Cache.SetValidUntilExpires(false);
+                filterContext.HttpContext.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
+                filterContext.HttpContext.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                filterContext.HttpContext.Response.Cache.SetNoStore();
+
+                base.OnResultExecuting(filterContext);
+            }
+        }
+        [NoCache]
         [ChildActionOnly]
         public ActionResult Status(Guid EntityId, Models.DocumentTargetEntity entityType) {
             var user = db.Users.First(n => n.Email == User.Identity.Name);
@@ -218,95 +230,10 @@ namespace LMS.Controllers {
             var entityName = "";
             items = CreateViewModelFromDbItem(entityType, user, EntityId);
 
-            /*
-            switch (entityType) {
-                //case Models.DocumentTargetEntity.User:
-                //    entityName = db.Users.FirstOrDefault(n => n.Id == EntityId.ToString()).UserName;
-                //    items = 
-                //        userPrivlageFileter(
-                //            db.Documents.Where(n => n.User.Id == EntityId.ToString()) , user)
-                //            .Select(n => new DocumentItem() {
-                //                URL = n.Url,
-                //                RequiresUpload =false,
-                //                SelectionMechanic = DocumentSelectionMechanic.Url,
-                //                Owner = n.User.UserName,
-                //                Status = DocumentStatus.Yellow,
-                //                StatusText ="",
-                //             PublishDate= DateTime.Now,
-                //             Feedback="",
-                //             DeadLine=null,
-                //             HasDeadline=false,
-                //             DocumentDbId = n.Id}).ToList();
-                //    break;
-                case Models.DocumentTargetEntity.Activity:
-                    entityName = db.Activies.FirstOrDefault(n => n.Id == EntityId).Name;
-                    items =
-                     userPrivlageFileter(
-                         db.Documents.Where(n => n.Activity.Id == EntityId), user)
-                         .Select(n => new DocumentItem() {
-                             URL = n.Url,
-                             RequiresUpload = false,
-                             SelectionMechanic = DocumentSelectionMechanic.Url,
-                             Owner = n.User.UserName,
-                             Status = DocumentStatus.Yellow,
-                             StatusText = "",
-                             PublishDate = DateTime.Now,
-                             Feedback = "",
-                             DeadLine = null,
-                             HasDeadline = false,
-                             DocumentDbId = n.Id
-                         }).ToList();
-                    break;
-                case Models.DocumentTargetEntity.Module:
-                    entityName = db.Modules.FirstOrDefault(n => n.Id == EntityId).Name;
-                    items =
-                     userPrivlageFileter(
-                         db.Documents.Where(n => n.Module.Id == EntityId), user)
-                         .Select(n => new DocumentItem() {
-                             URL = n.Url,
-                             RequiresUpload = false,
-                             SelectionMechanic = DocumentSelectionMechanic.Url,
-                             Owner = n.User.UserName,
-                             Status = DocumentStatus.Yellow,
-                             StatusText = "",
-                             PublishDate = DateTime.Now,
-                             Feedback = "",
-                             DeadLine = null,
-                             HasDeadline = false,
-                             DocumentDbId = n.Id
-                         }).ToList();
-                    break;
-                case Models.DocumentTargetEntity.Course:
-                    entityName = db.Courses.FirstOrDefault(n => n.Id == EntityId).Name;
-                    items =
-                     userPrivlageFileter(
-                         db.Documents.Where(n => n.Course.Id == EntityId), user)
-                         .Select(n => new DocumentItem() {
-                             URL = n.Url,
-                             RequiresUpload = false,
-                             SelectionMechanic = DocumentSelectionMechanic.Url,
-                             Owner = n.User.UserName,
-                             Status = DocumentStatus.Yellow,
-                             StatusText = "",
-                             PublishDate = DateTime.Now,
-                             Feedback = "",
-                             DeadLine = null,
-                             HasDeadline = false,
-                             DocumentDbId = n.Id
-                         }).ToList();
-                    break;
-                default:
-                    entityName = "";
-                    items = new List<DocumentItem>();
-                    break;
-            }*/
-
+     
             if (items == null) {
                 items = new List<DocumentItem>();
             }
-
-            
-
 
             return View(new Models.AddDocumentsViewModel {
                 EntityId = EntityId,
@@ -361,7 +288,12 @@ namespace LMS.Controllers {
 
 
             if (!model.Done) {
-                model.Items.Add(new Models.DocumentItem { SelectionMechanic = model.SelectionMechanic.Value, RequiresUpload = true, PublishDate=DateTime.Now });
+                model.Items.Add(
+                    new Models.DocumentItem {
+                        SelectionMechanic = model.SelectionMechanic.Value,
+                        RequiresUpload = true,
+                        PublishDate =DateTime.Now
+                    });
                
             } else {
                 model.Done = false;

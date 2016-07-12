@@ -259,7 +259,7 @@
 
 
 
-                        @if (activity.Documents.Count() > 0) {
+                        @if (activity.Documents.Count() > 0 || User.IsInRole(LMS.Helpers.Constants.TeacherRole)) {
                                 <span class="pull-right">
                                     @Html.Partial("~/Views/Shared/ModelFileView.cshtml",
                                        new LMS.Models.FileModalPartialViewModel {
