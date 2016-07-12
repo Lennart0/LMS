@@ -3,31 +3,36 @@
     ModalDocumentManager.DeadLine = function (id) {
 
    
-        var checkbox = document.getElementById("Items_" + id + "__HasDeadline");
-        var Input = document.getElementById("Items_" + id + "__DeadLine");
-      
-        var Othercheckbox = document.getElementById("Items_" + id + "__IsAssigment");
-        var OtherInput = document.getElementById("Items_" + id + "__AssignmentId");
-        Othercheckbox.parentElement.style.display = "none";
-        OtherInput.parentElement.style.display = "none";
+        var checkbox = document.getElementById("Items_" + id + "_Div_HasDeadline");
+        var Input = document.getElementById("Items_" + id + "_Div_DeadLine");
 
-        checkbox.parentElement.style.display = "none";
-        Input.parentElement.style.display = "initial";
+        var Othercheckbox = document.getElementById("Items_" + id + "_Div_IsAssigmentSubmission");
+        var OtherInput = document.getElementById("Items_" + id + "_Div_AssignmentId");
+ 
+        Othercheckbox.style.display = "none";
+        OtherInput.style.display = "none";
+
+        checkbox.style.display = "none";
+        Input.style.display = "initial";
     }
 
 
     ModalDocumentManager.ShowAssigmentOptions = function (id) {
  
-        var checkbox = document.getElementById("Items_" + id + "__IsAssigment");
-        var Input = document.getElementById("Items_" + id + "__AssignmentId");
 
-        var Othercheckbox = document.getElementById("Items_" + id + "__HasDeadline");
-        var OtherInput = document.getElementById("Items_" + id + "__DeadLine")
-        Othercheckbox.parentElement.style.display = "none";
-        OtherInput.parentElement.style.display = "none";
+        var checkbox = document.getElementById("Items_" + id + "_Div_HasDeadline");
+        var Input = document.getElementById("Items_" + id + "_Div_DeadLine");
+                                           
 
-        checkbox.parentElement.style.display = "none";
-        Input.parentElement.style.display = "initial";
+        var Othercheckbox = document.getElementById("Items_" + id + "_Div_IsAssigmentSubmission");
+        var OtherInput = document.getElementById("Items_" + id + "_Div_AssignmentId");
+
+
+        Othercheckbox.style.display = "none";
+        OtherInput.style.display = "initial";
+
+        checkbox.style.display = "none";
+        Input.style.display = "none";
     }
 
 
