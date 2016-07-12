@@ -3,103 +3,298 @@
 @{
     ViewBag.Title = "Schedule";
 }
+@Scripts.Render("~/Scripts/jquery-1.10.2.js")
+@Scripts.Render("~/Scripts/bootstrap.js")
 
-<h2>Schema för @ViewBag.CourseName</h2>
+<script>
+    /// <reference path="jquery-1.10.2.js" />
+    /// <reference path="bootstrap.min.js" />
 
-<div class="Schedule_Content">
 
-    <p>
-        @*Html.ActionLink("Create New", "Create")*@
-    </p>
-    @foreach (var item in Model) {
-        <span><a href="#@item.Id">@item.Name</a> </span>
-    }
+    window.addEventListener("load", function () {
+        $("#ModulNav").on("activate.bs.scrollspy", function () {
+            var x = $(".nav li.active > a").text();
+            document.title = x;
+        })
 
-    @{
-        DateTime dateToday = DateTime.Now.Date;
-        DateTime yesterday = dateToday - new TimeSpan(1, 0, 0, 0);
-    }
 
-    @foreach (var item in Model) {
-        <div>
-            <p>
-                <a id="@item.Id"></a>
-            </p>
-            <p class="lms-schedule-module" style="font-weight: bold">
-                @Html.DisplayFor( modelItem => item.Name )
-                <!--class="pull-right"-->
-                <span>&nbsp;&nbsp;&nbsp;@(item.Start.ToString( "d MMMM" ) + " - " + item.End.ToString( "d MMMM" ))</span>
-            </p>
 
-            @{
-                DateTime activityDate = DateTime.MinValue;
-                List<LMS.Models.Activity> activities = item.Activities.OrderBy( a => a.Start ).ToList();
+
+        var iframe = document.getElementById("iframe");
+        var handle = document.getElementsByClassName("Handle")[0];
+        var editor = document.getElementsByClassName("Schedule_Editor_Wraper")[0];
+        var content = document.getElementsByClassName("Schedule_Content")[0];
+        var SaveButton = document.getElementById("SaveButton");
+        var toggle = true;
+
+
+        function click() {
+            if (toggle) {
+                editor.style.display = "block";
+                content.style.width = "80%";
+                handle.style.right = "calc( 25% + 5px )";
+                toggle = false;
+                handle.innerText = "⇉";
+
+            } else {
+                editor.style.display = "none";
+                content.style.width = "100%";
+                handle.style.right = "5px";
+                toggle = true;
+                handle.innerText = "⇇";
+            }
+        }
+
+        handle.addEventListener("click", click);
+
+
+
+
+
+        iframe.addEventListener("load", function () {
+
+            if (toggle) {
+                click();
             }
 
 
+            var iframeContent = iframe.contentWindow;
+            var iframedoc = iframeContent.document;
+            iframe.setAttribute("width", iframedoc.innerWidth);
+            iframe.setAttribute("height", iframedoc.innerHeight);
 
-            @for ( int i=0; i < activities.Count; i++ ) {
-                    var activity = activities[i];
-                    if ( activity.Start.Date != activityDate.Date ) {
-                        activityDate = activity.Start.Date;
-                        if ( activityDate >= yesterday ) { yesterday = new DateTime( 9000, 1, 1 ); <a id="today"></a> }
-            <div class="lms-schedule-date  @(dateToday == activityDate.Date ? "lms-schedule-today" : "")">
-                <!-- style=" (dateToday == activityDate.Date ? "font-weight: bold" : "")" -->
-                <span>@activity.Start.ToString( "dddd d MMMM" )&nbsp;</span>
+            //reguardless of what view
+            SaveButton.onclick = function () {
+                iframedoc.forms[0].submit();
+                setTimeout(function () { document.location.reload(); }, 1000);
 
-                @*Html.DisplayFor( x => activity.Start.Date )*@
-            </div>
-                    }
+            };
+
+
+
+
+        });
+
+    });
+
+</script>
+<style>
+    .FlexContainer {
+        width: 100%;
+    }
+
+    .Schedule_Content, .Schedule_Editor_Wraper, .Handle {
+        float: left;
+    }
+
+    .Handle {
+        width: 20px;
+        position: fixed;
+        top: 50%;
+        right: 5px;
+        text-align: center;
+        border-radius: 5px;
+        padding: 5px;
+        background-color: silver;
+        user-select: none;
+        cursor: pointer;
+    }
+
+    .clickable {
+        user-select: none;
+        cursor: pointer;
+        color: #428bca;
+    }
+
+    .Schedule_Content {
+        width: 100%;
+    }
+
+    .Schedule_Editor_Wraper {
+        position: fixed;
+        top: 80px;
+        right: 0;
+        width: 25%;
+        display: none;
+    }
+
+    .iframe {
+        width: 100%;
+    }
+
+    .Schedule_Editor_Container div {
+        float: left;
+        clear: none;
+        padding-left: 10px;
+    }
+
+    .outerWrapper {
+    }
+</style>
+
+<h2>Schema för @ViewBag.CourseName</h2>
+
+<nav id="ModulNav" class="navbar navbar-inv">
+    <ul class="nav navbar-nav">
+        @foreach (var item in Model) {
+            <li>
+                <a href="#@item.Id">@item.Name</a>
+            </li>
+        }
+    </ul>
+</nav>
+
+
+
+<div class="outerWrapper">
+    <div class="Schedule_Content" data-spy="scroll" data-target=".navbar">
+
+        <p>
+            @*Html.ActionLink("Create New", "Create")*@
+        </p>
+
+
+        @{
+            DateTime dateToday = DateTime.Now.Date;
+            DateTime yesterday = dateToday - new TimeSpan(1, 0, 0, 0);
+        }
+        @*HA KNEW WE SHOULD HAVE USED THE COURSE AS MODEL! oh well... this will have to do for now... as is it will crash if no modules exist*@
+        @if (User.IsInRole(LMS.Helpers.Constants.TeacherRole)) {
+            <a target="iframe" href="@Url.Content("~/Modules/Create/" + Model.First().CourseId + "?mode=schedule")">Create New Module</a>
+        } else {
+            <a style="display:none;" target="iframe" href="@Url.Content("~/Modules/Create/" + Model.First().CourseId + "?mode=schedule")">Create New Module</a>
+        }
+        @foreach (var item in Model) {
+
 
 
             <div>
 
-                @(activity.Start.ToString( "HH:mm" ) + " - " + activity.End.ToString( "HH:mm" ))
-                @*Html.DisplayFor( x => activity.Start.TimeOfDay )*@
+                <p>
+                    <a id="@item.Id"></a>
+                </p>
+                <p class="lms-schedule-module" style="font-weight: bold">
+                    @Html.DisplayFor(modelItem => item.Name)
+                    <!--class="pull-right"-->
+                    <span>&nbsp;&nbsp;&nbsp;@(item.Start.ToString("d MMMM") + " - " + item.End.ToString("d MMMM"))</span>
+                    @if (User.IsInRole(LMS.Helpers.Constants.TeacherRole)) {
+                        <a target="iframe" href="@Url.Content("~/Modules/Edit/" + item.Id + "?mode=schedule")">Edit</a>
+                    } else {
+                        <a style="display:none;" target="iframe" href="@Url.Content("~/Modules/Edit/" + item.Id + "?mode=schedule")">Edit</a>
+                    }
+                </p>
 
-                @Html.DisplayFor( x => activity.Name )
-                @*@Html.ActionLink( "Info", "Details", "Activities", new { id = activity.Id }, null )*@
+                @{
+                    DateTime activityDate = DateTime.MinValue;
+                    List<LMS.Models.Activity> activities = item.Activities.OrderBy(a => a.Start).ToList();
+                }
+                @if (User.IsInRole(LMS.Helpers.Constants.TeacherRole)) {
+                    <a target="iframe" href="@Url.Content("~/Activities/Create/" + item.Id + "?mode=schedule")">Create New Activity</a>
+                } else {
+                    <a style="display:none;" target="iframe" href="@Url.Content("~/Activities/Create/" + item.Id + "?mode=schedule")">Create New Activity</a>
+                }
+                @for (int i = 0; i < activities.Count; i++) {
+                    bool alt = i % 2 == 0;
+                    var color = "white";
+                    if (alt) {
+                        color = "silver";
+                    } else {
+                        color = "white";
+                    }
 
-                <span style="font-size: large">
-                    <a data-toggle="collapse" href="#actdesc_@activity.Id">...</a>
-                    <!--button data-toggle="collapse" data-target="#actdesc_@activity.Id">v&nbsp;</!--button-->
-                </span>
+                    var activity = activities[i];
 
-                @if ( activity.Documents.Where( d => d is LMS.Models.TimeSensetiveDocument ).Count() > 0 ) {
-                        <span class="pull-right">
-                            @Html.Partial( "~/Views/Shared/ModelFileView.cshtml",
+
+                    <div style="background-color:@color;">
+
+
+                        @if (activity.Start.Date != activityDate.Date) {
+                        activityDate = activity.Start.Date;
+                        if (activityDate >= yesterday) {
+                            yesterday = new DateTime(9000, 1, 1); <a id="today"></a> }
+                            <div class="lms-schedule-date  @(dateToday == activityDate.Date ? "lms-schedule-today" : "")">
+                                <!-- style=" (dateToday == activityDate.Date ? "font-weight: bold" : "")" -->
+                                <span>@activity.Start.ToString("dddd d MMMM")&nbsp;</span>
+
+                                @*Html.DisplayFor( x => activity.Start.Date )*@
+                            </div>
+                        }
+
+
+                        <div>
+
+                            @(activity.Start.ToString("HH:mm") + " - " + activity.End.ToString("HH:mm"))
+                            @*Html.DisplayFor( x => activity.Start.TimeOfDay )*@
+
+                            @Html.DisplayFor(x => activity.Name)
+                            @*@Html.ActionLink( "Info", "Details", "Activities", new { id = activity.Id }, null )*@
+
+                            <span style="font-size: large">
+                                <a data-toggle="collapse" href="#actdesc_@activity.Id">...</a>
+                                <!--button data-toggle="collapse" data-target="#actdesc_@activity.Id">v&nbsp;</!--button-->
+                            </span>
+
+
+
+                        @if (activity.Documents.Count() > 0) {
+                            <span class="pull-right">
+                                @Html.Partial("~/Views/Shared/ModelFileView.cshtml",
                                  new LMS.Models.FileModalPartialViewModel {
                                      Id = activity.Id,
                                      Type = LMS.Models.DocumentTargetEntity.Activity,
                                      Title = "Lösning på inlämningsuppgift",
-                                     PostBackChange = "location.reload()"
-                                 } )
-                        </span>
-                        }
-            </div>
-
-
-            <div id="actdesc_@activity.Id" class="collapse">
-                @activity.Description
-            </div>
-
-                    if (i == activities.Count-1 || activities[i+1].Start.Date == activityDate) {
-            <hr />
-                    }
-                }
-
-
-        </div>
-                }
-</div>@*<----  Schedule_Content ends here*@
-<div class="Schedule_editor">
-
-
+                                     PostBackChange = "location.reload()",
+                                     InstanceId = i
+                                 })
+                            </span>
+}
 </div>
 
-<script>
-    window.addEventListener("load", function () {
-        if (window.location.toString().indexOf('#') < 0 ) //<--  -1 = not found
-            window.location += "#today"
-    });
-</script>
+
+<div id="actdesc_@activity.Id" class="collapse">
+    @activity.Description
+</div>
+
+@if (i == activities.Count - 1 || activities[i + 1].Start.Date == activityDate) {
+    <hr />
+}
+
+@if (User.IsInRole(LMS.Helpers.Constants.TeacherRole)) {
+<a target="iframe" href="@Url.Content("~/Activities/Edit/" + activities[i].Id + "?mode=schedule")">Edit</a>
+} else {
+    <a style="display:none;" target="iframe" href="@Url.Content("~/Activities/Edit/" + activities[i].Id + "?mode=schedule")">Edit</a>
+}
+</div>
+
+                }
+
+
+            </div>
+                    }
+        <br />
+        <br />
+        @*<----  Schedule_Content ends here*@
+
+        @if (User.IsInRole(LMS.Helpers.Constants.TeacherRole)) {
+            <div class="Handle">&#8647;@*&#8649;*@</div>
+        } else {
+            <div  style="display:none;" class="Handle">&#8647;@*&#8649;*@</div>
+        }
+
+
+        <div class="Schedule_Editor_Wraper">
+
+            <div class="Schedule_Editor_Container">
+                <div class="clickable" id="SaveButton">Save</div>
+                <iframe style="width:100%; height:500px;" name="iframe" id="iframe" src=""></iframe>
+
+            </div>
+
+        </div>
+    </div>
+    <script>
+        window.addEventListener("load", function () {
+            if (window.location.toString().indexOf('#') < 0) //<--  -1 = not found
+                window.location += "#today"
+        });
+    </script>

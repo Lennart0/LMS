@@ -18,7 +18,6 @@ namespace LMS.Models {
         }
 
         public Guid Id { get; set; }
-
  
         public DateTime Start {
             get;

@@ -2,20 +2,24 @@
 
 @{
     ViewBag.Title = "Edit";
+    var isScheduleMode = Request.QueryString["mode"] == "schedule";
+    if (isScheduleMode) {
+        Layout = "~/Views/Shared/IFrameLayout.cshtml";
+    }
+
 }
 
 <h3>Redigera modul @ViewBag.EditModule</h3>
 
 
-@using (Html.BeginForm())
-{
+@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor( model => model.CourseId)
+        @Html.HiddenFor(model => model.CourseId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -26,10 +30,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor( model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" } )
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor( model => model.Description, new { htmlAttributes = new { @class = "form-control" } } )
-                @Html.ValidationMessageFor( model => model.Description, "", new { @class = "text-danger" } )
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -50,98 +54,101 @@
         </div>
 
         @*<div class="form-group">
-            @Html.LabelFor(model => model.Course, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Course, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Course, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
+                @Html.LabelFor(model => model.Course, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(model => model.Course, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Course, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+@if (!isScheduleMode) {
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Spara" class="btn btn-default" />
             </div>
         </div>
+}
     </div>
 }
 
-<hr />
+@if (!isScheduleMode) {
+    <hr />
 
-<h4>Aktiviteter</h4>
-@Html.ActionLink( linkText: "Lägg till aktivitet", actionName: "Create", controllerName: "Activities", routeValues: new { id = Model.Id, returnUrl = "/Modules/Edit/" + Model.Id }, htmlAttributes: null )
+    <h4>Aktiviteter</h4>
+   @Html.ActionLink(linkText: "Lägg till aktivitet", actionName: "Create", controllerName: "Activities", routeValues: new { id = Model.Id, returnUrl = "/Modules/Edit/" + Model.Id }, htmlAttributes: null)
 
-@{LMS.Models.Activity aActivity = new LMS.Models.Activity();}
+    LMS.Models.Activity aActivity = new LMS.Models.Activity();
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor( x => aActivity.Name )
-        </th>
-        <th>
-            @Html.DisplayNameFor( x => aActivity.Start )
-        </th>
-        <th>
-            @Html.DisplayNameFor( x => aActivity.End )
-        </th>
-        <th></th>
-    </tr>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(x => aActivity.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(x => aActivity.Start)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(x => aActivity.End)
+                </th>
+                <th></th>
+            </tr>
 
-    @foreach ( var item in Model.Activities.OrderBy(a => a.Start) ) {
-        <tr>
-            <td>
-                <abbr title="@item.Description">@item.Name</abbr>  @*Html.DisplayFor( x => item.Name )*@
-            </td>
-            <td>
-                @Html.DisplayFor( x => item.Start )
-            </td>
-            <td>
-                @Html.DisplayFor( x => item.End )
-            </td>
-            <td>
-                @Html.ActionLink( "Edit", "Edit", "Activities", new { id = item.Id, returnUrl = "/Modules/Edit/" + Model.Id }, null ) |
-                @*@Html.ActionLink( "Details", "Details", "Activities", new { id = item.Id, returnUrl = "/Modules/Edit/" + Model.Id }, null ) |*@
-                @Html.ActionLink( "Delete", "Delete", "Activities", new { id = item.Id, returnUrl = "/Modules/Edit/" + Model.Id }, null )
-            </td>
-        </tr>
-    }
+            @foreach (var item in Model.Activities.OrderBy(a => a.Start)) {
+                <tr>
+                    <td>
+                        <abbr title="@item.Description">@item.Name</abbr>  @*Html.DisplayFor( x => item.Name )*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.Start)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.End)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Activities", new { id = item.Id, returnUrl = "/Modules/Edit/" + Model.Id }, null) |
+                        @*@Html.ActionLink( "Details", "Details", "Activities", new { id = item.Id, returnUrl = "/Modules/Edit/" + Model.Id }, null ) |*@
+                        @Html.ActionLink("Delete", "Delete", "Activities", new { id = item.Id, returnUrl = "/Modules/Edit/" + Model.Id }, null)
+                    </td>
+                </tr>
+            }
 
-</table>
+        </table>
 
-<hr />
+        <hr />
 
-<h4>Dokument</h4>
+        <h4>Dokument</h4>
 
-@Html.Partial( "~/Views/Shared/ModelFileView.cshtml",
-    new LMS.Models.FileModalPartialViewModel {
-        Id = Model.Id,
-        Type = LMS.Models.DocumentTargetEntity.Module,
-        Title = Model.Name,
-        PostBackChange = "location.reload()"
-    } )
+        @Html.Partial("~/Views/Shared/ModelFileView.cshtml",
+            new LMS.Models.FileModalPartialViewModel {
+                Id = Model.Id,
+                Type = LMS.Models.DocumentTargetEntity.Module,
+                Title = Model.Name,
+                PostBackChange = "location.reload()"
+            })
 
-<ul>
-    @foreach ( var doc in ViewBag.AssocUrls as List<LMS.Models.Document> ) {
-        <li>
-            <a href="@doc.Url" target="_blank">@doc.Url</a>
-        </li>
-    }
-</ul>
+        <ul>
+            @foreach (var doc in ViewBag.AssocUrls as List<LMS.Models.Document>) {
+                <li>
+                    <a href="@doc.Url" target="_blank">@doc.Url</a>
+                </li>
+            }
+        </ul>
 
-<ul>
-    @foreach ( var doc in ViewBag.AssocDocs as List<LMS.Models.Document> ) {
-        <li>
-            <a href="" download>@doc.ToString()</a>
-        </li>
-    }
-</ul>
+        <ul>
+            @foreach (var doc in ViewBag.AssocDocs as List<LMS.Models.Document>) {
+                <li>
+                    <a href="" download>@doc.ToString()</a>
+                </li>
+            }
+        </ul>
 
-<hr />
+        <hr />
 
 
-<div>
-    @Html.ActionLink("Tillbaka till kurssidan", actionName: "Details", controllerName: "Courses", routeValues: new { id = Model.CourseId }, htmlAttributes: null)
-</div>
-
+        <div>
+            @Html.ActionLink("Tillbaka till kurssidan", actionName: "Details", controllerName: "Courses", routeValues: new { id = Model.CourseId }, htmlAttributes: null)
+        </div>
+        }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
