@@ -1,0 +1,16 @@
+User story:
+
+Mer överskådligare schema.
+Som elev kan jag lätt navigarera till kurs-översiktsvy där man kan se kursinfo, elever, dokument.
+Som inloggad kan man navigera till schemat beroende av roll.
+Som lärare kan jag skapa moduler i schema-vy.
+Som lärare kan jag editera moduler i schema-vy.
+Som lärare kan jag skapa aktiviteter i schema-vy.
+Som lärare kan jag editera aktiviteter i schema-vy.
+Som lärare kan jag ladda upp filer till servern.
+
+
+
+
+
+
