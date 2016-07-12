@@ -208,31 +208,33 @@
                     <div style="background-color:@color;">
 
 
-                        @if (activity.Start.Date != activityDate.Date) {
-                        activityDate = activity.Start.Date;
-                        if (activityDate >= yesterday) {
-                            yesterday = new DateTime(9000, 1, 1); <a id="today"></a> }
-                            <div class="lms-schedule-date  @(dateToday == activityDate.Date ? "lms-schedule-today" : "")">
-                                <!-- style=" (dateToday == activityDate.Date ? "font-weight: bold" : "")" -->
-                                <span>@activity.Start.ToString("dddd d MMMM")&nbsp;</span>
+            @for ( int i = 0; i < activities.Count; i++ ) {
+                var activity = activities[i];
+                if ( activity.Start.Date != activityDate.Date ) {
+                    activityDate = activity.Start.Date;
+                    if ( activityDate >= yesterday ) {
+                        yesterday = DateTime.MaxValue; <a id="today"></a> }
+                    <div class="lms-schedule-date  @(dateToday == activityDate.Date ? "lms-schedule-today" : "")">
+                        <!-- style=" (dateToday == activityDate.Date ? "font-weight: bold" : "")" -->
+                        <span>@activity.Start.ToString( "dddd d MMMM" )&nbsp;</span>
 
-                                @*Html.DisplayFor( x => activity.Start.Date )*@
-                            </div>
-                        }
+                        @*Html.DisplayFor( x => activity.Start.Date )*@
+                    </div>
+                }
 
 
-                        <div>
+                <div>
 
-                            @(activity.Start.ToString("HH:mm") + " - " + activity.End.ToString("HH:mm"))
-                            @*Html.DisplayFor( x => activity.Start.TimeOfDay )*@
+                    @(activity.Start.ToString( "HH:mm" ) + " - " + activity.End.ToString( "HH:mm" ))
+                    @*Html.DisplayFor( x => activity.Start.TimeOfDay )*@
 
-                            @Html.DisplayFor(x => activity.Name)
-                            @*@Html.ActionLink( "Info", "Details", "Activities", new { id = activity.Id }, null )*@
+                    @Html.DisplayFor( x => activity.Name )
+                    @*@Html.ActionLink( "Info", "Details", "Activities", new { id = activity.Id }, null )*@
 
-                            <span style="font-size: large">
-                                <a data-toggle="collapse" href="#actdesc_@activity.Id">...</a>
-                                <!--button data-toggle="collapse" data-target="#actdesc_@activity.Id">v&nbsp;</!--button-->
-                            </span>
+                    <span style="font-size: large">
+                        <a data-toggle="collapse" href="#actdesc_@activity.Id">...</a>
+                        <!--button data-toggle="collapse" data-target="#actdesc_@activity.Id">v&nbsp;</!--button-->
+                    </span>
 
 
 
