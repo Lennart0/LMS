@@ -4,7 +4,7 @@
     ViewBag.Title = "Kursinformation";
 }
 
-<h2>Course: <span class="text-success">@ViewBag.CourseName</span></h2>
+<h2><span class="text-default">@ViewBag.CourseName</span></h2>
 <br />
 <h4>Description</h4>
 <div class="text-description">
@@ -42,7 +42,7 @@
 
 <br /><hr /><br />
 
-<h4>Dokument - kurs @ViewBag.CourseName</h4>
+<h4>Dokument </h4>
 
 <ul>
     @foreach ( var doc in ViewBag.AssocUrls as List<LMS.Models.Document> ) {
