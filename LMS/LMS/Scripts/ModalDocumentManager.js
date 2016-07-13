@@ -35,53 +35,28 @@
         Input.style.display = "none";
     }
 
-
-    ModalDocumentManager.ReciveViaIframe = function () {
-        /*
-
-        window.addEventListener("Load", function () {
-
-            window.postMessage("Save", "DocumentManager");
-            window.addEventListener("message", receiveMessage, false);
-            function receiveMessage(event) {
-                var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
-                if (origin !== "http://localhost:49859/")
-                    return;
-                callback();
-                window.removeEventListener("message", receiveMessage, false);
-            }
-
-
-        });
-        */
+    ModalDocumentManager.Click = function (base,type,id,title) {
+        var iframe = document.getElementById("DocumentManagerIframe");
+        iframe.contentWindow.location = base + "Document/Add/?EntityId=" + id + "&entityType=" + type;
+       
+        if (title !== undefined && title !== null) {
+            document.getElementById("myModalLabel").innerText = title;
+        }
+        
     };
 
-    ModalDocumentManager.Save = function (callback) {
-      /*
-        window.postMessage("Save", "DocumentManager");       
-        window.addEventListener("message", receiveMessage, false);
-        function receiveMessage(event) {
-            var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
-            if (origin !== "http://localhost:49859/")
-                return;
-            callback();
-            window.removeEventListener("message", receiveMessage, false);
-        }*/
 
-   
+    ModalDocumentManager.Save = function (callback) {   
         var iframe = document.getElementById("DocumentManagerIframe");
         var iframeContent = iframe.contentWindow;
-        var iframedoc = iframeContent.document;
-       
+        var iframedoc = iframeContent.document;       
         var done = iframedoc.getElementById("done");
         done.value = "true";
-
-
-        setTimeout(function () { callback();   }, 3000);//todo make this work better... surely there must be a way of getting this to trigger on reload....
+        iframe.onload = function () {
+            iframe.onload = undefined;
+            callback();
+        }
         iframedoc.forms[0].submit();
-    
-  
-  
     };
     ModalDocumentManager.Delete = function (sender, nr) {
         if (confirm("Är du säker att du vill ta bort dokumentet?")) {
