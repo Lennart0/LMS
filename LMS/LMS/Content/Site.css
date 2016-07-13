@@ -1,4 +1,17 @@
-﻿@font-face {
+﻿/*IframeEditorBits for schedule --->*/
+
+.Schedule_Content {
+float:left;
+/*background-color:blue;*/
+}
+.Schedule_Editor_Wraper {
+ float:left;
+  /* background-color:lime;*/
+}
+
+/*<---IframeEditorBits for schedule*/
+
+@font-face {
     font-family: 'Icons';
     src: url('heydings_icons.ttf') format('truetype');
 }
@@ -126,6 +139,7 @@ textarea {
   border-color: #080808;
   text-align:center;
   padding-top: 5px;
+  margin-top: 200px;
 
   position: fixed;
   right: 0;

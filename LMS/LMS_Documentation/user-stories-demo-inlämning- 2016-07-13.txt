@@ -1,0 +1,20 @@
+Grupp 3 
+User story:
+
+Elev
+- Som elev kan jag lätt navigarera till kurs-översiktsvy där man kan se kursinfo, elever, dokument.
+- Mer överskådligat schema.
+- Som inloggad kan man navigera till schemat beroende av roll.
+
+Lärare
+- Som lärare kan jag skapa moduler i schema-vyn.
+- Som lärare kan jag editera moduler i schema-vyn.
+- Som lärare kan jag skapa aktiviteter i schema-vyn.
+- Som lärare kan jag editera aktiviteter i schema-vyn.
+- Som lärare kan jag ladda upp (riktiga) filer till servern.
+
+
+
+
+
+

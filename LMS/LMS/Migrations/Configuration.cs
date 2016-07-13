@@ -14,45 +14,71 @@ namespace LMS.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
+        void AddUser(LMS.DataAccessLayer.ApplicationDbContext context, UserManager<ApplicationUser> userMgr,string fullname, string email, string pw, string id, Guid? courseId)
+        {
+            //if and only if default user is missing add user
+            if (context.Users.SingleOrDefault(n => n.Id == id) == null)
+            {
 
+                var defaultTeacher = new ApplicationUser()
+            {
+                Email = email,
+                UserName = email,
+                Id = id,
+                FullName = fullname,
+                CourseId = courseId
+            };
+
+
+                var result = userMgr.Create(defaultTeacher, pw);
+                if (defaultTeacher?.Roles.Count == 0 && result.Succeeded == true)
+                {
+                    if (courseId == null)
+                        userMgr.AddToRole(defaultTeacher.Id, Helpers.Constants.TeacherRole);
+                }
+            }
+
+        }
         protected override void Seed( LMS.DataAccessLayer.ApplicationDbContext context )
         {
+            #region From DefaultUserAndRoleStartupHelper
             string userId = "679a290d-8b3b-4488-8ffb-7dea7a44efca";
 
-
-            #region From DefaultUserAndRoleStartupHelper
             //if and only if role is empty add roll
             if ( context.Roles.Count( n => n.Name == Helpers.Constants.TeacherRole ) == 0 ) {
                 context.Roles.Add( new IdentityRole( Helpers.Constants.TeacherRole ) );
                 context.SaveChanges();
             }
             var userManager = new UserManager<ApplicationUser>( new UserStore<ApplicationUser>( context ) );
-        
-            var defaultTeacher = new ApplicationUser() {
-                Email = "Larar@lararson.se",
-                UserName = "Larar@lararson.se",
-                Id = userId
-            };
-            //if and only if default user is missing add user
-            if ( context.Users.SingleOrDefault( n => n.Id == defaultTeacher.Id ) == null ) {
-                var result = userManager.Create( defaultTeacher, "@ackN0w" );
-                if ( defaultTeacher?.Roles.Count == 0 && result.Succeeded == true ) {
-                    userManager.AddToRole( defaultTeacher.Id, Helpers.Constants.TeacherRole );
-                }
-            }
-            #endregion
 
+            AddUser(context, userManager, "Kalle Lärare","Larar@lararson.se", "@ackN0w", userId, null);
+            //var defaultTeacher = new ApplicationUser() {
+            //    Email = "Larar@lararson.se",
+            //    UserName = "Larar@lararson.se",
+            //    Id = userId
+            //};
+            ////if and only if default user is missing add user
+            //if ( context.Users.SingleOrDefault( n => n.Id == defaultTeacher.Id ) == null ) {
+            //    var result = userManager.Create( defaultTeacher, "@ackN0w" );
+            //    if ( defaultTeacher?.Roles.Count == 0 && result.Succeeded == true ) {
+            //        userManager.AddToRole( defaultTeacher.Id, Helpers.Constants.TeacherRole );
+            //    }
+            //}
+            #endregion
+            AddUser(context, userManager,"Anders Svennson", "anders@demo.se", "1Password!", "679a290e-8b3b-4488-8ffb-7dea7a44efcb", null);
 
             //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...
-            Guid newCourseId1 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef01" );
-            Guid newModuleId1 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef02" );
-            Guid newModuleId2 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef03" );
-            Guid newActivityId1 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef04" );
-            Guid newActivityId2 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef05" );
-            Guid newActivityId3 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef06" );
-            Guid newActivityId4 = new Guid( "679a290d-8b3b-4488-8ffb-7dea7a44ef07" );
+            Guid newCourseId1 = new Guid("679a290d-8b3b-4488-8ffb-7dea7a44ef01");
+
+
+            Guid newModuleId1 = new Guid("679a290d-8b3b-4488-8ffb-7dea7a44ef02");
+            Guid newModuleId2 = new Guid("679a290d-8b3b-4488-8ffb-7dea7a44ef03");
+            Guid newActivityId1 = new Guid("679a290d-8b3b-4488-8ffb-7dea7a44ef04");
+            Guid newActivityId2 = new Guid("679a290d-8b3b-4488-8ffb-7dea7a44ef05");
+            Guid newActivityId3 = new Guid("679a290d-8b3b-4488-8ffb-7dea7a44ef06");
+            Guid newActivityId4 = new Guid("679a290d-8b3b-4488-8ffb-7dea7a44ef07");
 
             Course course10 = null;
             Module module10 = null;
@@ -71,6 +97,10 @@ namespace LMS.Migrations
                     LunchEnd = new DateTime( 2016, 6, 1, 13, 0, 0 ),
                 }
             );
+
+            AddUser( context, userManager, "Peter Andersson", "peter@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44efcc", newCourseId1 );
+            AddUser( context, userManager, "Lennart", "lennart@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44efcf", newCourseId1 );
+
 
             ///////////////// Under uppbyggnad, tack! /////////////////////////////
             #region

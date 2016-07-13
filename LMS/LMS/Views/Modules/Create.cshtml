@@ -2,6 +2,10 @@
 
 @{
     ViewBag.Title = "Create";
+    var isScheduleMode = Request.QueryString["mode"] == "schedule";
+    if (isScheduleMode) {
+        Layout = "~/Views/Shared/IFrameLayout.cshtml";
+    }
 }
 
 <h3> Lägg till modul @ViewBag.CourseName</h3>
@@ -57,20 +61,25 @@
             </div>
         </div>*@
 
-        @Html.HiddenFor(model => model.Course.Id);
+        @Html.HiddenFor(model => model.Course.Id)
 
+        @if (!isScheduleMode) {
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Lägg till" class="btn btn-default" />
             </div>
         </div>
+        }
   </div>  
 }
 <br /><hr /><br />
+@if (!isScheduleMode) {
 <div>
-    @Html.ActionLink("Tillbaka till föregående sida", null, null, null, new { href = Request.UrlReferrer })
-</div>
 
+    @Html.ActionLink("Tillbaka till föregående sida", null, null, null, new { href = Request.UrlReferrer })
+
+</div>
+}
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

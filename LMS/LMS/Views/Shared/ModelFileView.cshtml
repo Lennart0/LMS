@@ -1,14 +1,19 @@
 ﻿@model LMS.Models.FileModalPartialViewModel
-    
-    <a data-toggle="modal" data-target="#myModal" class="link-text"> <!--class="link-text ViewBag.iconsize"-->
-        @Html.Action( "Status", "Document", new {
-        EntityId = Model.Id,
-        entityType = Model.Type
-        } )
-    </a>
+@{ 
+    var modalName = "myModalDialog";
+    if (Model.InstanceId != null) {
+        modalName += Model.InstanceId;
+            }
+}
+<a data-toggle="modal" data-target="#@modalName" class ="link-text">
+
+    @Html.Action("Status", "Document", new {
+    EntityId = Model.Id,
+    entityType = Model.Type})
+</a>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="@modalName" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-admin" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -29,5 +34,8 @@
         </div>
     </div>
 </div>
+ @section scripts{
+     <p>Blargzororororor</p>
+    <script src="@Url.Content("~/Scripts/ModalDocumentManager.js")"></script>
+}
  
- @Scripts.Render( "~/Scripts/ModalDocumentManager.js" )
