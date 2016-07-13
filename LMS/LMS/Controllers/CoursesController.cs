@@ -48,7 +48,7 @@ namespace LMS.Controllers
         // GET: Courses/Create
         public ActionResult Create()
         {
-            var templateList = db.Courses.Select( c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() } ).ToList();
+            var templateList = db.Courses.Select( c => new SelectListItem { Text = c.Name + c.Start, Value = c.Id.ToString() } ).ToList();
             templateList.Insert( 0, new SelectListItem { Text = "Ingen mall-kurs", Value = null } );
             ViewBag.TemplateList = templateList;
 
@@ -89,7 +89,6 @@ namespace LMS.Controllers
                             Description = moduleOld.Description,
                             CourseId = moduleOld.CourseId                            
                         };
-                        CopyDocuments( moduleOld.Documents, null, module.Id, null, module.Start );
 
                         //db.Detach( module );
                         //db.Entry( module ).State = EntityState.Detached;
@@ -112,23 +111,26 @@ namespace LMS.Controllers
                             activity.Start = activityDateNew + activityOld.Start.TimeOfDay;
                             activity.End = activityDateNew + (activityOld.End - activityDateOld);
 
-                            CopyDocuments( activityOld.Documents, null, null, activity.Id, activityOld.Start );
+                            CopyDocuments( activityOld.Documents, null, null, activity.Id, activity.Start );
 
                             if ( module.Start == DateTime.MinValue )
                                 module.Start = activityDateNew;
 
+                            CopyDocuments(moduleOld.Documents, null, module.Id, null, module.Start);
+
                             db.Activies.Add( activity );
+                            //module.Activities.Add(activity);
                         }
                         if ( module.Start == DateTime.MinValue )
                             module.Start = activityDateNew==DateTime.MinValue ? course.Start : activityDateNew;
                         module.End = activityDateNew == DateTime.MinValue ? course.Start : activityDateNew;
 
-                        course.Modules.Add( module );
+                        db.Modules.Add(module);
+                        //course.Modules.Add( module );
                     }
                     if ( course.End < activityDateNew )
                         course.End = activityDateNew;
                     CopyDocuments( tplCourse.Documents, course.Id, null, null, course.Start );
-
                 }
                 #endregion
 
@@ -149,15 +151,14 @@ namespace LMS.Controllers
                 Document doc = null;
                 if (sd is PlainDocument) {
                     doc = new PlainDocument();
+                    db.PlainDocuments.Add(doc as PlainDocument);
                 }
                 else if (sd is TimeSensetiveDocument) {
                     var tsd = new TimeSensetiveDocument {
-                        DeadLine = CalcNewRelativeTime(
-                            GetDocRefTime( sd ),
-                            ( (TimeSensetiveDocument)sd).DeadLine,
-                            newStartRefTime ),
+                        DeadLine = CalcNewRelativeTime( GetDocRefTime( sd ), ((TimeSensetiveDocument)sd).DeadLine, newStartRefTime ),
                     };
                     doc = tsd;
+                    db.TimeSensetiveDocuments.Add(tsd);
                 }
 
                 if ( doc != null ) {
@@ -174,6 +175,7 @@ namespace LMS.Controllers
                     if ( sd.PublishDate != null )
                         doc.PublishDate = CalcNewRelativeTime( GetDocRefTime( sd ), sd.PublishDate.Value, newStartRefTime );
 
+                    db.Documents.Add(doc);
                     //docs.Add( doc );
                 }
             }
@@ -192,22 +194,12 @@ namespace LMS.Controllers
         }
         private DateTime CalcNewRelativeTime( DateTime oldTime1, DateTime oldTime2, DateTime newTime1 ) {
             CourseDays cd = new CourseDays();
-            //int oldDayDiff = (oldTime2 - oldTime1).Days;
-            int oldCourseDayDiff = cd.NrCourseDays( oldTime1, oldTime2 );
+            int oldCourseDayDiff = cd.NrCourseDaysDiff( oldTime1, oldTime2 );
             DateTime newDate2 = cd.NthDayAfter( newTime1, oldCourseDayDiff );
             TimeSpan timeDiff = oldTime2.TimeOfDay - oldTime1.TimeOfDay;
             DateTime newTime2 = newDate2 + (oldTime1.TimeOfDay + timeDiff);
             return newTime2;
         }
-        //DateTime CalcNewDeadLine( TimeSensetiveDocument oldDoc, DateTime newActivityStart ) {
-        //    if ( oldDoc.Activity == null )
-        //        return newActivityStart + new TimeSpan( 1, 0, 0, 0 );
-        //    CourseDays cd = new CourseDays();
-        //    int dayDiff = (oldDoc.DeadLine.Date - oldDoc.Activity.Start.Date).Days;
-        //    int courseDayDiff = cd.NrDays( oldDoc.Activity.Start.Date, oldDoc.DeadLine );
-        //    DateTime newDeadLine = cd.NthDayAfter( newActivityStart, courseDayDiff ) + oldDoc.DeadLine.TimeOfDay;
-        //    return newDeadLine;
-        //}
 
 
         // GET: Courses/Edit/5

@@ -87,11 +87,37 @@ namespace LMS.Helpers
             }
         }
 
-        public int NrCourseDays( DateTime refDay, DateTime relDay ) {
-            return 0;
+        public int NrCourseDaysDiff( DateTime origDay, DateTime otherDay ) {
+            origDay = origDay.Date;
+            otherDay = otherDay.Date;
+            int negative = 1;
+            if (otherDay < origDay ) {
+                DateTime tmp = origDay;
+                origDay = otherDay;
+                otherDay = tmp;
+                negative = -1;
+            }
+
+            TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
+            int count = 0;
+            for (DateTime day = origDay + oneDay;  day <= otherDay; day += oneDay) {
+                if (IsCourseDay_NoLimits(day))
+                    count++;
+            }
+
+            return negative * count;
         }
 
         public DateTime NthDayAfter( DateTime refDay, int courseDaysAfter ) {
+            int sign = Math.Sign(courseDaysAfter);
+            TimeSpan oneDay = new TimeSpan( sign, 0, 0, 0);
+
+            while (courseDaysAfter != 0) {
+                refDay += oneDay;
+                if (IsCourseDay_NoLimits(refDay))
+                    courseDaysAfter -= sign;
+            }
+
             return refDay;
         }
 
@@ -235,7 +261,7 @@ namespace LMS.Helpers
             }
         }
 
-        private bool IsHoliday( DateTime d) {
+        static private bool IsHoliday( DateTime d) {
             return GetHolidays(d.Year).Contains(d);
         }
 

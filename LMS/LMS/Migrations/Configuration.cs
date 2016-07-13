@@ -14,7 +14,7 @@ namespace LMS.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
         void AddUser(LMS.DataAccessLayer.ApplicationDbContext context, UserManager<ApplicationUser> userMgr,string fullname, string email, string pw, string id, Guid? courseId)
         {
