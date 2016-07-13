@@ -10,7 +10,7 @@ namespace LMS.Models {
         public DocumentTargetEntity Type { get; set; }
         public string PostBackChange { get; set; }
         public string PostBackCancle { get; set; }
-        public int? InstanceId { get; set; }
+        public string InstanceId { get; set; }
 
     }
 

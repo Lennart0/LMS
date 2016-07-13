@@ -1,0 +1,4 @@
+﻿@model LMS.Models.FileModalPartialViewModel
+    <a onclick="@Html.Raw($"ModalDocumentManager.Click('{Url.Content("~/")}','{Model.Type}','{Model.Id}','{Model.Title}')")" data-toggle="modal" data-target="#MyModal" class="link-text">
+        @Html.Action("Status", "Document", new { EntityId = Model.Id, entityType = Model.Type })
+    </a>

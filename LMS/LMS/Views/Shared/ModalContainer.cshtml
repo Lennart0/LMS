@@ -1,0 +1,22 @@
+﻿@model LMS.Models.FileModalPartialViewModel
+<div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-admin" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@Model.Title</h4>
+            </div>
+            <div class="modal-body DocumentManager">           
+                <iframe name="DocumentManager" class="modal-dialog modal-Iframe" id="DocumentManagerIframe" frameBorder="0" src="">
+                    Laddar...
+                </iframe>  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="function(){@Model.PostBackCancle}" data-dismiss="modal">Close</button>
+                @*function wrap so modaldocumentmanager can execute the callback method when it is good and ready*@
+                <button type="button" class="btn btn-primary" onclick="ModalDocumentManager.Save(function(){@Model.PostBackChange})" data-dismiss="modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/ModalDocumentManager.js")"></script>
