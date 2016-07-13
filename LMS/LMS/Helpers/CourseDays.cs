@@ -9,6 +9,9 @@ namespace LMS.Helpers
     /// </summary>
     public class CourseDays
     {
+        public CourseDays() : this( new DateTime( 1962, 9, 17 ) ) {
+        }
+
         /// <summary>
         /// Calculates course days from(incl) first date with no limit, depending on course weekdays and holidays. Half-days is not considered.
         /// </summary>
@@ -74,6 +77,24 @@ namespace LMS.Helpers
             }
             return null;
         }
+
+        public DateTime NextDay( DateTime preDay ) {
+            DateTime day = preDay.Date;
+            while ( true ) {
+                day = AddDays( day, 1 );
+                if ( IsCourseDay( day ) )
+                    return day;
+            }
+        }
+
+        public int NrCourseDays( DateTime refDay, DateTime relDay ) {
+            return 0;
+        }
+
+        public DateTime NthDayAfter( DateTime refDay, int courseDaysAfter ) {
+            return refDay;
+        }
+
 
         #region Private
         private List<DateTime> courseDays = null;
@@ -153,7 +174,7 @@ namespace LMS.Helpers
 
         static private HashSet<DateTime>[] swedishHolidays = new HashSet<DateTime>[easterFriday.Length];
 
-        HashSet<DateTime> GetHolidays(int year) {
+        static private HashSet<DateTime> GetHolidays(int year) {
             if (year < firstStoredEasterYear || lastStoredEasterYear < year)
                 return CalcSwedishHolidays(year);
             if (swedishHolidays[year - firstStoredEasterYear] == null)
@@ -161,7 +182,7 @@ namespace LMS.Helpers
             return swedishHolidays[year - firstStoredEasterYear];
         }
 
-        private HashSet<DateTime> CalcSwedishHolidays(int year) {
+        static private HashSet<DateTime> CalcSwedishHolidays(int year) {
             var set = new HashSet<DateTime>();
             if (year < 1 || 9999 < year)
                 return set;
@@ -224,7 +245,7 @@ namespace LMS.Helpers
             return false;
         }
 
-        private DateTime AddDays(DateTime date, int days) {
+        static private DateTime AddDays(DateTime date, int days) {
             return date + new TimeSpan(days, 0, 0, 0);
         }
 
