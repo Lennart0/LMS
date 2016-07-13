@@ -72,8 +72,6 @@ namespace LMS.Migrations
             //:Todo Figure out later where to put the Role seeding as startup.cs does not seam to have access to the context class...
             Guid newCourseId1 = new Guid("679a290d-8b3b-4488-8ffb-7dea7a44ef01");
 
-            AddUser(context, userManager, "Peter Andersson", "peter@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44efcc", newCourseId1);
-            AddUser(context, userManager, "Lennart", "lennart@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44efcf", newCourseId1);
 
             Guid newModuleId1 = new Guid("679a290d-8b3b-4488-8ffb-7dea7a44ef02");
             Guid newModuleId2 = new Guid("679a290d-8b3b-4488-8ffb-7dea7a44ef03");
@@ -100,6 +98,8 @@ namespace LMS.Migrations
                 }
             );
 
+            AddUser( context, userManager, "Peter Andersson", "peter@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44efcc", newCourseId1 );
+            AddUser( context, userManager, "Lennart", "lennart@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44efcf", newCourseId1 );
 
 
             ///////////////// Under uppbyggnad, tack! /////////////////////////////
