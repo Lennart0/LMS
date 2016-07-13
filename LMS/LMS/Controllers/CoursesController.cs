@@ -89,17 +89,11 @@ namespace LMS.Controllers
                             Description = moduleOld.Description,
                             CourseId = moduleOld.CourseId                            
                         };
-                        var newDocs = CopyDocuments( moduleOld.Documents, module.Id, null );
+                        CopyDocuments( moduleOld.Documents, null, module.Id, null, module.Start );
 
-                        if ( moduleOld.Documents.Count > 0 )
-                            module.Documents.AddRange( module.Documents );
-                        //System.Data.Entity.Core.Objects.ObjectContext.O
                         //db.Detach( module );
                         //db.Entry( module ).State = EntityState.Detached;
-                        //module.Id = Guid.NewGuid();
                         DateTime activityDateOld = DateTime.MinValue;
-                        //module.Start = DateTime.MinValue;
-
                         foreach ( var activityOld in moduleOld.Activities.OrderBy(a => a.Start) ) {
                             Activity activity = new Activity {
                                 Id = Guid.NewGuid(),
@@ -118,6 +112,8 @@ namespace LMS.Controllers
                             activity.Start = activityDateNew + activityOld.Start.TimeOfDay;
                             activity.End = activityDateNew + (activityOld.End - activityDateOld);
 
+                            CopyDocuments( activityOld.Documents, null, null, activity.Id, activityOld.Start );
+
                             if ( module.Start == DateTime.MinValue )
                                 module.Start = activityDateNew;
 
@@ -131,6 +127,7 @@ namespace LMS.Controllers
                     }
                     if ( course.End < activityDateNew )
                         course.End = activityDateNew;
+                    CopyDocuments( tplCourse.Documents, course.Id, null, null, course.Start );
 
                 }
                 #endregion
@@ -142,26 +139,76 @@ namespace LMS.Controllers
 
             return View(course);
         }
-        private List<Document> CopyDocuments( ICollection<Document> srcDocs, Guid? courseId, Guid? moduleId, Guid? activityId ) {
+
+        private void CopyDocuments( ICollection<Document> srcDocs, Guid? courseId, Guid? moduleId, Guid? activityId, DateTime newStartRefTime ) {
             if ( srcDocs == null || srcDocs.Count == 0 ) {
-                return null;
+                return; // null;
             }
-            var docs = new List<Document>();
+            //var docs = new List<Document>();
             foreach (var sd in srcDocs) {
                 Document doc = null;
                 if (sd is PlainDocument) {
                     doc = new PlainDocument();
                 }
                 else if (sd is TimeSensetiveDocument) {
-                    var tsd = new TimeSensetiveDocument();
+                    var tsd = new TimeSensetiveDocument {
+                        DeadLine = CalcNewRelativeTime(
+                            GetDocRefTime( sd ),
+                            ( (TimeSensetiveDocument)sd).DeadLine,
+                            newStartRefTime ),
+                    };
                     doc = tsd;
                 }
 
-                if ( doc != null )
-                    docs.Add( doc;)
+                if ( doc != null ) {
+                    doc.Id = Guid.NewGuid();
+                    doc.Type = sd.Type;
+                    doc.Url = sd.Url;
+                    doc.IsLocal = sd.IsLocal;
+                    doc.UserId = sd.UserId;
+                    doc.UploadDate = sd.UploadDate;
+
+                    doc.CourseId = courseId;
+                    doc.ModuleId = moduleId;
+                    doc.ActivityId = activityId;
+                    if ( sd.PublishDate != null )
+                        doc.PublishDate = CalcNewRelativeTime( GetDocRefTime( sd ), sd.PublishDate.Value, newStartRefTime );
+
+                    //docs.Add( doc );
+                }
             }
-            return docs;
+            //return docs;
         }
+
+
+        private DateTime GetDocRefTime( Document doc ) {
+            if ( doc.ActivityId != null )
+                return doc.Activity.Start;
+            if ( doc.ModuleId != null )
+                return doc.Module.Start;
+            if ( doc.CourseId != null )
+                return doc.Course.Start;
+            return doc.PublishDate!= null ? doc.PublishDate.Value : doc.UploadDate;
+        }
+        private DateTime CalcNewRelativeTime( DateTime oldTime1, DateTime oldTime2, DateTime newTime1 ) {
+            CourseDays cd = new CourseDays();
+            //int oldDayDiff = (oldTime2 - oldTime1).Days;
+            int oldCourseDayDiff = cd.NrCourseDays( oldTime1, oldTime2 );
+            DateTime newDate2 = cd.NthDayAfter( newTime1, oldCourseDayDiff );
+            TimeSpan timeDiff = oldTime2.TimeOfDay - oldTime1.TimeOfDay;
+            DateTime newTime2 = newDate2 + (oldTime1.TimeOfDay + timeDiff);
+            return newTime2;
+        }
+        //DateTime CalcNewDeadLine( TimeSensetiveDocument oldDoc, DateTime newActivityStart ) {
+        //    if ( oldDoc.Activity == null )
+        //        return newActivityStart + new TimeSpan( 1, 0, 0, 0 );
+        //    CourseDays cd = new CourseDays();
+        //    int dayDiff = (oldDoc.DeadLine.Date - oldDoc.Activity.Start.Date).Days;
+        //    int courseDayDiff = cd.NrDays( oldDoc.Activity.Start.Date, oldDoc.DeadLine );
+        //    DateTime newDeadLine = cd.NthDayAfter( newActivityStart, courseDayDiff ) + oldDoc.DeadLine.TimeOfDay;
+        //    return newDeadLine;
+        //}
+
 
         // GET: Courses/Edit/5
         public ActionResult Edit(Guid? id)
