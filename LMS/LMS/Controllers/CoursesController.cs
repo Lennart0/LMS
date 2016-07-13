@@ -48,6 +48,10 @@ namespace LMS.Controllers
         // GET: Courses/Create
         public ActionResult Create()
         {
+            var templateList = db.Courses.Select( c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() } ).ToList();
+            templateList.Insert( 0, new SelectListItem { Text = "Ingen mall-kurs", Value = null } );
+            ViewBag.TemplateList = templateList;
+
             return View();
         }
 
@@ -56,24 +60,107 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Start,End")] Course course)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,Start,End")] Course course, string template)
         {
             // This is for avoiding duplicates in DB. Check the Name and Start date of course.
             if (db.Courses.Any(c => c.Name == course.Name && c.DayStart == course.DayStart))
             {
                 ModelState.AddModelError("Name", "This course is already registered!");
-
             }
 
             if (ModelState.IsValid)
             {
                 course.Id = Guid.NewGuid();
                 db.Courses.Add(course);
+
+                #region Copy content from Template course
+                Course tplCourse = null;
+                if ( !string.IsNullOrWhiteSpace( template ) )
+                    tplCourse = db.Courses.Include("Modules").SingleOrDefault( c => c.Id == new Guid( template ) );
+                if ( tplCourse != null ) {
+                    Helpers.CourseDays courseDays = new CourseDays( course.Start );
+                    DateTime activityDateNew = course.Start.Date - new TimeSpan( 1, 0, 0, 0 );
+
+                    foreach ( var moduleOld in tplCourse.Modules ) {
+                        Module module = new Module {
+                            Id = Guid.NewGuid(),
+                            Start = DateTime.MinValue,
+                            Name = moduleOld.Name,
+                            Description = moduleOld.Description,
+                            CourseId = moduleOld.CourseId                            
+                        };
+                        var newDocs = CopyDocuments( moduleOld.Documents, module.Id, null );
+
+                        if ( moduleOld.Documents.Count > 0 )
+                            module.Documents.AddRange( module.Documents );
+                        //System.Data.Entity.Core.Objects.ObjectContext.O
+                        //db.Detach( module );
+                        //db.Entry( module ).State = EntityState.Detached;
+                        //module.Id = Guid.NewGuid();
+                        DateTime activityDateOld = DateTime.MinValue;
+                        //module.Start = DateTime.MinValue;
+
+                        foreach ( var activityOld in moduleOld.Activities.OrderBy(a => a.Start) ) {
+                            Activity activity = new Activity {
+                                Id = Guid.NewGuid(),
+                                Name = activityOld.Name,
+                                Description = activityOld.Description,
+                                ModuleId = module.Id
+                            };
+
+                            //db.Entry( activity ).State = EntityState.Detached;
+                            //activity.Id = Guid.NewGuid();
+                            //activity.ModuleId = module.Id;
+                            if ( activityOld.Start.Date > activityDateOld ) {
+                                activityDateOld = activityOld.Start.Date;
+                                activityDateNew = courseDays.NextDay( activityDateNew );
+                            }
+                            activity.Start = activityDateNew + activityOld.Start.TimeOfDay;
+                            activity.End = activityDateNew + (activityOld.End - activityDateOld);
+
+                            if ( module.Start == DateTime.MinValue )
+                                module.Start = activityDateNew;
+
+                            db.Activies.Add( activity );
+                        }
+                        if ( module.Start == DateTime.MinValue )
+                            module.Start = activityDateNew==DateTime.MinValue ? course.Start : activityDateNew;
+                        module.End = activityDateNew == DateTime.MinValue ? course.Start : activityDateNew;
+
+                        course.Modules.Add( module );
+                    }
+                    if ( course.End < activityDateNew )
+                        course.End = activityDateNew;
+
+                }
+                #endregion
+
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
             return View(course);
+        }
+        private List<Document> CopyDocuments( ICollection<Document> srcDocs, Guid? courseId, Guid? moduleId, Guid? activityId ) {
+            if ( srcDocs == null || srcDocs.Count == 0 ) {
+                return null;
+            }
+            var docs = new List<Document>();
+            foreach (var sd in srcDocs) {
+                Document doc = null;
+                if (sd is PlainDocument) {
+                    doc = new PlainDocument();
+                }
+                else if (sd is TimeSensetiveDocument) {
+                    var tsd = new TimeSensetiveDocument();
+                    doc = tsd;
+                }
+
+                if ( doc != null )
+                    docs.Add( doc;)
+            }
+            return docs;
         }
 
         // GET: Courses/Edit/5

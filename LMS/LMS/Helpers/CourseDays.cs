@@ -75,6 +75,15 @@ namespace LMS.Helpers
             return null;
         }
 
+        public DateTime NextDay( DateTime preDay ) {
+            DateTime day = preDay.Date;
+            while ( true ) {
+                day = AddDays( day, 1 );
+                if ( IsCourseDay( day ) )
+                    return day;
+            }
+        }
+
         #region Private
         private List<DateTime> courseDays = null;
         private DayOfWeek[] courseWeekdays;
