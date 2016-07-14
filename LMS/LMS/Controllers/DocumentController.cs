@@ -16,10 +16,10 @@ namespace LMS.Controllers {
 
         private List<T> RoleFilter<T>(IQueryable<T> items) where T:Document {
             if (User.IsInRole(Helpers.Constants.TeacherRole)) {
-                return items.ToList(); // teacher sees all
+                return Helpers.DocHelper.ShowDeletedFiles(items,false).ToList(); // teacher sees all
             } else {
                 // student sees teachers files and own files only
-                return items.Where(n => 
+                return Helpers.DocHelper.ShowDeletedFiles(items,false).Where(n => 
                 n.User.Roles.Count(m => m.RoleId == role.Id) > 0 
                 || 
                 n.User.UserName == User.Identity.Name
@@ -126,23 +126,23 @@ namespace LMS.Controllers {
             return View( new StatusViewModel {  EntityId = EntityId,  EntityType = entityType,   Status = (DocumentStatus)WorstStatus });
         }
 
-        private void setStatus(Document n, out DocumentStatus Status, out string StatusText,out  bool IsOwner) {
+        private void setStatus(Document document, out DocumentStatus Status, out string StatusText,out  bool IsOwner) {
             if (User.IsInRole(Helpers.Constants.TeacherRole)) {
 
 
                 IsOwner = true;// teachers are all powerfull and are considerd owner of all documents!
 
                 Course course = null; //Get Course reguardless of what entity its from
-                if (n.ActivityId != null) {
-                    course = n.Activity.Module.Course;
-                } else if (n.ModuleId != null) {
-                    course = n.Module.Course;
-                } else if (n.CourseId != null) {
-                    course = n.Course;
+                if (document.ActivityId != null) {
+                    course = document.Activity.Module.Course;
+                } else if (document.ModuleId != null) {
+                    course = document.Module.Course;
+                } else if (document.CourseId != null) {
+                    course = document.Course;
                 }
-                if (n is TimeSensetiveDocument) {
+                if (document is TimeSensetiveDocument) {
 
-                    var timeSensetive = (n as TimeSensetiveDocument);
+                    var timeSensetive = (document as TimeSensetiveDocument);
 
                     if (timeSensetive.submissions.Select(c => c.UserId).Distinct().Count() == course.Students.Count) {
                         Status = DocumentStatus.Green;
@@ -170,9 +170,9 @@ namespace LMS.Controllers {
             } else {
                 //start of student scope
 
-                IsOwner = n.User.Email == User.Identity.Name;
-                if (n is TimeSensetiveDocument) {
-                    var timeSensetive = (n as TimeSensetiveDocument);
+                IsOwner = document.User.Email == User.Identity.Name;
+                if (document is TimeSensetiveDocument) {
+                    var timeSensetive = (document as TimeSensetiveDocument);
 
                    
                     if (timeSensetive.submissions.Count(u => u.UserId == logedInUser.Id) > 0) {
@@ -180,7 +180,7 @@ namespace LMS.Controllers {
                         StatusText = "Inlämnad";
                     } else {
 
-                        if (DateTime.Now >= ((TimeSensetiveDocument)n)?.DeadLine) {
+                        if (DateTime.Now >= ((TimeSensetiveDocument)document)?.DeadLine) {
                             Status = DocumentStatus.Red;
                             StatusText = "Sen inlämning";
                         } else {
@@ -232,7 +232,8 @@ namespace LMS.Controllers {
                     item.RequiresUpload = false;
                     item.SelectionMechanic = DocumentSelectionMechanic.Url;
                     item.Owner = x.User.UserName;
-                    item.PublishDate = x.PublishDate; ;
+                    item.PublishDate = x.PublishDate;
+                    setStatus(n, item);
                     item.HasDeadline = false;
                     item.IsAssigmentSubmission = true;
                     item.DocumentDbId = x.Id;
@@ -243,7 +244,8 @@ namespace LMS.Controllers {
                     item.RequiresUpload = false;
                     item.SelectionMechanic = DocumentSelectionMechanic.Url;
                     item.Owner = n.User.UserName;
-                    item.PublishDate = n.PublishDate; ;
+                    item.PublishDate = n.PublishDate;
+                    setStatus(n, item);
                     item.HasDeadline = false;
                     item.DocumentDbId = n.Id;
                 }
@@ -353,7 +355,7 @@ namespace LMS.Controllers {
             Activity activity = null;
             Module module = null;
             Course course = null;
-            Document preexisting = db.Documents.FirstOrDefault(n => n.Id == item.DocumentDbId);
+            Document preexisting =  db.Documents.FirstOrDefault(n => n.Id == item.DocumentDbId);
 
             //hmmmmm.... only seam to be important to do activity here one sided ralationship here i think..
             switch (model.EntityType) {

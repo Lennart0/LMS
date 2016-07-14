@@ -70,6 +70,11 @@ namespace LMS.Controllers
                 db.SaveChanges();
 
                 string returnUrl = (string)HttpContext.Session.Contents[ModuleEditReturnUrlKey];
+
+                if (Request.QueryString["mode"] == "schedule") {
+                    return Content(""); //dont flash anything stupid in schedule mode
+                }
+
                 if (!string.IsNullOrEmpty(returnUrl))
                     return Redirect(returnUrl);
 
@@ -117,6 +122,11 @@ namespace LMS.Controllers
                 db.SaveChanges();
 
                 string returnUrl = (string)HttpContext.Session.Contents[ModuleEditReturnUrlKey];
+
+                if (Request.QueryString["mode"] == "schedule") {
+                    return Content(""); //dont flash anything stupid in schedule mode
+                }
+
                 if (!string.IsNullOrEmpty(returnUrl))
                     return Redirect(returnUrl);
 

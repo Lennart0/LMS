@@ -75,7 +75,11 @@ namespace LMS.Controllers
                 if ( !string.IsNullOrEmpty( returnUrl ) )
                     return Redirect( returnUrl );
 
-                return RedirectToAction( "Details", "Modules", new { id = activity.ModuleId }); // moduleId.Value } );
+                if (Request.QueryString["mode"] == "schedule") {
+                    return Content(""); //dont flash anything stupid in schedule mode
+                }
+
+                    return RedirectToAction( "Details", "Modules", new { id = activity.ModuleId }); // moduleId.Value } );
                 //return RedirectToAction("Index");
             }
 
@@ -117,6 +121,11 @@ namespace LMS.Controllers
                 db.SaveChanges();
 
                 string returnUrl = (string)HttpContext.Session.Contents[ActivityEditReturnUrlKey];
+
+                if (Request.QueryString["mode"] == "schedule") {
+                    return Content(""); //dont flash anything stupid in schedule mode
+                }
+
                 if (!string.IsNullOrEmpty(returnUrl))
                     return Redirect( returnUrl );
 

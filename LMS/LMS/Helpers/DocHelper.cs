@@ -8,6 +8,14 @@ namespace LMS.Helpers
 {
     public static class DocHelper
     {
+        public static IQueryable<T> ShowDeletedFiles<T>(IQueryable<T> items, bool showHidden ) where T : Document {
+            if (showHidden) {
+                return items;
+            } else {
+                return items.Where(n => n.PublishDate != null);
+            }
+        }
+
         static public bool IsLink(Document doc) {
             return doc != null && doc.Url != null && doc.Url.TrimStart().StartsWith( "http", StringComparison.CurrentCultureIgnoreCase );
         }
