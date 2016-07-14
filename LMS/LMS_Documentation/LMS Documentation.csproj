@@ -46,6 +46,7 @@
     <Content Include="defaultLoginUser.txt" />
     <Content Include="lms.svg" />
     <Content Include="lms.xml" />
+    <Content Include="TextFile1.txt" />
     <Content Include="user-stories-demo-inlämning- 2016-07-13.txt" />
     <Content Include="userStories.txt" />
     <Content Include="wireframe.xml" />

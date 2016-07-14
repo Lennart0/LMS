@@ -1,5 +1,6 @@
 ﻿using LMS.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,9 +11,16 @@ namespace LMS.Helpers
     {
         public static IQueryable<T> ShowDeletedFiles<T>(IQueryable<T> items, bool showHidden ) where T : Document {
             if (showHidden) {
-                return items;
+                return items.Where(n=> n.PublishDate.Value <= DateTime.Now); //needs work not used so far
             } else {
-                return items.Where(n => n.PublishDate != null);
+                return items.Where(n => n.PublishDate != null).Where(n => n.PublishDate.Value <= DateTime.Now);
+            }
+        }
+        public static List<T> ShowDeletedFiles<T>(List<T> items, bool showHidden) where T : Document {
+            if (showHidden) {
+                return items.Where(n => n.PublishDate.Value <= DateTime.Now).ToList(); //needs work not used so far
+            } else {
+                return items.Where(n => n.PublishDate != null).Where(n => n.PublishDate.Value <= DateTime.Now).ToList();
             }
         }
 

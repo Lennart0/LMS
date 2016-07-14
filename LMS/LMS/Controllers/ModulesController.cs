@@ -51,8 +51,8 @@ namespace LMS.Controllers
             if ( id == null ) {
                 return new HttpStatusCodeResult( HttpStatusCode.BadRequest );
             }
-
-            return View( new Module() { CourseId = id /*Course = db.Courses.FirstOrDefault(n=> n.Id== id)*/ } );
+            var today = DateTime.Now;
+            return View( new Module() { CourseId = id /*Course = db.Courses.FirstOrDefault(n=> n.Id== id)*/ , Start = new DateTime(today.Year, today.Month, today.Day), End = new DateTime(today.Year, today.Month, today.Day) });
         }
 
         // POST: Modules/Create
