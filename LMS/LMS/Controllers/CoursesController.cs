@@ -49,7 +49,7 @@ namespace LMS.Controllers
         public ActionResult Create()
         {
             var templateList = db.Courses.Select( c => new SelectListItem { Text = c.Name + " " + c.Start.Year + " " + c.Start.Month, Value = c.Id.ToString() } ).ToList();
-            templateList.Insert( 0, new SelectListItem { Text = "Ingen mall-kurs", Value = null } );
+            templateList.Insert( 0, new SelectListItem { Text = "Ingen mall-kurs", Value = "", Selected = true } );
             ViewBag.TemplateList = templateList;
 
             return View();
@@ -65,7 +65,7 @@ namespace LMS.Controllers
             // This is for avoiding duplicates in DB. Check the Name and Start date of course.
             if (db.Courses.Any(c => c.Name == course.Name && c.Start == course.Start))
             {
-                ModelState.AddModelError("Name", "This course is already registered!");
+                ModelState.AddModelError("", "This course is already registered!");
             }
 
             if (ModelState.IsValid)
@@ -131,6 +131,11 @@ namespace LMS.Controllers
                     if ( course.End < activityDateNew )
                         course.End = activityDateNew;
                     CopyDocuments( tplCourse.Documents, course.Id, null, null, course.Start );
+
+                    if ( string.IsNullOrWhiteSpace( course.Name ) )
+                        course.Name = tplCourse.Name;
+                    if ( string.IsNullOrWhiteSpace( course.Description ) )
+                        course.Description = tplCourse.Description;
                 }
                 #endregion
 
@@ -138,6 +143,10 @@ namespace LMS.Controllers
 
                 return RedirectToAction("Index");
             }
+
+            var templateList = db.Courses.Select( c => new SelectListItem { Text = c.Name + " " + c.Start.Year + " " + c.Start.Month, Value = c.Id.ToString(), Selected = c.Id.ToString() == template } ).ToList();
+            templateList.Insert( 0, new SelectListItem { Text = "Ingen mall-kurs", Value = "" } );
+            ViewBag.TemplateList = templateList;
 
             return View(course);
         }
