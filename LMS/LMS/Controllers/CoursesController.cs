@@ -48,7 +48,7 @@ namespace LMS.Controllers
         // GET: Courses/Create
         public ActionResult Create()
         {
-            var templateList = db.Courses.Select( c => new SelectListItem { Text = c.Name + c.Start, Value = c.Id.ToString() } ).ToList();
+            var templateList = db.Courses.Select( c => new SelectListItem { Text = c.Name + " " + c.Start.Year + " " + c.Start.Month, Value = c.Id.ToString() } ).ToList();
             templateList.Insert( 0, new SelectListItem { Text = "Ingen mall-kurs", Value = null } );
             ViewBag.TemplateList = templateList;
 
@@ -63,7 +63,7 @@ namespace LMS.Controllers
         public ActionResult Create([Bind(Include = "Id,Name,Description,Start,End")] Course course, string template)
         {
             // This is for avoiding duplicates in DB. Check the Name and Start date of course.
-            if (db.Courses.Any(c => c.Name == course.Name && c.DayStart == course.DayStart))
+            if (db.Courses.Any(c => c.Name == course.Name && c.Start == course.Start))
             {
                 ModelState.AddModelError("Name", "This course is already registered!");
             }
@@ -87,7 +87,7 @@ namespace LMS.Controllers
                             Start = DateTime.MinValue,
                             Name = moduleOld.Name,
                             Description = moduleOld.Description,
-                            CourseId = moduleOld.CourseId                            
+                            CourseId = course.Id
                         };
 
                         //db.Detach( module );
