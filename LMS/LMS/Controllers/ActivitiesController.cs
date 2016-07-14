@@ -46,11 +46,11 @@ namespace LMS.Controllers
         public ActionResult Create( Guid? id = null /* ModuleId*/, string returnUrl = null )
         {
             //if ( id != null )
-                HttpContext.Session.Contents[ModuleIdKey] = id;
+              //  HttpContext.Session.Contents[ModuleIdKey] = id;
 
             HttpContext.Session.Contents[ActivityCreateReturnUrlKey] = returnUrl;
-
-            return View();
+            var now = DateTime.Now;
+            return View(new Activity() { ModuleId = id, Documents= new List<Document>(), Start = new DateTime(now.Year, now.Month, now.Day, 9,0,0) , End= new DateTime(now.Year, now.Month, now.Day, 17, 0, 0) });
         }
 
         // POST: Activities/Create
@@ -58,14 +58,14 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,Name,Start,End")] Activity activity)
+        public ActionResult Create([Bind(Include = "Id,Description,Name,Start,End,ModuleId")] Activity activity)
         {
-            Guid? moduleId = (Guid?)HttpContext.Session.Contents[ModuleIdKey];
+           // Guid? moduleId = (Guid?)HttpContext.Session.Contents[ModuleIdKey];
 
-            if ( ModelState.IsValid && moduleId != null )
+            if ( ModelState.IsValid && activity.ModuleId != null) //moduleId != null )
             {
                 //activity.Module = db.Modules.SingleOrDefault( m => m.Id == moduleId.Value );
-                activity.ModuleId = moduleId;
+             //   activity.ModuleId = moduleId;
 
                 activity.Id = Guid.NewGuid();
                 db.Activies.Add(activity);
@@ -75,7 +75,7 @@ namespace LMS.Controllers
                 if ( !string.IsNullOrEmpty( returnUrl ) )
                     return Redirect( returnUrl );
 
-                return RedirectToAction( "Details", "Modules", new { id = moduleId.Value } );
+                return RedirectToAction( "Details", "Modules", new { id = activity.ModuleId }); // moduleId.Value } );
                 //return RedirectToAction("Index");
             }
 

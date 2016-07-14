@@ -51,6 +51,7 @@
                 @Html.ValidationMessageFor(model => model.End, "", new { @class = "text-danger" })
             </div>
         </div>
+        @Html.HiddenFor(n=> n.ModuleId)
         @if (!isScheduleMode) {
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
