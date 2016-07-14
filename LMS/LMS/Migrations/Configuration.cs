@@ -187,7 +187,32 @@ namespace LMS.Migrations
                 }
             );
 
-            SeedDemoCourse( context, userId );
+            Guid demoCourseId = SeedDemoCourse( context, userId );
+
+            #region Users Elever
+            AddUser( context, userManager, "Andreas Carsbring", "andreasc@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44efcc", demoCourseId );
+            AddUser( context, userManager, "Andreas Thyrhaug", "andreast@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44efcf", demoCourseId );
+            AddUser( context, userManager, "Anette Tillbom", "anette@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44efab", demoCourseId );
+            AddUser( context, userManager, "Ari Kylmänen", "ari@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44efsd", demoCourseId );
+            AddUser( context, userManager, "Aryo Pehlewan", "aryo@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44effa", demoCourseId );
+            AddUser( context, userManager, "Axel Räntilä", "axel@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44effe", demoCourseId );
+            AddUser( context, userManager, "Bo Edström", "bo@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44efca", demoCourseId );
+            AddUser( context, userManager, "Fernando Nilsson", "fernando@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44efba", demoCourseId );
+            AddUser( context, userManager, "Fredrik Lindroth", "fredrik@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44efsa", demoCourseId );
+            AddUser( context, userManager, "George Caspersson", "george@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44efas", demoCourseId );
+            AddUser( context, userManager, "Helen Magnusson", "helen@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44easd", demoCourseId );
+            AddUser( context, userManager, "Johan Haak", "johan@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44efwe", demoCourseId );
+            AddUser( context, userManager, "John Castell", "john@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44edsa", demoCourseId );
+            AddUser( context, userManager, "Karl Lindström", "karl@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44ebds", demoCourseId );
+            AddUser( context, userManager, "Marie Hansson", "marie@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44esdf", demoCourseId );
+            AddUser( context, userManager, "Michael Novak", "michael@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44efdb", demoCourseId );
+            AddUser( context, userManager, "Thomas J Ekman", "thomase@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44eaaf", demoCourseId );
+            AddUser( context, userManager, "Thomas Sundblom", "thomass@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44esdj", demoCourseId );
+            AddUser( context, userManager, "Tomas Santana", "tomas@demo.se", "1Password!", "679a290f-8b3b-4488-8ffb-7dea7a44efff", demoCourseId );
+            AddUser( context, userManager, "Wasim Randhawa", "wasin@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dea7a44eebn", demoCourseId );
+            AddUser( context, userManager, "Yaser Mosavi", "yeser@demo.se", "1Password!", "679a290f-8b3b-4489-8ffb-7dfa7a44easb", demoCourseId );
+
+            #endregion
 
             string guidBase = "679a290d-8b3b-4488-8ffb-7dcd7a44ef0";
 
@@ -394,7 +419,7 @@ namespace LMS.Migrations
 
         }
 
-        void SeedDemoCourse( LMS.DataAccessLayer.ApplicationDbContext context, string uploaderId ) {
+        Guid SeedDemoCourse( LMS.DataAccessLayer.ApplicationDbContext context, string uploaderId ) {
             Guid demoCourse1Id = new Guid( "679bcd0d-8b3b-4488-8ffb-7dea7a44ef01" );
 
             Guid[] guid = {
@@ -538,6 +563,7 @@ namespace LMS.Migrations
                 if ( day >= days.Count )
                     break;
             }
+            return demoCourse1Id;
         }
     }
 }
