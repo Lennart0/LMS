@@ -45,5 +45,9 @@ namespace LMS.Models
         public virtual List<Module> Modules { get; set; }
         public virtual List<ApplicationUser> Students { get; set; }
         public virtual List<Document> Documents { get; set; }
+
+        public string NameAndStartPresentation {
+            get { return Name + Start.ToString( " yyMMdd" ); }
+        }
     }
 }

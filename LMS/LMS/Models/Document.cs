@@ -24,8 +24,8 @@ namespace LMS.Models {
         public string Url { get; set; }
       
         /// <summary>
-            /// was this file downloaded locally thus do we need to track if it needs to be removed if this record is deleted?
-            /// </summary>
+        /// was this file downloaded locally thus do we need to track if it needs to be removed if this record is deleted?
+        /// </summary>
         public bool IsLocal { get; set; }
 
         public string UserId { get; set; }

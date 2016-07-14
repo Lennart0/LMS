@@ -9,6 +9,9 @@ namespace LMS.Helpers
     /// </summary>
     public class CourseDays
     {
+        public CourseDays() : this( new DateTime( 1962, 9, 17 ) ) {
+        }
+
         /// <summary>
         /// Calculates course days from(incl) first date with no limit, depending on course weekdays and holidays. Half-days is not considered.
         /// </summary>
@@ -74,6 +77,50 @@ namespace LMS.Helpers
             }
             return null;
         }
+
+        public DateTime NextDay( DateTime preDay ) {
+            DateTime day = preDay.Date;
+            while ( true ) {
+                day = AddDays( day, 1 );
+                if ( IsCourseDay( day ) )
+                    return day;
+            }
+        }
+
+        public int NrCourseDaysDiff( DateTime origDay, DateTime otherDay ) {
+            origDay = origDay.Date;
+            otherDay = otherDay.Date;
+            int negative = 1;
+            if (otherDay < origDay ) {
+                DateTime tmp = origDay;
+                origDay = otherDay;
+                otherDay = tmp;
+                negative = -1;
+            }
+
+            TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
+            int count = 0;
+            for (DateTime day = origDay + oneDay;  day <= otherDay; day += oneDay) {
+                if (IsCourseDay_NoLimits(day))
+                    count++;
+            }
+
+            return negative * count;
+        }
+
+        public DateTime NthDayAfter( DateTime refDay, int courseDaysAfter ) {
+            int sign = Math.Sign(courseDaysAfter);
+            TimeSpan oneDay = new TimeSpan( sign, 0, 0, 0);
+
+            while (courseDaysAfter != 0) {
+                refDay += oneDay;
+                if (IsCourseDay_NoLimits(refDay))
+                    courseDaysAfter -= sign;
+            }
+
+            return refDay;
+        }
+
 
         #region Private
         private List<DateTime> courseDays = null;
@@ -153,7 +200,7 @@ namespace LMS.Helpers
 
         static private HashSet<DateTime>[] swedishHolidays = new HashSet<DateTime>[easterFriday.Length];
 
-        HashSet<DateTime> GetHolidays(int year) {
+        static private HashSet<DateTime> GetHolidays(int year) {
             if (year < firstStoredEasterYear || lastStoredEasterYear < year)
                 return CalcSwedishHolidays(year);
             if (swedishHolidays[year - firstStoredEasterYear] == null)
@@ -161,7 +208,7 @@ namespace LMS.Helpers
             return swedishHolidays[year - firstStoredEasterYear];
         }
 
-        private HashSet<DateTime> CalcSwedishHolidays(int year) {
+        static private HashSet<DateTime> CalcSwedishHolidays(int year) {
             var set = new HashSet<DateTime>();
             if (year < 1 || 9999 < year)
                 return set;
@@ -214,7 +261,7 @@ namespace LMS.Helpers
             }
         }
 
-        private bool IsHoliday( DateTime d) {
+        static private bool IsHoliday( DateTime d) {
             return GetHolidays(d.Year).Contains(d);
         }
 
@@ -224,7 +271,7 @@ namespace LMS.Helpers
             return false;
         }
 
-        private DateTime AddDays(DateTime date, int days) {
+        static private DateTime AddDays(DateTime date, int days) {
             return date + new TimeSpan(days, 0, 0, 0);
         }
 
