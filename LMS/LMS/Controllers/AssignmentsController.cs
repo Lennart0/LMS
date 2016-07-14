@@ -19,6 +19,7 @@ namespace LMS.Controllers
         // GET: Student
         public ActionResult Index()
         {
+
             ApplicationUser student = null;
             if ( !User.IsInRole( Helpers.Constants.TeacherRole ) )
                 student = db.Users.SingleOrDefault( u => u.UserName == User.Identity.Name );
@@ -26,6 +27,12 @@ namespace LMS.Controllers
                 return Redirect( "/" );
 
             DateTime today = DateTime.Now;
+
+
+
+
+            return Redirect($"http://localhost:49859/Schedule/Index/{student.Course.Id}?FilesOnly=true");
+
 
             var assignmentDocs = student.Course.Modules
                 .SelectMany( m => m.Activities )

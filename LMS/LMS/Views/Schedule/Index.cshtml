@@ -203,11 +203,11 @@
                     @if (item.Documents.Count() > 0 || User.IsInRole(LMS.Helpers.Constants.TeacherRole)) {
                         <span class="pull-right">
                             @Html.Partial("~/Views/Shared/ModalButton.cshtml",
-                                       new LMS.Models.FileModalPartialViewModel {
-                                           Id = item.Id,
-                                           Type = LMS.Models.DocumentTargetEntity.Module,
-                                            Title="Modul dokument"
-                                       })
+                    new LMS.Models.FileModalPartialViewModel {
+                        Id = item.Id,
+                        Type = LMS.Models.DocumentTargetEntity.Module,
+                        Title = "Modul dokument"
+                    })
                         </span>
                     }
 
@@ -216,6 +216,18 @@
                 @{
                     DateTime activityDate = DateTime.MinValue;
                     List<LMS.Models.Activity> activities = item.Activities.OrderBy(a => a.Start).ToList();
+                    if (Request.QueryString["FilesOnly"] == "true") {
+
+                        if (User.IsInRole(LMS.Helpers.Constants.TeacherRole)) {
+                            activities = activities.Where(n => n.Documents.Count(m=> m is LMS.Models.TimeSensetiveDocument) > 0).ToList();
+                        } else {
+
+                            activities = activities.Where(n => n.Documents.Count(m => m is LMS.Models.TimeSensetiveDocument && (m.UserId == ViewBag.UserId || ViewBag.UserLookUp[m.UserId])) > 0).ToList();
+                        }
+
+
+                    }
+
                 }
                 @if (User.IsInRole(LMS.Helpers.Constants.TeacherRole)) {
                     <a target="iframe" href="@Url.Content("~/Activities/Create/" + item.Id + "?mode=schedule")">Create New Activity</a>
@@ -227,7 +239,7 @@
 
 
 
-
+            
                 @for (int i = 0; i < activities.Count; i++) {
 
 
@@ -247,7 +259,7 @@
                             activityDate = activity.Start.Date;
                             if (activityDate >= yesterday) {
                                 yesterday = DateTime.MaxValue; <a id="today"></a> }
-                            <div class=" @(dateToday == activityDate.Date ? "lms-schedule-today" : "") ">
+                            <div  class=" @(dateToday == activityDate.Date ? "lms-schedule-today" : "") ">
                                 <!-- style=" (dateToday == activityDate.Date ? "font-weight: bold" : "")" -->
                                 <span>@activity.Start.ToString("dddd d MMMM")&nbsp;</span>
 
@@ -288,6 +300,7 @@
                                             Title="Inlämningsuppgifter"                                  
                                        })
                                 </span>
+                                <br />
                             }
 
 
@@ -343,8 +356,10 @@
     </div>
     <script>
         window.addEventListener("load", function () {
-            if (window.location.toString().indexOf('#') < 0) //<--  -1 = not found
-                window.location += "#today"
+         //   if (window.location.toString().indexOf('#') < 0) //<--  -1 = not found
+            //     window.location += "#today"
+        //    var x = document.getElementsByClassName("ms-schedule-today")[0];      
+          //  x.scrollIntoView(true);
         });
     </script>
 
