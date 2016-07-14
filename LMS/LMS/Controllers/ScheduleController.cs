@@ -19,8 +19,20 @@ namespace LMS.Controllers
         // GET: Schedule
         public ActionResult Index( Guid? id = null )
         {
-            Course course = db.Users.SingleOrDefault( u => u.UserName == User.Identity.Name )?.Course;
+            Course course;
 
+
+          var temp = new Dictionary<string, bool>();
+            db.Users.Include(n => n.Roles).ToList().ForEach(n => temp.Add(n.Id, n.Roles.Count() > 0));
+
+            ViewBag.UserLookUp = temp;
+     
+
+
+
+
+      course = db.Users.SingleOrDefault(u => u.UserName == User.Identity.Name)?.Course;
+       
             if ( course == null && id != null )
                 course = db.Courses.SingleOrDefault( c => c.Id == id.Value );
 
@@ -28,9 +40,12 @@ namespace LMS.Controllers
                 return Content( "INGEN KURS VALD!" );
             }
 
+
+
             ViewBag.CourseName = course.Name;
             ViewBag.CourseId = course.Id;
 
+            ViewBag.UserId = db.Users.FirstOrDefault(n => n.UserName == User.Identity.Name).Id;
 
             return View( course.Modules.OrderBy( m => m.Start ) );
         }

@@ -51,8 +51,8 @@ namespace LMS.Controllers
             if ( id == null ) {
                 return new HttpStatusCodeResult( HttpStatusCode.BadRequest );
             }
-
-            return View( new Module() { CourseId = id /*Course = db.Courses.FirstOrDefault(n=> n.Id== id)*/ } );
+            var today = DateTime.Now;
+            return View( new Module() { CourseId = id /*Course = db.Courses.FirstOrDefault(n=> n.Id== id)*/ , Start = new DateTime(today.Year, today.Month, today.Day), End = new DateTime(today.Year, today.Month, today.Day) });
         }
 
         // POST: Modules/Create
@@ -70,6 +70,11 @@ namespace LMS.Controllers
                 db.SaveChanges();
 
                 string returnUrl = (string)HttpContext.Session.Contents[ModuleEditReturnUrlKey];
+
+                if (Request.QueryString["mode"] == "schedule") {
+                    return Content(""); //dont flash anything stupid in schedule mode
+                }
+
                 if (!string.IsNullOrEmpty(returnUrl))
                     return Redirect(returnUrl);
 
@@ -117,6 +122,11 @@ namespace LMS.Controllers
                 db.SaveChanges();
 
                 string returnUrl = (string)HttpContext.Session.Contents[ModuleEditReturnUrlKey];
+
+                if (Request.QueryString["mode"] == "schedule") {
+                    return Content(""); //dont flash anything stupid in schedule mode
+                }
+
                 if (!string.IsNullOrEmpty(returnUrl))
                     return Redirect(returnUrl);
 

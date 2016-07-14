@@ -1,0 +1,12 @@
+﻿* En Lärare loggar in i systemet.
+* Väljer att skapa ny kurs väljer en 
+* tidigare kurs som mall + kursnamn + beskrivning 
+start datum och ett oviktigt slut datum
+*editera en aktivitet
+*skapa en modul
+*skapa en aktivitet
+
+*logga in som elev
+* kolla schema 
+* kolla inlämnings upgifter
+* lämna in en uppgift
