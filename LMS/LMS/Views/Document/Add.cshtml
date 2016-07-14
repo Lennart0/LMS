@@ -129,7 +129,7 @@
                                 @Html.HiddenFor(n => n.Items[i].Owner)
                                 @Html.HiddenFor(n => n.Items[i].DeadLine)
                                 @Html.HiddenFor(n => n.Items[i].HasDeadline)
-                                @Html.HiddenFor(n => n.Items[i].Feedback)
+                          
                                 @Html.HiddenFor(n => n.Items[i].PublishDate)
                                 <td>
                                     <a target="_blank" href="@Model.Items[i].URL">@Html.DisplayFor(n => n.Items[i].ShortName)</a>
@@ -145,7 +145,15 @@
                                     @Html.DisplayFor(n => n.Items[i].DeadLine)
                                 </td>
                                     <td>
+                                    
+                                   @if (!Model.Items[i].HasDeadline && Model.Items[i].IsAssigmentSubmission && User.IsInRole(LMS.Helpers.Constants.TeacherRole)) {                                    
+                                            @Html.EditorFor(n => n.Items[i].Feedback)
+                                        } else {
                                         @Html.DisplayFor(n => n.Items[i].Feedback)
+                                    @Html.HiddenFor(n => n.Items[i].Feedback)
+                                   }
+                                   
+
                                     </td>
                                     <td>
                                         @if (!Model.Items[i].HasDeadline && !Model.Items[i].IsAssigmentSubmission) {

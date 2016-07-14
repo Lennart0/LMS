@@ -6,21 +6,51 @@ using System.Web.Mvc;
 using LMS.Models;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LMS.Controllers {
 
     [Authorize]
     public class DocumentController : Controller {
 
+
+        private List<T> RoleFilter<T>(IQueryable<T> items) where T:Document {
+            if (User.IsInRole(Helpers.Constants.TeacherRole)) {
+                return items.ToList(); // teacher sees all
+            } else {
+                // student sees teachers files and own files only
+                return items.Where(n => 
+                n.User.Roles.Count(m => m.RoleId == role.Id) > 0 
+                || 
+                n.User.UserName == User.Identity.Name
+                ).ToList();
+            }         
+        }
+
+        private IdentityRole role;
+        private ApplicationUser logedInUser___Ignore;
+        private ApplicationUser logedInUser {get{
+                if (logedInUser___Ignore == null) {
+                    logedInUser___Ignore = db.Users.FirstOrDefault(n => n.UserName == User.Identity.Name);
+                }
+                return logedInUser___Ignore;
+            } }
+
+
+
+
         public DocumentController() : base() {
+          role =  db.Roles.First(n=> n.Name == Helpers.Constants.TeacherRole);
+
+
 
             mappings = new Dictionary<DocumentTargetEntity, Func<ApplicationUser, Guid, List<Document>>>() {
                 {
                     DocumentTargetEntity.Activity, (user,entityId) => { 
 
-                        List<PlainDocument> allplainDocs = db.PlainDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).ToList();
-                        List<TimeSensetiveDocument> allAsignments = db.TimeSensetiveDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).Include(n=> n.submissions).ToList();
-                        List<AssignmentSubmission> allSubmisions = db.AssignmentSubmissions.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).Include(n=> n.assignment).ToList();
+                        List<PlainDocument> allplainDocs = RoleFilter(db.PlainDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId));
+                        List<TimeSensetiveDocument> allAsignments = RoleFilter(db.TimeSensetiveDocuments.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).Include(n=> n.submissions));
+                        List<AssignmentSubmission> allSubmisions = RoleFilter(db.AssignmentSubmissions.Include(n=> n.Course.Students).Include(n=> n.Course).Include(n=> n.Module).Include(n=> n.Activity).Include(n=> n.User).Where(n => n.ActivityId == entityId).Include(n=> n.assignment));
                         var result = new List<Document>();
                         result.AddRange(allplainDocs);
                         result.AddRange(allAsignments);
@@ -144,7 +174,8 @@ namespace LMS.Controllers {
                 if (n is TimeSensetiveDocument) {
                     var timeSensetive = (n as TimeSensetiveDocument);
 
-                    if (timeSensetive.submissions.Count(u => u.User.UserName == User.Identity.Name) > 0) {
+                   
+                    if (timeSensetive.submissions.Count(u => u.UserId == logedInUser.Id) > 0) {
                         Status = DocumentStatus.Green;
                         StatusText = "Inlämnad";
                     } else {
@@ -352,7 +383,8 @@ namespace LMS.Controllers {
                             User = user,
                             Url = item.URL,
                             UploadDate = DateTime.Now,
-                            PublishDate = item.PublishDate.Value
+                            PublishDate = item.PublishDate.Value,
+        
                         });
 
                     } else
@@ -396,6 +428,9 @@ namespace LMS.Controllers {
                 preexisting.Activity = activity;
                 preexisting.Url = item.URL;
                 preexisting.PublishDate = item.PublishDate;
+                if (preexisting is AssignmentSubmission) {
+                    (preexisting as AssignmentSubmission).FeedBack = item.Feedback;
+                }
                 db.SaveChanges();
                 return true;
             }
@@ -413,11 +448,16 @@ namespace LMS.Controllers {
             var binDir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.RelativeSearchPath);
        
             var url = Url.Content($"~//Documents//{model.EntityType}//{item.File.FileName}");
-        
 
-            var filePath = $"{binDir.Parent.FullName}\\Documents\\{model.EntityType}\\{item.File.FileName}";
+            var lastSlash = item.File.FileName.Replace("/","\\").LastIndexOf("\\");// just in case of unix...
+            var filenamen = item.File.FileName;
+            if (lastSlash != -1) {
+                filenamen = item.File.FileName.Substring(lastSlash+1);
+            }
+
+        var filePath = $"{binDir.Parent.FullName}\\Documents\\{model.EntityType}\\{filenamen}";
             if (System.IO.File.Exists(filePath)) {
-                filePath = $"{binDir.Parent.FullName}\\Documents\\{model.EntityType}\\{Guid.NewGuid()}_{item.File.FileName}";
+                filePath = $"{binDir.Parent.FullName}\\Documents\\{model.EntityType}\\{Guid.NewGuid()}_{filenamen}";
                 url = Url.Content($"~//Documents//{model.EntityType}//{Guid.NewGuid()}_{item.File.FileName}");
 
                 item.File.SaveAs(filePath);

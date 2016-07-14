@@ -25,12 +25,12 @@ namespace LMS.Models
         public string Description { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat (DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Start-datum")]
         public DateTime Start { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode =true)]
         [Display(Name = "Slut-datum")]
         public DateTime End { get; set; }
 
