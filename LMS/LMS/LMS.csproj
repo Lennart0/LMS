@@ -468,7 +468,6 @@
     <Content Include="Views\Courses\CourseInfoAndStudents.cshtml" />
     <Content Include="Views\Assignments\Index.cshtml" />
     <Content Include="Views\Document\Add.cshtml" />
-    <Content Include="Views\Activities\Create.cshtml" />
     <Content Include="Views\Activities\Delete.cshtml" />
     <Content Include="Views\Activities\Details.cshtml" />
     <Content Include="Views\Activities\Edit.cshtml" />
@@ -479,6 +478,7 @@
     <Content Include="Views\Shared\IFrameLayout.cshtml" />
     <Content Include="Views\Shared\ModalContainer.cshtml" />
     <Content Include="Views\Shared\ModelFileView.cshtml" />
+    <Content Include="Views\Activities\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
